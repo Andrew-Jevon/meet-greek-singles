@@ -1,0 +1,188 @@
+{header}
+<style>
+    /* Help / Q&A — calm, elegant, mobile-first to match onboarding + upgrade. */
+    .bl_help_page { background: #f7f3ec; padding: 56px 16px 80px; min-height: calc(100vh - 80px); }
+    .bl_help_wrap { max-width: 720px; margin: 0 auto; }
+
+    .bl_help_intro { text-align: center; margin-bottom: 36px; }
+    .bl_help_intro h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(26px, 3.6vw, 34px);
+        color: #1f2937;
+        margin: 0 0 8px;
+    }
+    .bl_help_intro p { color: #5b6471; font-size: 15.5px; margin: 0; max-width: 540px; margin: 0 auto; }
+
+    /* Guest list — quiet card with plain question lines and a soft CTA */
+    .bl_help_public {
+        background: #fff;
+        border: 1px solid #e8e1d2;
+        border-radius: 16px;
+        padding: 28px 28px 24px;
+        box-shadow: 0 8px 28px rgba(28,40,64,0.05);
+    }
+    .bl_help_public_list { list-style: none; padding: 0; margin: 0 0 24px; }
+    .bl_help_public_list li {
+        padding: 16px 4px;
+        border-bottom: 1px solid #f0e8d6;
+        font-size: 16px;
+        color: #1f2937;
+        line-height: 1.5;
+    }
+    .bl_help_public_list li:last-child { border-bottom: none; }
+    .bl_help_public_q::before {
+        content: "—";
+        color: #b88a3e;
+        font-weight: 600;
+        margin-right: 10px;
+    }
+    .bl_help_public_cta { text-align: center; margin-top: 8px; }
+    .bl_help_public_cta .btn_join {
+        display: inline-block;
+        padding: 13px 28px;
+        background: #2c4a76;
+        color: #fff;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .bl_help_public_cta .btn_join:hover { background: #1f3a60; transform: translateY(-1px); text-decoration: none; color: #fff; }
+    .bl_help_public_cta_note { color: #8a8f99; font-size: 13px; margin: 14px 0 0; }
+
+    /* Member view — keeps Chameleon's existing block names but sits on the same page surface */
+    .bl_help_member {
+        background: #fff;
+        border: 1px solid #e8e1d2;
+        border-radius: 16px;
+        padding: 28px 28px 24px;
+    }
+    .bl_help_topic_list { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .bl_help_topic_list li a {
+        display: inline-block;
+        padding: 8px 14px;
+        background: #f5ecd8;
+        color: #1f2937;
+        border-radius: 999px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+    .bl_help_topic_list li a:hover { background: #ead9b0; text-decoration: none; }
+    .bl_help_topic_header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f0e8d6;
+        margin-bottom: 16px;
+    }
+    .bl_help_topic_header h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: 22px;
+        margin: 0;
+        color: #1f2937;
+    }
+    .bl_help_actions { font-size: 13px; color: #5b6471; }
+    .bl_help_actions .link { color: #2c4a76; }
+    .bl_help_actions .sep { margin: 0 6px; color: #c9b88e; }
+
+    .bl_help_qa { padding: 12px 0; border-bottom: 1px solid #f0e8d6; }
+    .bl_help_qa:last-child { border-bottom: none; }
+    .bl_help_q { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+    .bl_help_q strong { color: #1f2937; font-size: 15.5px; }
+    .bl_help_a { margin-top: 8px; color: #4a4a6a; font-size: 14.5px; line-height: 1.6; }
+
+    @media (max-width: 480px) {
+        .bl_help_page { padding: 36px 12px 60px; }
+        .bl_help_public, .bl_help_member { padding: 22px 18px 20px; border-radius: 14px; }
+    }
+</style>
+
+<div class="col_center bl_help_page">
+    <div class="bl_help_wrap">
+
+        <div class="bl_help_intro">
+            <h1>{l_help_topics}</h1>
+        </div>
+
+        <!-- begin_guest_view -->
+        <div class="bl_help_public">
+            <p class="bl_help_public_lead">Common questions about Meet Greek Singles. Join to read the full answers from our team.</p>
+            <ul class="bl_help_public_list">
+                <!-- begin_public_question -->
+                <li><span class="bl_help_public_q">{name}</span></li>
+                <!-- end_public_question -->
+            </ul>
+            <div class="bl_help_public_cta">
+                <a href="{url_main}{url_page_join}" class="btn_join">Join to read full answers</a>
+                <p class="bl_help_public_cta_note">It&rsquo;s free to join, and you can complete your profile at your own pace.</p>
+            </div>
+        </div>
+        <!-- end_guest_view -->
+
+        <!-- begin_member_view -->
+        <div class="bl_help_member">
+            <div class="bl_help_topic_nav">
+                <ul class="bl_help_topic_list">
+                    <!-- begin_topic -->
+                    <li><a href="{url_main}help.php?t={id}">{name}</a></li>
+                    <!-- begin_topic_column -->
+                    <!-- end_topic_column -->
+                    <!-- end_topic -->
+                </ul>
+            </div>
+
+            <!-- begin_show_hide -->
+            <div class="bl_help_topic_header">
+                <h2>{topic_name}</h2>
+                <div class="bl_help_actions">
+                    <a href="javascript:helpShowAll();" class="link">{l_show_all_answers}</a>
+                    <span class="sep">|</span>
+                    <a href="javascript:helpHideAll();" class="link">{l_hide_all_answers}</a>
+                </div>
+            </div>
+            <script>
+                function helpShowAll() {
+                    <!-- begin_show -->
+                    $('#question{id}-on').show();
+                    $('#question{id}-off').hide();
+                    <!-- end_show -->
+                }
+                function helpHideAll() {
+                    <!-- begin_hide -->
+                    $('#question{id}-off').show();
+                    $('#question{id}-on').hide();
+                    <!-- end_hide -->
+                }
+            </script>
+            <!-- end_show_hide -->
+
+            <!-- begin_question -->
+            <div id="question{id}-off" class="bl_help_qa bl_help_qa_collapsed">
+                <div class="bl_help_q">
+                    <strong>{name}</strong>
+                    <a href="" onclick="$('#question{id}-on').show(); $('#question{id}-off').hide(); return false;" class="link">{l_show_this_answer}</a>
+                </div>
+            </div>
+            <div id="question{id}-on" class="bl_help_qa bl_help_qa_open" style="display:none;">
+                <div class="bl_help_q">
+                    <strong>{name}</strong>
+                    <a href="" onclick="$('#question{id}-off').show(); $('#question{id}-on').hide(); return false;" class="link">{l_hide_this_answer}</a>
+                </div>
+                <div class="bl_help_a">{text}</div>
+            </div>
+            <!-- end_question -->
+        </div>
+        <!-- end_member_view -->
+
+    </div>
+</div>
+{footer}

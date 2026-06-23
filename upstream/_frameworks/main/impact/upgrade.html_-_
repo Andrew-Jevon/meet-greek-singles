@@ -1,0 +1,666 @@
+{header}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.fwreg {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    border-bottom: 1px solid #ffffff1c;
+}
+:root{
+  --gold:#C9A84C;
+  --gold-lt:#E8C96A;
+  --gold-pale:#F5E09A;
+  --gold-dk:#9A7020;
+  --navy:#1B2540;
+  --navy2:#232f50;
+  --navy-deep:#0e1422;
+  --cream:#F0EBE0;
+  --cream2:#E8E0D0;
+  --stone:#EDE7D8;
+  --green:#4CAF50;
+  --txt:#1c1c30;
+  --txt2:#4a4a6a;
+  --white:#fff;
+}
+
+ 
+
+/* Greek blue tile pattern used as CSS background */
+/* Replicated from the reference image: white base with blue geometric/floral tile repeat */
+
+
+/* ═══ NAVBAR ═══ */
+.nav{
+  position:absolute;top:0;left:0;right:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-icon{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(140deg,#e05a6a,#b02848);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;position:relative;
+  box-shadow:0 3px 14px rgba(0,0,0,.4);
+}
+.logo-icon::after{
+  content:'';position:absolute;inset:3px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.25);
+}
+.logo-text{line-height:1.1}
+.logo-text .t1{
+  display:block;font-family:'Playfair Display',serif;font-weight:700;
+  font-size:16px;color:#fff;letter-spacing:.2px;
+}
+.logo-text .t2{
+  display:block;font-size:8px;font-weight:700;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--gold-lt);margin-top:2px;
+}
+.nav-right{display:flex;align-items:center;gap:2px}
+.nav-right a{color:#fff;text-decoration:none;font-size:14px;padding:4px 9px;transition:color .2s}
+.nav-right a:hover{color:var(--gold-lt)}
+.nav-right span{color:rgba(255,255,255,.4);font-size:13px}
+
+/* ═══ HERO ═══ */
+.hero{
+  position:relative;min-height:500px;
+  background:
+    linear-gradient(100deg,rgba(6,10,25,.80) 0%,rgba(6,10,25,.30) 50%,rgba(6,10,25,.55) 100%),
+    url('https://i.postimg.cc/mrTWr8Jv/image.png') center/cover no-repeat;
+  display:flex;align-items:center;padding:108px 32px 70px;
+  position:relative;
+  z-index:2;
+  /* Gentle convex curve at the bottom of the hero */
+  border-radius: 0 0 50% 50% / 0 0 40px 40px;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:100px;
+  background:linear-gradient(to bottom, transparent 0%, rgba(4,6,18,.65) 100%);
+  pointer-events:none;
+  border-radius: 0 0 50% 50% / 0 0 40px 40px;
+}
+.hero-in{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1060px;margin:0 auto;gap:32px;flex-wrap:wrap;
+}
+ 
+.hero-copy h1{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:clamp(30px,4.5vw,48px);color: var(--gold-lt);line-height:1.12;
+  margin-bottom:13px;text-shadow:0 2px 20px rgba(0,0,0,.6);
+}
+.hero-copy p{color:rgba(255,255,255,.83);font-size:20px;line-height:1.7;font-weight:300}
+
+/* ── Hero card ── */
+.hcard-outer{flex:0 0 400px;position:relative;padding:5px}
+.hcard-outer svg.frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;overflow:visible}
+.hcard{
+        border: 1px solid #e4ca69;
+  background:linear-gradient(160deg,#1c2b4a 0%,#0d1522 100%);
+  border-radius:13px;padding:24px 22px 20px;text-align:center;
+  box-shadow:0 20px 55px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.07);
+}
+.hcard-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.55);
+  border-radius:20px;padding:5px 14px;
+  font-size:10px;font-weight:700;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--gold-lt);margin-bottom:12px;
+}
+.hcard-price{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:62px;color:#e4ca69;line-height:1;letter-spacing:-1px;
+}
+.hcard-price sup{font-size:27px;color:var(--gold-lt);vertical-align:super;line-height:0;font-weight:700}
+.hcard-per{color:rgba(255,255,255,.52);font-size:14px;margin-top:2px;margin-bottom:11px}
+.hcard-desc{color:rgba(255,255,255,.65);font-size:12.5px;line-height:1.65;margin-bottom:18px}
+.btn-gold{
+  display:block;width:100%;padding:13px 0;
+  background:linear-gradient(135deg,#f2dc78 0%,#c9a84c 48%,#8e6418 100%);
+  color:#1a1000;font-family:'Source Sans 3',sans-serif;font-weight:700;
+  font-size:14.5px;letter-spacing:.5px;text-transform:uppercase;
+  border:none;border-radius:7px;cursor:pointer;text-decoration:none;
+  box-shadow:0 5px 18px rgba(201,168,76,.5),inset 0 1px 0 rgba(255,255,255,.28);
+  transition:filter .2s,transform .15s;margin-bottom:9px;
+}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.hcard-fine{color:rgba(255,255,255,.35);font-size:10.5px}
+
+/* ═══ SHARED BLUE IMAGE WRAPPER ═══ */
+ 
+.blue-bg {
+    background: url("https://i.postimg.cc/VNFrSZ6t/108928.jpg") center/cover no-repeat;
+    position: relative;
+    z-index: 1;
+}
+
+.blue-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #030c14;
+    z-index: -1;
+    top: -40px;
+}
+/* ═══ BODY WRAPPER ═══ */
+.body-section{
+  background: none;
+  padding: 46px 20px 0;
+}
+.body-card{
+  max-width:1200px;margin:0 auto;
+  background:var(--stone);
+  border-radius:22px;
+  padding:40px 36px 0;
+  box-shadow:0 8px 40px rgba(0,0,0,.22);
+}
+
+.body-card h2{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:clamp(19px,2.5vw,26px);text-align:center;
+  color:var(--txt);margin-bottom:32px;
+}
+
+/* two-col grid */
+.bene-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+}
+
+/* LEFT col */
+.col-left{
+  padding-right:28px;
+  border-right:1.5px solid rgba(0,0,0,.1);
+  display:flex;flex-direction:column;
+  gap:0;
+}
+.bene-row{
+  display:flex;align-items:flex-start;gap:13px;
+  padding:15px 0;border-bottom:1px solid rgba(0,0,0,.07);
+}
+.bene-row:last-of-type{border-bottom:none}
+
+/* Icon circles */
+.ico{
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:22px;
+}
+.ico-gold{background:linear-gradient(140deg,#d4a848,#a07228)}
+.ico-navy{background:linear-gradient(140deg,#243260,#141e3a)}
+
+.bene-txt h3{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:3px}
+.bene-txt p{font-size:12.5px;color:var(--txt2);line-height:1.55}
+
+/* trust box inside left col */
+.trust-inner{
+  background:#e0d8c8;border-radius:10px;
+  padding:16px 18px;margin-top:18px;
+  border:1px solid rgba(0,0,0,.07);
+}
+.ti{
+  display:flex;align-items:center;gap:9px;
+  font-size:13.5px;font-weight:700;color:var(--txt2);padding:5px 0;
+}
+.ti .ck{color:var(--green);font-size:15px}
+
+/* RIGHT col */
+.col-right{
+  padding-left:28px;
+  display:flex;flex-direction:column;
+}
+.bene-row-r{
+  display:flex;align-items:flex-start;gap:13px;
+  padding:15px 0;border-bottom:1px solid rgba(0,0,0,.07);
+}
+
+/* ── Premium card ── */
+.pcard-outer{
+  position:relative;margin-top:16px;padding:5px;flex:1;
+}
+.pcard-outer svg.frame{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:4;overflow:visible;
+}
+.pcard{
+    border: 4px solid #bf9d44;
+ background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url(https://i.postimg.cc/VNFrSZ6t/108928.jpg) center / cover no-repeat;
+  border-radius:13px;padding:16px 20px 14px;text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.bv-badge {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 10;
+    background: linear-gradient(160deg, #f2dc78 0%, #c9a84c 55%, #8e6418 100%);
+    color: #1a1000;
+    font-size: 9.5px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    width: 49px;
+    padding: 7px 4px 20px;
+    text-align: center;
+    line-height: 1.4;
+    clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, .35);
+}
+.pc-title{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:24px;color:var(--gold-lt);margin-top:20px;margin-bottom:1px;
+}
+.pc-price{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:50px;color:#e8c96a;line-height:1;letter-spacing:-1px;
+}
+.pc-price sup{font-size:21px;color:var(--gold-lt);vertical-align:super;line-height:0}
+.pc-per{color:rgb(255, 255, 255);font-size:13px;margin-bottom:13px;margin-top:1px}
+.pc-list{list-style:none;text-align:left;margin-bottom:14px;padding:0 2px}
+.pc-list li{
+  display:flex;align-items:center;gap:8px;
+  color:rgba(255,255,255,.82);font-size:13.5px;padding:3.5px 0;
+}
+.pc-list li .ck{color:var(--gold-lt);font-size:14px}
+.pc-cancel{color:rgba(255,255,255,.32);font-size:11px;margin-top:7px}
+
+/* ═══ TRUST BAR — inside body-card bottom ═══ */
+.trust-bar{
+  margin: 28px -36px 0 -36px;
+  background: rgba(0,0,0,.07);
+  border-top: 1px solid rgba(0,0,0,.1);
+  border-radius: 0 0 22px 22px;
+  padding: 15px 36px;
+  display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+}
+.trust-bar .ti { font-size: 13px; color: var(--txt2); }
+.trust-bar .ti .ck { color: var(--green); }
+
+/* ═══ COMMUNITY ═══ */
+.community{
+  background: none;
+  padding: 30px 32px 0; overflow: hidden; margin-top: 0;
+}
+.comm-in{
+  max-width:1060px;margin:0 auto;
+  display:flex;align-items:flex-end;gap:32px;flex-wrap:wrap;
+}
+.comm-photo{align-self:flex-end}
+.comm-photo img{
+  width:100%;display:block;border-radius:12px 12px 0 0;
+  object-fit:cover;height:250px;
+}
+.comm-content{flex:1 1 260px;padding-bottom:42px;text-align:center}
+.comm-content h2{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:clamp(20px,3vw,32px);color:var(--gold-lt);
+  margin-bottom:9px;line-height:1.2;
+}
+.comm-content p{color:rgba(255,255,255,.85);font-size:14.5px}
+.comm-content p strong{color:#fff;font-weight:700}
+.couples{display:flex;gap:9px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.couples img{
+  width:122px;height:88px;object-fit:cover;
+  
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:780px){
+  .nav{padding:14px 16px}
+  .hero{padding:90px 16px 44px}
+  .hero-in{flex-direction:column;align-items:flex-start}
+  .hcard-outer{flex:0 0 auto;width:100%;max-width:300px}
+  .body-section{padding:16px 12px 0}
+  .body-card{padding:28px 16px 24px}
+  .bene-grid{grid-template-columns:1fr}
+  .col-left{padding-right:0;border-right:none;border-bottom:1.5px solid rgba(0,0,0,.1);padding-bottom:12px}
+  .col-right{padding-left:0;padding-top:12px}
+  .trust-bar{padding:12px 16px;gap:18px;border-radius:0 0 16px 16px}
+  .community{padding:36px 16px 0}
+  .comm-photo{flex:0 0 150px}
+  .comm-photo img{height:190px}
+  .couples img{width:75px;height:54px}
+}
+@media(max-width:500px){
+  .comm-in{flex-direction:column;align-items:center}
+  .comm-photo{flex:0 0 auto;width:100%;max-width:240px}
+}
+.hcard-outer small {
+    color: #e4ca69;
+    position: relative;
+    top: -6px;
+    font-size: 20px;
+}
+.hcard-price::before {
+    content: "Best Value";
+    font-size: 12px;
+    position: absolute;
+    right: 103px;
+    font-family: 'Source Sans 3';
+    background: #e1c665;
+    padding: 4px;
+    box-sizing: border-box;
+    color: #000;
+    text-transform: capitalize !important;
+    font-weight: normal;
+}
+/* SVG GOLD GRADIENT helper */
+</style>
+</head>
+<body style="background:#030c14;color:var(--txt);margin:0;">
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="#" class="logo">
+    <img src="https://meetgreeksingles.com/_files/logo/main_impact_inner.png?v=1770033762">
+  </a>
+  <div class="nav-right">
+    <a href="#">Login</a>
+    <span>&nbsp;|&nbsp;</span>
+    <a href="#">Sign Up</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-in">
+    <div class="hero-copy">
+      <h1>Upgrade Your Experience</h1>
+      <p>Connect more deeply with Greek singles<br>around the world.</p>
+    </div>
+
+    <!-- Hero Pricing Card -->
+    <div class="hcard-outer">
+       
+      <div class="hcard">
+        <div class="hcard-badge">★&ensp;Founder's Special Offer</div>
+        <div class="hcard-price"><sup>€</sup>60</div>
+        <div class="hcard-per">/ 6 months</div>
+        <small>≈ €10 per month</small>
+        <div class="hcard-desc">Premium Membership includes unlimited messaging, audio calls, and video calling.</div>
+        <a onclick="upgrade.showPopupPaymentSystem(); return false;" href="#" class="btn-gold">Unlock Full Access</a>
+        <div class="hcard-fine">Secure payment • Instant activation • Cancel anytime</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLUE IMAGE BACKGROUND WRAPPER (covers both benefits + community) -->
+<div class="blue-bg">
+
+<!-- BODY SECTION -->
+<div class="body-section">
+  <div class="body-card">
+    <h2>The benefits of Premium members:</h2>
+
+    <div class="bene-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="col-left">
+
+        <div class="bene-row">
+          <div class="ico ico-gold">
+            <!-- Heart icon SVG -->
+            <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 20.5C12 20.5 2 13.5 2 7a5 5 0 0 1 10 0 5 5 0 0 1 10 0c0 6.5-10 13.5-10 13.5z" fill="white" fill-opacity=".9"/>
+            </svg>
+          </div>
+          <div class="bene-txt">
+            <h3>See Who Likes You</h3>
+            <p>View the full list of members<br>who liked your profile.</p>
+          </div>
+        </div>
+
+        <div class="bene-row">
+          <div class="ico ico-navy">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
+              <ellipse cx="12" cy="12" rx="4" ry="10" stroke="white" stroke-width="1.5" fill="none"/>
+              <line x1="2" y1="12" x2="22" y2="12" stroke="white" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="bene-txt">
+            <h3>Connect Worldwide</h3>
+            <p>Meet Greek singles from and the globe.</p>
+          </div>
+        </div>
+
+        <div class="bene-row">
+          <div class="ico ico-navy">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="3" width="20" height="18" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+              <line x1="1" y1="8" x2="21" y2="8" stroke="white" stroke-width="1.5"/>
+              <line x1="6" y1="1" x2="6" y2="5" stroke="white" stroke-width="1.8"/>
+              <line x1="16" y1="1" x2="16" y2="5" stroke="white" stroke-width="1.8"/>
+              <rect x="5" y="11" width="4" height="4" rx="1" fill="white" opacity=".8"/>
+              <rect x="12" y="11" width="4" height="4" rx="1" fill="white" opacity=".8"/>
+            </svg>
+          </div>
+          <div class="bene-txt">
+            <h3>Join Events</h3>
+            <p>Join Events at-early pat of party.</p>
+          </div>
+        </div>
+
+        <div class="bene-row">
+          <div class="ico ico-navy">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="10" stroke="white" stroke-width="1.5" fill="none"/>
+              <path d="M11 6v5l3.5 2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M7 16.5a6 6 0 0 0 8 0" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="bene-txt">
+            <h3>Safer Community</h3>
+            <p>Premium helps maintain a respectful<br>environment.</p>
+          </div>
+        </div>
+
+        <div class="trust-inner">
+          <div class="ti"><span class="ck">✔</span> Secure payments</div>
+          <div class="ti"><span class="ck">✔</span> Private profiles</div>
+          <div class="ti"><span class="ck">✔</span> Real community of Greek singles</div>
+        </div>
+
+      </div><!-- /col-left -->
+
+      <!-- RIGHT COLUMN -->
+      <div class="col-right">
+
+        <div class="bene-row-r">
+          <div class="ico ico-navy">
+            <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 2h20a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-5 4V3a1 1 0 0 1 1-1z" stroke="white" stroke-width="1.5" fill="none"/>
+              <circle cx="8" cy="8" r="1.2" fill="white"/>
+              <circle cx="12" cy="8" r="1.2" fill="white"/>
+              <circle cx="16" cy="8" r="1.2" fill="white"/>
+            </svg>
+          </div>
+          <div class="bene-txt">
+            <h3>Send &amp; Receive Messages</h3>
+            <p>Start conversations with members<br>you like.</p>
+          </div>
+        </div>
+
+        <div class="bene-row-r" style="border-bottom:1px solid rgba(0,0,0,.07)">
+          <div class="ico ico-navy">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.15)"/>
+            </svg>
+          </div>
+          <div class="bene-txt">
+            <h3>Priority Profile Visibility</h3>
+            <p>Premium members appear higher in<br>search results.</p>
+          </div>
+        </div>
+
+        <!-- PREMIUM CARD -->
+        <div class="pcard-outer">
+
+          <div class="upgrade_package <!-- begin_no_features -->no_features<!-- end_no_features -->">
+            <div class="items">
+            <!-- begin_payment_item_old -->
+            <label class="item <!-- begin_payment_item_old_selected -->selected<!-- end_payment_item_old_selected -->" for="rb_{item_num}">
+                <div class="bl">
+                    <div class="rb"><input onchange="upgrade.selectedPaymentPlan('{item}', '{item_name_js}', '{item_total_price}');" class="niceRadio upgrade_radio_styled" id="rb_{item_num}" name="rb" <!-- begin_payment_item_old_checked -->checked<!-- end_payment_item_old_checked --> type="radio" /></div>
+                    <ul class="price">
+                        <li>{item_name}</li>
+                        <li class="old">{item_old_price}</li>
+                        <li class="new">{item_new_price}</li>
+                    </ul>
+                </div>
+            </label>
+            <!-- end_payment_item_old -->
+            </div>
+        </div>
+         
+
+          <div class="bv-badge">BEST<br>VALUE</div>
+          <div class="pcard">
+            <div class="pc-title">Premium</div>
+           <div class="fwreg">
+             <div class="pc-price"><sup>€</sup>60</div>
+            <div class="pc-per">/ 6 months</div>
+           </div>
+            <ul class="pc-list">
+              <li><span class="ck">✔</span> Unlimited messaging</li>
+              <li><span class="ck">✔</span> Audio &amp; video calling</li>
+              <li><span class="ck">✔</span> Priority visibility</li>
+              <li><span class="ck">✔</span> Exclusive events</li>
+              <li><span class="ck">✔</span> Browse profiles invisibly</li>
+            </ul>
+            <a onclick="upgrade.showPopupPaymentSystem(); return false;" href="#" class="btn-gold">Upgrade Now</a>
+            <div class="pc-cancel">Secure payment • Instant activation • Cancel anytime</div>
+          </div>
+        </div>
+
+      </div><!-- /col-right -->
+    </div><!-- /bene-grid -->
+
+    <!-- TRUST BAR — inside body-card, at the bottom -->
+    <div class="trust-bar">
+      <div class="ti"><span class="ck">✔</span>&ensp;Secure payments</div>
+      <div class="ti"><span class="ck">✔</span>&ensp;Private profiles</div>
+      <div class="ti"><span class="ck">✔</span>&ensp;Real community of Greek singles</div>
+    </div>
+
+  </div><!-- /body-card -->
+
+</div><!-- /body-section -->
+
+<!-- COMMUNITY -->
+<section class="community">
+  <div class="comm-in">
+    <div class="comm-photo">
+      <img src="https://meetgreeksingles.com/_files/cdd.png" alt="Happy couple">
+    </div>
+    <div class="comm-content">
+      <h2>Join a Global Greek&rdquo; Community</h2>
+      <p>Over 9,000 members already part of <strong>Meet Greek Singles</strong>.</p>
+      <div class="couples">
+        <img src="https://meetgreeksingles.com/_files/ss.png" alt="">
+        <img src="https://meetgreeksingles.com/_files/we.png" alt="">
+        <img src="https://meetgreeksingles.com/_files/ny.png" alt="">
+        <img src="https://meetgreeksingles.com/_files/cpl.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /blue-bg -->
+
+<div id="pp_payment" class="pp_upgraded">
+    <div class="cont">
+        <div class="tb">
+        <div id="switch_paymant" class="switch_paymant td">
+            <!-- begin_payment_system -->
+            <div id="payment_{system}" class="item pp_payment_item">
+                <div data-payment="{system}" class="frame" style="background-image: url({url_tmpl_main}images/{system}_logo_s.png);" title="{system_name}"></div>
+            </div>
+            <!-- end_payment_system -->
+            <div id="switch_paymant_arrow" class="decor"></div>
+        </div>
+        <div class="cont_pp_profile_upgraded td">
+            <div id="profile_upgraded_system">
+                <!-- begin_payment_system_block -->
+                <div id="{system}" class="cont_pp_profile_upgraded_item">
+                    <img src="{url_tmpl_main}images/{system}_logo.png" alt="{system_name}" /> <!-- width="243" height="66" -->
+                    <div class="cl"></div>
+                </div>
+                <!-- end_payment_system_block -->
+                <button id="pp_payment_proceed" onclick="upgrade.profileUpgrade(); return false;" class="btn small lblue">{l_proceed}</button>
+            </div>
+            <div id="profile_upgraded_error">
+                <span>{l_there_was_an_error}</span>
+                <img src="{url_tmpl_main}images/profile_upgraded_error.png" width="104" height="104" alt="" />
+                <div class="cl"></div>
+                <button onclick="location.href='{url_page_contact}'" class="btn small lblue">{l_contact_us}</button>
+            </div>
+            <div id="profile_upgraded_sucess">
+                <span>{l_profile_upgraded}</span>
+                <img src="{url_tmpl_main}images/profile_upgraded_sucessful.png" width="104" height="104" alt="" />
+                <div class="cl"></div>
+                <button data-cl-loader="btn_redirect_after_raising" onclick="redirectWithLoader($(this),'{url_main}'); return false;" class="btn small pink">{l_go_to_the_site}</button>
+            </div>
+        </div>
+
+        <div class="info_profile_upgraded td">
+            <div class="bl">
+                <div class="name">
+                    <strong>{l_premium_package}</strong>
+                    <span id="pp_payment_plan_name"></span>
+                </div>
+                <p>{l_after_the_paid_period_is_over_you_will_be_able_to_renew_the_membership}</p>
+                <div class="price">
+                    <strong id="pp_payment_total_price"></strong>
+                </div>
+            </div>
+        </div>
+        <div class="cl"></div>
+        </div>
+    </div>
+</div>
+<style>
+.header {
+    display: none;
+}
+
+div#colfix_l_bl {
+    display: none;
+}
+
+div#colfix_r_bl {
+    display: none;
+}
+
+.cont_w {
+    width: 100% !important;
+}
+
+.column_main {
+    width: 100%;
+}
+
+.footer {
+    margin-top: 30px;
+}
+
+html body {
+    background: #000 !important;
+}
+.upgrade_package {
+    display: none;
+}
+</style>
+<script>
+<!-- begin_pay_enabled_item -->
+upgrade.setAvailablePaymentSystemToPlan('{plan_key}', [{pays_enabled}]);
+<!-- end_pay_enabled_item -->
+</script>
+<!-- begin_payment_error -->
+<script>$(function(){alertCustom('{j_seems_there_problem_with_your_payment}', true, '{j_problem_with_the_payment}');})</script>
+<!-- end_payment_error -->
+{footer}

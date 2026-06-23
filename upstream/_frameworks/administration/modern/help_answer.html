@@ -1,0 +1,110 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/help_topic.php?lang={lang}">{l_menu_help}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mt-3i mb-n0" role="alert">{l_changes_save}</div>
+
+	<div class="alert alert-danger alert-dismissible mt-3i mb-n0" role="alert">{l_changes_delete}</div>
+
+	<div class="row mt-3">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current} - {topic_name}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_question -->
+						<form class="bottom-underline" action="{url_page}?t={topic_id}&lang={lang}" method="POST">
+							<input name="cmd" value="edit" type="hidden">
+							<input name="id" value="{id}" type="hidden">
+							<fieldset class="form-group">
+								<label>{l_title_word}:</label>
+								<input class="form-control" type="text" name="name" value="{name}">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_content}:</label>
+								<textarea name="text" class="form-control hm_120">{text}</textarea>
+							</fieldset>
+
+							<fieldset class="form-group mb-2">
+								<button class="btn btn-primary mt-1 mr-1" type="submit">{l_save}</button>
+								<button class="btn btn-secondary mt-1" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete&t={topic_id}&id={id}&lang={lang}')}); return false;">{l_delete}</button>
+							</fieldset>
+						</form>
+						<!-- end_question -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_add}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}?t={topic_id}&lang={lang}" method="POST">
+							<input name="cmd" value="add" type="hidden">
+							<fieldset class="form-group">
+								<label>{l_title_word}:</label>
+								<input class="form-control" type="text" name="name" value="">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_content}:</label>
+								<textarea name="text" class="form-control hm_120"></textarea>
+							</fieldset>
+
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_add}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

@@ -1,0 +1,115 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/vids_videos.php">{l_menu_vids_videos}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{error}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">
+						{l_title_current}
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<h5><a href="{url_main}administration/vids_user_videos.php?id={video_user_id}">{l_videos_by}</a> {video_user_name}</h5>
+						<hr class="mb-2">
+						<fieldset class="form-group">
+							<div class="bl_video_player">
+								{video_html_code}
+							</div>
+						</fieldset>
+
+						<form method="POST" id="" action="{url_main}administration/vids_video_edit.php?cmd=update&id={video_id}" enctype="multipart/form-data">
+							<input type="hidden" name="cmd" value="update">
+
+							<fieldset class="form-group">
+								<label>{l_subject}:</label>
+								<input class="form-control" type="text" name="subject" value="{video_subject}">
+							</fieldset>
+
+							<!-- begin_details -->
+							<fieldset class="form-group">
+								<label>{l_text}:</label>
+								<textarea name="text" class="form-control mt-2 h_120">{video_text}</textarea>
+							</fieldset>
+
+							<fieldset class="form-group">
+								<label>{l_vids_tags}:</label>
+								<input class="form-control" type="text" name="tags" value="{video_tags}">
+							</fieldset>
+
+							<fieldset class="form-group">
+								<label>{l_vids_categories}:</label>
+							</fieldset>
+							<fieldset class="form-group form-group-border-inline skin skin-flat">
+								<!-- begin_cat -->
+								<div class="bl_label_inline">
+									<input class="form-check-input i_checkbox" id="rb{i}" type="checkbox" name="cat[]" value="{cat_name2}" {checked}/>
+									<label class="fl_left" for="rb{i}">{cat_name}</label>
+								</div>
+								<!-- end_cat -->
+							</fieldset>
+
+							<fieldset class="form-group">
+								<label>{l_visibility}:</label>
+							</fieldset>
+							<fieldset class="form-group form-group-border-inline skin skin-flat">
+								<div class="bl_label_inline">
+									<input id="r1" name="private" value="0" type="radio" class="form-check-inline form-check" {check_public}/>
+									<label for="r1">{l_vids_public}</label>
+								</div>
+								<div class="bl_label_inline">
+									<input id="r2" name="private" value="1" type="radio" class="form-check-inline form-check" {check_private}/>
+									<label for="r2">{l_vids_private}</label>
+								</div>
+							</fieldset>
+							<!-- end_details -->
+
+							<fieldset class="form-group mt-3">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<button class="btn btn-secondary ml-1" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete&id={video_id}');}); return false;">{l_delete}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{footer}

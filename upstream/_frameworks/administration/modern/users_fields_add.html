@@ -1,0 +1,186 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_fields.php">{l_menu_profile_fields}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+
+<div class="content-body fileds_no_social">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+						<form action="{url_page}" method="POST">
+
+						<!-- begin_select_type -->
+						<fieldset class="form-group">
+							<label>{l_select_type}:</label>
+							<select name="type" class="form-control">
+								<option value="text">{l_text}</option>
+								<option value="textarea">{l_textarea}</option>
+								<option value="select">{l_selectbox}</option>
+								<option value="select_and_partner_checks">{l_select_and_partner_checks}</option>
+								<option value="select_and_partner_interval">{l_select_and_partner_interval}</option>
+								<!-- begin_select_type_item_urban -->
+								<option value="checkbox">{l_checkbox}</option>
+								<!-- end_select_type_item_urban -->
+							</select>
+						</fieldset>
+						<!-- end_select_type -->
+
+						<!-- begin_finish -->
+						<div class="alert alert-light mb-2 alert-info-1 mt-3" role="alert">
+							{l_field_with_the_same_name_already_exists}
+						</div>
+						<!-- end_finish -->
+
+						<!-- begin_error_empty_field_name -->
+						<div class="alert alert-light mb-2 alert-info-1 mt-3" role="alert">
+							{l_error_empty_field_name}
+						</div>
+						<!-- end_error_empty_field_name -->
+
+						<!-- begin_text -->
+						<h5>{l_text}</h5>
+						<hr>
+						<fieldset class="form-group">
+							<input type="hidden" name="cmd" value="text">
+							<label>{l_name_of_field}:</label>
+							<input type="text" name="name" class="form-control">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>{l_maxlen_of_text_field}:</label>
+							<input type="text" name="maxlen" class="form-control">
+						</fieldset>
+						<!-- begin_text_section_urban -->
+						<fieldset class="form-group">
+							<label>{l_group}:</label>
+							<select name="group" class="form-control">
+								<option value="0">{l_fields_section_0}</option>
+								<option value="1">{l_fields_section_1}</option>
+							</select>
+						</fieldset>
+						<!-- end_text_section_urban -->
+						<!-- end_text -->
+
+						<!-- begin_textarea -->
+						<h5>{l_textarea}</h5>
+						<hr>
+						<fieldset class="form-group">
+							<input type="hidden" name="cmd" value="textarea">
+							<label>{l_name_of_field}:</label>
+							<input type="text" name="name" class="form-control">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>{l_maxlen_of_textarea_field}:</label>
+							<input type="text" name="maxlen" class="form-control">
+						</fieldset>
+						<!-- end_textarea -->
+
+						<!-- begin_checkbox -->
+						<h5>{l_checkbox}</h5>
+						<hr>
+						<fieldset class="form-group">
+							<input type="hidden" name="cmd" value="checkbox">
+							<label>{l_name_of_field}:</label>
+							<input type="text" name="name" class="form-control">
+						</fieldset>
+						<!-- end_checkbox -->
+
+						<!-- begin_select -->
+						<h5>{l_select}</h5>
+						<hr>
+						<fieldset class="form-group">
+							<input type="hidden" name="cmd" value="select">
+							<label>{l_name_of_field}:</label>
+							<input type="text" name="name" class="form-control">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>{l_group}:</label>
+							<select name="group" class="form-control">
+								{options_select_group}
+							</select>
+						</fieldset>
+						<!-- end_select -->
+
+						<!-- begin_select_and_partner_checks -->
+						<h5>{l_select_and_partner_checks}</h5>
+						<hr>
+						<fieldset class="form-group">
+							<input type="hidden" name="cmd" value="select_and_partner_checks">
+							<label>{l_name_of_field}:</label>
+							<input type="text" name="name" class="form-control">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>{l_group}:</label>
+							<select name="group" class="form-control">
+								{options_select_group}
+							</select>
+						</fieldset>
+						<!-- end_select_and_partner_checks -->
+
+						<!-- begin_select_and_partner_interval -->
+						<h5>{l_select_and_partner_interval}</h5>
+						<hr>
+						<fieldset class="form-group">
+							<input type="hidden" name="cmd" value="select_and_partner_interval">
+							<label>{l_name_of_field}:</label>
+							<input type="text" name="name" class="form-control">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>{l_group}:</label>
+							<select name="group" class="form-control">
+								{options_select_group}
+							</select>
+						</fieldset>
+						<!-- end_select_and_partner_interval -->
+
+							<script>
+								$(document).ready(function () {
+									$('input[name="name"]').attr({ maxLength : 60 });
+								})
+							</script>
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit mt-1 mb-2" type="submit">{l_add}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{footer}

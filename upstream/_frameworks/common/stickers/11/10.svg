@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="250" viewBox="0 0 206 371">
+
+
+<style>
+svg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+
+#pioggia1 {
+  stroke-dasharray: 40;
+  stroke-dashoffset: -40;
+  animation: dash 0.9s infinite;
+}
+
+#pioggia2 {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 100;
+  animation: dash2 0.7s infinite;
+}
+
+@keyframes dash {
+  from{
+   stroke-dashoffset:60;
+  }
+  to{
+   stroke-dashoffset: 0;
+   }
+}
+
+@keyframes dash2 {
+  rom{
+   stroke-dashoffset:60;
+  }
+  to{
+   stroke-dashoffset: 0;
+  }
+}
+</style>
+
+            <g fill="none" fill-rule="evenodd" transform="translate(3 3)">
+              <ellipse id="shadow" cx="103" cy="354" fill="#E3EDEE" rx="50" ry="14"/>
+              <g transform="translate(0 130)">
+                <ellipse id="faccia" cx="103" cy="103" fill="#FAE793" stroke="#FFD61D" stroke-width="6" rx="100" ry="100"/>
+                <g transform="translate(53 115)">
+                  <ellipse id="occhiosinistro"  cx="0" cy="0" fill="#323F4B" rx="12" ry="12">
+                    <animateTransform id="blink"
+                                 attributeName="transform"
+                                 attributeType="XML"
+                                 type="scale"
+                                 begin="0; pause.end"
+                                 values="1 1; 1 0.1; 1 1"
+                                 calcMode="linear"
+                                 dur="0.2s"
+                                 repeatCount="freeze"
+                                 />
+                    <animateTransform begin="blink.end" id="pause" dur="4s" type="translate" attributeType="XML" attributeName="transform"/>
+                  </ellipse>
+                </g>
+                <g transform="translate(138 115)">
+                  <ellipse id="occhiosinistro"  cx="0" cy="0" fill="#323F4B" rx="12" ry="12">
+                    <animateTransform id="blink"
+                                 attributeName="transform"
+                                 attributeType="XML"
+                                 type="scale"
+                                 begin="0; pause.end"
+                                 values="1 1; 1 0.1; 1 1"
+                                 calcMode="linear"
+                                 dur="0.2s"
+                                 repeatCount="freeze"
+                                 />
+                    <animateTransform begin="blink.end" id="pause" dur="4s" type="translate" attributeType="XML" attributeName="transform"/>
+                  </ellipse>
+                </g>
+                <path stroke="#323F4B" stroke-width="6" d="M158.498 101.608c-2.998-8.237-12.117-12.48-20.367-9.477m-103.2 9.48c3-8.236 12.12-12.48 20.37-9.476m74.04 61.36c-6.573-7.834-18.263-8.847-26.11-2.262-4.534 3.805-6.793 9.31-6.625 14.795" stroke-linecap="round"/>
+                <ellipse cx="159" cy="140" fill="#FF5A60" opacity=".1" rx="10" ry="10"/>
+                <ellipse cx="37" cy="140" fill="#FF5A60" opacity=".1" rx="10" ry="10"/>
+              </g>
+              <g stroke-width="6">
+
+                <path id="pioggia1" stroke="#C0ECFF" d="M62.745 146.81v-11.746M47.06 101.787v93.958M62.744 94.433v23.014m78.43-31.32v93.958M23.53 146.81v31.318M82.352 60.68v46.98m19.608-19.575v46.98m0 19.573v31.32" stroke-linecap="round"/>
+                <path id="nuvola" fill="#F5F8FA" stroke="#E3EDEE" d="M149.955 45.136C145.31 19.48 122.51 0 95.082 0c-22.6 0-42.06 13.228-50.808 32.24h-8.98C15.804 32.24 0 48.04 0 67.532v6.793c0 19.494 15.8 35.292 35.293 35.292h132.473c17.806 0 32.234-14.434 32.234-32.24 0-17.81-14.432-32.24-32.234-32.24h-17.81z"/>
+                <path id="pioggia2" stroke="#C0ECFF" d="M78.43 142.894v31.32m86.276-88.086v78.298m-43.137-62.64v66.554M23.53 88.085v46.98" stroke-linecap="round"/>
+                <path id="lampo" stroke="#FFAD39" d="M139.226 100.298l-30.655 38.08 34.53 1.065L104 184.43" stroke-linecap="round" stroke-linejoin="round">
+                <set id="show" attributeName="visibility" attributeType="CSS" from="visible" to="hidden" begin="0s; hide2.end" dur="2s" fill="freeze"/>
+                <set id="hide" attributeName="visibility" attributeType="CSS" from="hidden" to="visible" begin="show.end" dur="0.3s" fill="freeze"/>
+                <set id="show2" attributeName="visibility" attributeType="CSS" from="visible" to="hidden" begin="hide.end" dur="0.2s" fill="freeze"/>
+                <set id="hide2" attributeName="visibility" attributeType="CSS" from="hidden" to="visible" begin="show2.end" dur="0.4s" fill="freeze"/>
+                </path>
+              </g>
+            </g>
+          </svg>

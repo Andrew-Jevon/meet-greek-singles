@@ -1,0 +1,95 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!--begin_videos-->
+						<form action="{url_main}administration/users_video.php" method="POST" name="Admin">
+							<div class="row user_video_approve_bl">
+								<!-- begin_video -->
+								<div class="col-md-3 col-sm-6 mb-2">
+									<div class="mod_bl_name">
+										{l_user}: <b><a href="{url_main}administration/users_edit.php?id={user_id}">{user_name}</a></b>
+									</div>
+									<div class="mod_bl_name">
+										<b>{private}</b>
+									</div>
+									<div class="mod_bl_description" title="{subject}">{subject}&nbsp;</div>
+									{video_html_code}
+									<div class="mod_comment_approve">
+										<textarea placeholder="{a_comment_approve}" class="form-control h_100" name="comment[{video_id}]"></textarea>
+									</div>
+									<div class="mod_bl_action skin skin-flat">
+										<label for="vid_add_{video_id}">
+											<input id="vid_add_{video_id}" type="radio" class="i_radio" name="do[{video_id}]" checked value="add">
+											{l_add}
+										</label>
+										<label for="vid_del_{video_id}">
+											<input id="vid_del_{video_id}" type="radio" class="i_radio" name="do[{video_id}]" value="del">
+											{l_delete}
+										</label>
+									</div>
+								</div>
+								<!-- end_video -->
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<div class="wrap_button">
+										<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+										<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!--end_videos-->
+
+						<!--begin_msg-->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+							{l_no_video}
+						</div>
+						<!--end_msg-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

@@ -1,0 +1,211 @@
+{header}
+
+<script type="text/javascript" src="{url_main}_server/jquery/jquery-ui-1.11.4.min.js{cache_version_param}"></script>
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_set}</h4>
+					<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+					<ul class="lmenu_page">
+						<!-- begin_list_set -->
+						<!-- begin_list_set_on -->
+						<li class="active">
+							<a href="">{list_set_title}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_list_set_on -->
+						<!-- begin_list_set_off -->
+						<li>
+							<a href="{url_page}?set={list_set_id}">{list_set_title}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_list_set_off -->
+						<!-- end_list_set -->
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_change_all_gifts_prices_at_once}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form id="frm_set_credits" action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="set_credits">
+							<input type="hidden" name="set" value="{set}">
+							<fieldset class="form-group">
+								<input id="set_credits" type="text" name="credits" value="{price_credits}" class="form-control">
+							</fieldset>
+							<fieldset class="form-group">
+								<button class="btn btn-primary mt-1 mr-1 btn_submit" type="submit">{l_save}</button>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_gifts -->
+						<form action="{url_page}" method="POST">
+						<input type="hidden" name="cmd" value="update">
+						<input type="hidden" name="set" value="{set}">
+						<div class="table-responsive">
+							<table id="sortable" class="table table-striped table-hover mb-0 skin skin-flat">
+								<thead class="bg-primary white">
+									<tr id="no_sortable">
+										<th class="status_menu">
+											<input class="status form-check-input i_checkbox" type="checkbox" id="all">
+										</th>
+										<th class="a_c">{l_id}</th>
+										<th class="a_c">{l_sent}</th>
+										<th>{l_action}</th>
+										<th class="a_c">{l_credits}</th>
+										<th class="a_c">{l_image}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- begin_gifts_item -->
+									<tr class="cursor_move">
+										<td class="status_menu a_c">
+											<input class="status form-check-input i_checkbox" type="checkbox" id="chk_{id}">
+										</td>
+										<td class="a_c">{id}</td>
+										<td class="a_c">{sent}</td>
+										<td>
+											<a href="{url_main}administration/gifts.php?cmd=delete&item={id}&set={set}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_main}administration/gifts.php?cmd=delete&item={id}&set={set}')}); return false;">{l_delete}</a> |
+											<a href="{url_main}administration/gifts_edit.php?action=edit_gift&id={id}">{l_edit}</a>
+										</td>
+										<td class="a_c">{credits}</td>
+										<td class="a_c">
+											<input type="hidden" name="order[]" value="{id}">{name_block}
+											<img style="max-width: 25px; max-height: 25px;" src="{url_gift}">
+										</td>
+									</tr>
+									<!-- end_gifts_item -->
+								</tbody>
+							</table>
+						</div>
+						<fieldset class="form-group mt-2">
+							<button class="btn btn-primary mt-1 mr-1 btn_submit" type="submit">{l_save}</button>
+							<button class="btn btn-secondary mt-1" type="submit" onclick="confirmCustom('{j_are_you_sure}',function(){actionChecked('{url_page}', 'delete', '&set={set}')}); return false;">{l_delete}</button>
+						</fieldset>
+						</form>
+						<!-- end_gifts -->
+
+						<!-- begin_no_gifts -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_results}
+                        </div>
+						<!-- end_no_gifts -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+    $('#sortable tbody').sortable({
+        containment: 'parent',
+        tolerance: 'pointer',
+        opacity: 0.5,
+        axis: 'y',
+        cancel: '#no_sortable',
+        cursor: 'move',
+        items: 'tr[id != no_sortable]',
+        helper: fixHelperModified,
+        update: function(e, ui){
+            ui.item.attr('class', 'color_set');
+            ui.item.children('.decor_l').attr('class', 'decor_set_l');
+            ui.item.children('.decor_r').attr('class', 'decor_set_r');
+        }
+    });
+
+    $('#all').change(function(){
+        choiceChkbox($(this), $('[id ^= chk_]'))
+    });
+
+
+    $('#frm_set_credits').submit(function(){
+        var credits=$('#set_credits'),price=credits.val()*1;
+        if (Math.max(0,price)!==price||Math.ceil(price)!==price) {
+            alert('{j_error_credits}');
+            credits.focus();
+            return false;
+        }
+    })
+
+});
+
+</script>
+
+{footer}

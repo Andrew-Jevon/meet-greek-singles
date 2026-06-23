@@ -1,0 +1,748 @@
+{header}
+<script type="text/javascript" src="{url_tmpl_main}js/join.js{cache_version_param}"></script>
+<script>
+var joinLangParts = {
+    incorrect_date : '{j_incorrect_date}',
+    incorrect_email : '{j_incorrect_email}',
+    incorrect_city : '{j_we_need_a_city}',
+    next : '{j_next}',
+    done : '{j_done}',
+    incorrect_password_contain : '{j_invalid_password_contain}',
+    incorrect_password_length : '{max_min_length_password}',
+    incorrect_name : '{j_invalid_username}',
+    incorrect_name_length : '{max_min_length_username}',
+    choose_a_city : '{j_choose_a_city}',
+    choose_a_state : '{j_choose_a_state}'
+};
+usersAge={users_age};
+passwordLengthMin='{password_length_min}'*1;
+passwordLengthMax='{password_length_max}'*1;
+nameLengthMin='{username_length_min}'*1;
+nameLengthMax='{username_length}'*1;
+</script>
+
+<style>
+    /* Register page — Irene mockup 2026-06 */
+    :root {
+        --mgs-navy: #0f3a6a;
+        --mgs-gold: #c89a3a;
+        --mgs-cream: #f7f3ec;
+        --mgs-ink: #1f2937;
+        --mgs-ink-soft: #5b6471;
+    }
+
+    html body.joinpage .wrap_header_cont,
+    html body .wrap_header_cont.absolute {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: calc(100vh - 72px) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background-image: url(/_files/banner/ChangedBackgroundImage.png?v=2026-06-01) !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: scroll !important;
+        z-index: 1 !important;
+    }
+    html body.joinpage .wrap_header_cont > .bl,
+    html body .wrap_header_cont > .bl {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    /* Legacy homepage bg video (_footer.html) — hide immediately, no joinpage JS */
+    html body:has(.mgs_join_shell) .wrap_header_cont + .header,
+    html body:has(.mgs_join_layout) .wrap_header_cont + .header,
+    html body.joinpage .wrap_header_cont + .header,
+    html body:has(.mgs_join_shell) .header,
+    html body.joinpage .header {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+        background: none !important;
+    }
+    html body:has(.mgs_join_shell) .header video,
+    html body:has(.mgs_join_shell) .header .video-wrapper,
+    html body.joinpage .header video,
+    html body.joinpage .header .video-wrapper {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* Highlight JOIN in nav on register page */
+    html body .mgs_nav .mgs_nav_item[href*="join"],
+    html body .mgs_nav a[href="/join"] {
+        color: #b88a3e !important;
+        border-bottom-color: #b88a3e !important;
+    }
+
+    .mgs_join_shell {
+        position: relative;
+        z-index: 2;
+        padding: 48px 32px 56px;
+        box-sizing: border-box;
+    }
+    /* Light wash so the Santorini photo stays vivid like the mockup */
+    .mgs_join_shell::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(105deg,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.04) 45%,
+            rgba(15, 58, 106, 0.06) 100%);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .mgs_join_layout {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 48px;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    /* Left intro */
+    .mgs_join_intro {
+        flex: 0 1 380px;
+        padding-top: 24px;
+        color: #fff;
+        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+    }
+    .mgs_join_intro h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 700;
+        font-size: clamp(38px, 4.4vw, 52px);
+        line-height: 1.08;
+        margin: 0 0 18px;
+        color: var(--mgs-navy);
+        text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+    }
+    .mgs_join_divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        max-width: 200px;
+        margin: 0 0 22px;
+    }
+    .mgs_join_divider::before,
+    .mgs_join_divider::after {
+        content: '';
+        flex: 1;
+        height: 2px;
+        background: rgba(200, 154, 58, 0.75);
+    }
+    .mgs_join_divider_heart { color: var(--mgs-gold); font-size: 16px; line-height: 1; }
+    .mgs_join_benefits {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 22px;
+        max-width: 360px;
+    }
+    .mgs_join_benefits li {
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.45;
+        color: var(--mgs-navy);
+        margin: 0 0 12px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+    }
+    .mgs_join_benefits .mgs_join_benefit_icon {
+        flex: 0 0 auto;
+        font-size: 22px;
+        line-height: 1.2;
+    }
+    .mgs_join_intro_conf {
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--mgs-navy);
+        margin: 0;
+        text-shadow: none;
+    }
+    .mgs_join_intro_legal {
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        color: rgba(15, 58, 106, 0.85);
+        margin-top: 20px;
+        max-width: 340px;
+        text-shadow: none;
+    }
+
+    /* Right card */
+    .mgs_join_card {
+        flex: 0 1 520px;
+        max-width: 540px;
+        width: 100%;
+        background: #ffffff;
+        border-radius: 22px;
+        box-shadow: 0 24px 64px rgba(15, 58, 106, 0.22);
+        padding: 38px 42px 0;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .mgs_join_card_head {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+    .mgs_join_card_heart {
+        display: block;
+        margin: 0 auto 10px;
+        width: 28px;
+        height: 28px;
+        color: var(--mgs-gold);
+    }
+    .mgs_join_card_head h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: 26px;
+        color: var(--mgs-navy);
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    /* Hidden welcome / FAQ (legal gate — open via .acpt_btn if re-enabled) */
+    .mgs_join_welcome_gate { display: none !important; }
+
+    #step-1.mgs_join_form_step { display: block !important; }
+    #step-1 .bl_form_registration { width: 100%; }
+
+    select { opacity: 0; height: 34px; width: 50px; }
+    .part.br, .line_or { display: none !important; }
+
+    #bl_frm_register label,
+    #bl_frm_register .bl_city_label {
+        display: block !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: var(--mgs-ink) !important;
+        margin-bottom: 8px !important;
+        text-align: left !important;
+    }
+    #bl_frm_register .bl { margin-bottom: 16px; background: none !important; }
+    .inp, .jq-selectbox, .jq-selectbox__select {
+        width: 100% !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+    }
+    .inp {
+        border: 1px solid #d1d5db !important;
+        padding: 0 14px !important;
+        font-size: 15px !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+    }
+  #home_city.inp::placeholder { color: #9ca3af; }
+    #email.inp::placeholder { color: #9ca3af; }
+
+    form[name="frm_date"] {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+    /* Mockup: country + region stacked full-width */
+    .rwcst { display: none !important; }
+    .bl_location {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+        width: 100% !important;
+    }
+    .bl_location.to_show { display: flex !important; }
+    .mgs_loc_field { width: 100% !important; }
+    .mgs_loc_field label {
+        display: block !important;
+        margin-bottom: 8px !important;
+    }
+    .mgs_loc_field .jq-selectbox { width: 100% !important; }
+    .mgs_location_group .bl_cst { width: 100% !important; }
+    .bl_region_helper {
+        color: #6b7280;
+        font-size: 11.5px;
+        font-style: italic;
+        margin-top: 6px;
+        line-height: 1.35;
+    }
+    .bl_location_other_wrap { margin-top: 8px !important; }
+    .bl_city_wrap { margin-top: 4px !important; }
+    #state_other {
+        width: 100% !important;
+        height: 44px !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 8px !important;
+        padding: 0 14px !important;
+        font-size: 15px !important;
+        box-sizing: border-box !important;
+    }
+    .bl_optional_hint {
+        color: #888 !important;
+        font-weight: 400 !important;
+        font-size: 12px !important;
+    }
+
+    .radio-area {
+        display: flex !important;
+        gap: 24px !important;
+        border: 1px solid #d1d5db !important;
+        padding: 12px 16px !important;
+        border-radius: 8px !important;
+        justify-content: flex-start !important;
+    }
+    .radio-area label {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin-bottom: 0 !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+    }
+
+    .mgs_join_row2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 14px !important;
+    }
+    .mgs_join_row2 .bl { margin-bottom: 0 !important; }
+
+    .mgs_pwd_wrap { position: relative; }
+    .mgs_pwd_wrap .inp { padding-right: 44px !important; }
+    .mgs_pwd_toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: 0;
+        padding: 4px;
+        cursor: pointer;
+        color: #6b7280;
+        line-height: 0;
+    }
+    .mgs_pwd_toggle:hover { color: var(--mgs-navy); }
+
+    .jq-selectbox__select {
+        border: 1px solid #d1d5db !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+    }
+    .jq-selectbox__dropdown.drop_down {
+        top: 48px !important;
+        background: #f3f3f3;
+        width: 180px !important;
+    }
+
+    .custom_checkbox {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: flex-start !important;
+        gap: 4px 6px !important;
+        margin: 18px 0 0 !important;
+        font-size: 13px !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        color: var(--mgs-ink-soft) !important;
+    }
+    .custom_checkbox input { width: 18px !important; height: 18px !important; margin-top: 2px !important; }
+    .custom_checkbox a { color: #2477ba !important; font-weight: 600 !important; text-decoration: none !important; }
+    .custom_checkbox a:hover { text-decoration: underline !important; }
+
+    .btn.pink, #frm_register_submit_2 {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        height: 52px !important;
+        margin-top: 20px !important;
+        background: var(--mgs-navy) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 999px !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        letter-spacing: 1.2px !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+        box-shadow: 0 6px 18px rgba(15, 58, 106, 0.28) !important;
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s !important;
+    }
+    .btn.pink:hover:not(:disabled) {
+        background: #14487f !important;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(15, 58, 106, 0.32) !important;
+    }
+    .btn.pink:disabled, .btn.pink[disabled] {
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+    }
+
+    .mgs_join_login_link {
+        text-align: center;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14px;
+        color: var(--mgs-ink-soft);
+        margin: 18px 0 0;
+        padding-bottom: 8px;
+    }
+    .mgs_join_login_link a {
+        color: #2477ba;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .mgs_join_login_link a:hover { text-decoration: underline; }
+
+    .mgs_join_trust {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 24px -42px 0;
+        padding: 18px 20px;
+        background: #ebf2f7;
+        border-radius: 0 0 22px 22px;
+        border-top: 1px solid rgba(15, 58, 106, 0.06);
+    }
+    .mgs_join_trust_item {
+        flex: 1;
+        text-align: center;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--mgs-navy);
+        line-height: 1.35;
+    }
+    .mgs_join_trust_icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 6px;
+        color: var(--mgs-navy);
+    }
+
+    .pp_shadow, .pp_wrapper { display: none !important; }
+    .footer { display: block !important; }
+
+    @media (max-width: 960px) {
+        .mgs_join_layout {
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+        .mgs_join_intro { flex: none; text-align: center; max-width: 520px; }
+        .mgs_join_divider { margin-left: auto; margin-right: auto; }
+        .mgs_join_intro_lead, .mgs_join_intro_legal { margin-left: auto; margin-right: auto; }
+    }
+    @media (max-width: 600px) {
+        .mgs_join_shell { padding: 28px 16px 40px; }
+        .mgs_join_card { padding: 28px 22px 0; }
+        .mgs_join_trust { margin-left: -22px; margin-right: -22px; flex-direction: column; gap: 12px; }
+        form[name="frm_date"], .mgs_join_row2 {
+            grid-template-columns: 1fr !important;
+        }
+        .radio-area { flex-direction: column; gap: 8px !important; }
+    }
+</style>
+
+<div class="mgs_join_shell">
+    <div class="mgs_join_layout">
+
+        <aside class="mgs_join_intro">
+            <h1>Let&rsquo;s Get Started!</h1>
+            <div class="mgs_join_divider" aria-hidden="true"><span class="mgs_join_divider_heart">&#9825;</span></div>
+            <ul class="mgs_join_benefits">
+                <li><span class="mgs_join_benefit_icon" aria-hidden="true">&#10084;&#65039;</span><span>Meet Greeks from around the world</span></li>
+                <li><span class="mgs_join_benefit_icon" aria-hidden="true">&#127468;&#127479;</span><span>Connect through shared culture, values, and traditions</span></li>
+                <li><span class="mgs_join_benefit_icon" aria-hidden="true">&#128274;</span><span>Safe and private community</span></li>
+                <li><span class="mgs_join_benefit_icon" aria-hidden="true">&#10024;</span><span>Free registration</span></li>
+            </ul>
+            <p class="mgs_join_intro_conf">Your information is always confidential.</p>
+            <p class="mgs_join_intro_legal">You must be 18 or older and single (not married) to join. By registering you agree to our community standards.</p>
+        </aside>
+
+        <div class="mgs_join_card">
+            <div class="mgs_join_card_head">
+                <svg class="mgs_join_card_heart" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 21s-7.5-4.5-7.5-10A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7.5 4c0 5.5-7.5 10-7.5 10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+                <h2>Create Your Free Account</h2>
+            </div>
+
+            <!-- Legal welcome gate (hidden; kept for acpt_btn compatibility) -->
+            <section class="steps step-1 mgs_join_welcome_gate">
+                <button type="button" class="acpt_btn" style="display:none" aria-hidden="true">Accept</button>
+            </section>
+
+            <div id="step-1" class="mgs_join_form_step">
+                <div class="bl_form_registration bl_form_registration_step_1">
+                    <div class="part br">
+                        <p>{l_social_btn_info}</p>
+                        <ul class="bl_social_buttons bl_social_buttons_register">
+                            <li class="login_{social_login_item_type}"><a href="{social_login_item_url}">&nbsp;</a></li>
+                        </ul>
+                        <div class="line_or"><div class="line_top"></div><div class="or">{l_or}</div><div class="line_bottom"></div></div>
+                    </div>
+
+                    <div id="bl_frm_register" class="part">
+                        <div class="bl">
+                            <label>{l_i_am}</label>
+                            <div class="radio-area">
+                                <label><input type="radio" name="p_sexuality" value="1"><span>Man</span></label>
+                                <label><input type="radio" name="p_sexuality" value="2"><span>Woman</span></label>
+                            </div>
+                        </div>
+
+                        <div class="bl">
+                            <label>Birthdate</label>
+                            <form class="frfr" name="frm_date" action="" autocomplete="off">
+                                <div class="inp_birth dd"><select name="day" id="day" class="birthday">{day_options}</select></div>
+                                <div class="inp_birth mm"><select name="month" id="month" class="birthday">{month_options}</select></div>
+                                <div class="inp_birth yy"><select name="year" id="year" class="birthday">{year_options}</select></div>
+                            </form>
+                            <div id="birth_error" class="error to_hide">&nbsp;</div>
+                            <div class="cl"></div>
+                        </div>
+
+                        <div class="bl mgs_location_group">
+                            <div id="css_loader_location" class="css_loader css_loader_location hidden">
+                                <div class="spinner spinnerw center">
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                </div>
+                            </div>
+                            <div class="bl_cst">
+                                <div class="bl_location">
+                                    <div class="mgs_loc_field">
+                                        <label>I live in</label>
+                                        <select name="country" data-search-unique-id="true" data-location="geo_states" id="country" class="location country geo" data-search="true" data-search-placeholder="{a_enter_manually}" data-search-not-found="{a_no_matches}">
+                                            {country_options}
+                                        </select>
+                                    </div>
+                                    <div class="mgs_loc_field">
+                                        <label>Region / State</label>
+                                        <select name="state" id="state" data-location="geo_cities" class="location state geo" data-search="true" data-search-placeholder="{a_enter_manually}" data-search-not-found="{a_no_matches}">
+                                            {state_options}
+                                            <option value="__other__">Other / Not listed</option>
+                                        </select>
+                                        <div class="bl_region_helper">e.g. Athens, Thessaloniki, Rhodes, Crete</div>
+                                    </div>
+                                </div>
+                                <div class="bl_location_other_wrap">
+                                    <input type="text" id="state_other" class="not_frm" placeholder="Type your region or state" style="display:none;" autocomplete="off" />
+                                </div>
+                                <div class="bl_city_wrap">
+                                    <label class="bl_city_label">City / Town / Island <span class="bl_optional_hint">(optional)</span></label>
+                                    <input type="text" name="home_city" id="home_city" class="inp not_frm" placeholder="e.g. Athens, Thessaloniki, Rhodes" autocomplete="off" maxlength="60" />
+                                </div>
+                            </div>
+                            <div id="city_error" class="error to_hide">&nbsp;</div>
+                            <div class="cl"></div>
+                        </div>
+
+                        <div class="bl">
+                            <label>{l_email}</label>
+                            <div class="bl_inp_pos">
+                                <input id="email" name="email" class="inp email placeholder" type="text" placeholder="you@example.com" value="" autocomplete="off"/>
+                                <div id="email_check" class="icon_check to_hide"></div>
+                                <div id="email_error" class="error to_hide">&nbsp;</div>
+                            </div>
+                        </div>
+
+                        <div class="mgs_join_row2">
+                            <div class="bl">
+                                <label>Username</label>
+                                <div class="bl_inp_pos">
+                                    <input id="name" class="inp username placeholder" name="join_handle" maxlength="{username_length}" type="text" placeholder="This will be public" value="" autocomplete="off"/>
+                                    <div id="name_check" class="icon_check to_hide"></div>
+                                    <div id="name_error" class="error to_hide">&nbsp;</div>
+                                </div>
+                            </div>
+                            <div class="bl">
+                                <label>Password</label>
+                                <div class="bl_inp_pos mgs_pwd_wrap">
+                                    <input id="password" class="inp psw placeholder" name="join_password" type="password" placeholder="Create a password" value="" autocomplete="new-password"/>
+                                    <button type="button" class="mgs_pwd_toggle" id="mgs_pwd_toggle" aria-label="Show password" title="Show password">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.6"/>
+                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
+                                        </svg>
+                                    </button>
+                                    <div id="password_check" class="icon_check to_hide"></div>
+                                    <div id="password_error" class="error to_hide">&nbsp;</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="sign custom_checkbox">
+                            <input id="agree" name="privacy_policy" value="1" type="checkbox" required/>
+                            <label for="agree"><span></span>{l_i_agree_to_the}</label>
+                            <a href="" onclick="infoOpen('terms'); return false;">{l_terms}</a>
+                            <label for="agree">{l_and}</label>
+                            <a href="" onclick="infoOpen('priv'); return false;">{l_privacy_policy}</a>
+                            <span class="cl"></span>
+                        </span>
+
+                        <button id="frm_register_submit_2" class="btn pink" type="button" disabled>
+                            Create Account
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </button>
+                        <span id="agree_error" class="error to_hide">{l_you_need_to_agree_to_the_terms}</span>
+
+                        <p class="mgs_join_login_link">Already have an account? <a href="/login">Log in</a></p>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+            </div>
+
+            <div class="mgs_join_trust" aria-label="Trust and privacy">
+                <div class="mgs_join_trust_item">
+                    <span class="mgs_join_trust_icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6"/></svg>
+                    </span>
+                    100% Confidential
+                </div>
+                <div class="mgs_join_trust_item">
+                    <span class="mgs_join_trust_icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v6c0 4.5 3 8.5 7 9.5 4-1 7-5 7-9.5V6l-7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                    </span>
+                    Safe &amp; Secure
+                </div>
+                <div class="mgs_join_trust_item">
+                    <span class="mgs_join_trust_icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.5-7.5-10A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7.5 4c0 5.5-7.5 10-7.5 10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                    </span>
+                    Meaningful Connections
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    alertCustom('{j_no_confirmation_account}',true,'{j_attention}');
+});
+</script>
+{footer}
+<script>
+    $('#step-1').removeClass('hide1').show();
+    $('.steps.step-1').hide();
+
+    $(document).on('click', '.acpt_btn', function(){
+        $('.steps').hide();
+        $('#step-1').show();
+        return false;
+    });
+
+    $('#mgs_pwd_toggle').on('click', function(){
+        var $p = $('#password');
+        var show = $p.attr('type') === 'password';
+        $p.attr('type', show ? 'text' : 'password');
+        $(this).attr('aria-label', show ? 'Hide password' : 'Show password');
+    });
+
+    (function(){
+        function toggleOtherInput(){
+            var $other = $('#state_other');
+            if(!$other.length) return;
+            var v = $('#state').val();
+            if(v === '__other__'){
+                $other.show().focus();
+            } else {
+                $other.hide().val('');
+                $('#state').find('option[data-custom-state]').remove();
+            }
+        }
+        $(document).on('change', '#state', toggleOtherInput);
+
+        function checkRegisterFormReady(){
+            var $btn = $('#frm_register_submit_2');
+            if(!$btn.length) return;
+            var ok = $('input[name="p_sexuality"]:checked').length > 0
+                && $('#month').val() && $('#month').val() !== '0'
+                && $('#day').val()   && $('#day').val()   !== '0'
+                && $('#year').val()  && $('#year').val()  !== '0'
+                && $('#country').val() && $('#country').val() !== '0'
+                && $('#state').val()   && $('#state').val()   !== '0'
+                && $.trim($('#email').val()).length > 0
+                && $.trim($('#name').val()).length  > 0
+                && $.trim($('#password').val()).length > 0
+                && $('#agree').prop('checked');
+            if($('#state').val() === '__other__'){
+                ok = ok && $.trim($('#state_other').val()).length > 0;
+            }
+            $btn.prop('disabled', !ok);
+        }
+        $(document).on('change keyup input', '#bl_frm_register input, #bl_frm_register select', checkRegisterFormReady);
+        $(document).on('change', '#agree, #state_other', checkRegisterFormReady);
+        setInterval(checkRegisterFormReady, 600);
+
+        $(document).on('click', '#frm_register_submit_2', function(e){
+            var $state = $('#state');
+            if($state.val() !== '__other__') return;
+            var $other = $('#state_other');
+            var custom = ($other.val() || '').replace(/^\s+|\s+$/g, '');
+            if(!custom){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $other.focus();
+                return false;
+            }
+            $state.find('option[data-custom-state]').remove();
+            var safe = custom.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            $state.append('<option value="'+safe+'" data-custom-state="1" selected>'+safe+'</option>');
+            $state.val(custom);
+            try { $state.trigger('refresh'); } catch(e2){}
+        });
+
+        function applyLocationDefaults(){
+            var $country = $('#country'), $state = $('#state');
+            if(!$country.length || !$state.length) return;
+            if ($country.attr('data-mgs-default-applied') === '1') return;
+            $country.attr('data-mgs-default-applied', '1');
+            $country.val('84');
+            try { $country.trigger('refresh'); } catch(e){}
+            $country.trigger('change');
+            var attempts = 0, maxAttempts = 40;
+            var t = setInterval(function(){
+                attempts++;
+                if($state.find('option[value="4174"]').length){
+                    clearInterval(t);
+                    $state.val('4174');
+                    try { $state.trigger('refresh'); } catch(e){}
+                    $state.trigger('change');
+                    checkRegisterFormReady();
+                } else if(attempts >= maxAttempts){
+                    clearInterval(t);
+                }
+            }, 200);
+        }
+        setTimeout(applyLocationDefaults, 250);
+    })();
+</script>

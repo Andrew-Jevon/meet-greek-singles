@@ -1,0 +1,12 @@
+[07-Feb-2026 11:53:27 Europe/Athens] PHP Fatal error:  Uncaught Error: Class 'CGold' not found in /home/slqihj5q4r69/public_html/community.php:23
+Stack trace:
+#0 /home/slqihj5q4r69/public_html/router.php(16): include()
+#1 {main}
+  thrown in /home/slqihj5q4r69/public_html/community.php on line 23
+[07-Mar-2026 16:23:13 Europe/Athens] PHP Parse error:  syntax error, unexpected ''cookies_' (T_ENCAPSED_AND_WHITESPACE), expecting ']' in /home/slqihj5q4r69/public_html/_lang/main/default/language.php on line 3041
+[07-Mar-2026 16:24:47 Europe/Athens] PHP Parse error:  syntax error, unexpected ''menu_use' (T_ENCAPSED_AND_WHITESPACE), expecting ']' in /home/slqihj5q4r69/public_html/_lang/main/default/language.php on line 2783
+[13-Mar-2026 12:50:48 Europe/Athens] PHP Fatal error:  Uncaught Error: Call to a member function init() on string in /home/slqihj5q4r69/public_html/_include/core/main_close.php:10
+Stack trace:
+#0 /home/slqihj5q4r69/public_html/router.php(21): include_once()
+#1 {main}
+  thrown in /home/slqihj5q4r69/public_html/_include/core/main_close.php on line 10

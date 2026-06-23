@@ -1,0 +1,53 @@
+<!-- begin_list_video_item_info -->
+<div class="item <!-- begin_list_video_item_info_hide -->to_hide<!-- end_list_video_item_info_hide -->">
+    <div class="cham-post">
+        <div class="cham-post-link" onclick="onClickLiveVideoFinished('{list_video_item_id}', '{list_video_item_user_id}', '{list_video_item_src}', '{list_video_item_image}', event); return false;">
+            <div class="cham-post-image list_videos_image_{list_video_item_id} to_hide">
+                <div id="list_image_layer_action_{list_video_item_video_id}" data-cl-loader="layer_action_list_loader" class="layer_action_list"></div>
+
+                <div id="list_media_description_bl_{list_video_item_video_id}" class="cham-category descripton <!-- begin_list_video_item_info_description -->to_show<!-- end_list_video_item_info_description -->">
+                    <span class="subject" title="{list_video_item_subject_attr}">
+                        <span class="overflow">{list_video_item_subject_short}</span>
+                    </span>
+                </div>
+
+                <button class="play_button" type="button" aria-live="polite"></button>
+
+                <div class="pic rectangle hover-brightness" style="background-image: url({list_video_item_image});"></div>
+                <script>
+                    onLoadImgFromList($('.list_videos_image_{list_video_item_id}.to_hide'), '{list_video_item_image}');
+                    <!-- begin_set_video_data -->
+                    Photo.setPhotoInfo('{list_video_item_video_id}', 'public', {list_video_item_info});
+					Photo.setPhotoListPageInfo('{list_video_item_video_id}', {list_video_item_info});
+                    <!-- end_set_video_data -->
+                </script>
+
+                <!-- begin_list_video_item_info_not_checked -->
+                <div class="icon_time"></div>
+                <!-- end_list_video_item_info_not_checked -->
+            </div>
+        </div>
+        <div class="cham-post-meta">
+            <div class="info">
+                <span class="info_item comments">
+                    <i class="fa fa-comments" aria-hidden="true"></i><span class="video_comments_count_{list_video_item_id}">{list_video_item_count_comments}</span>
+                </span>
+                <span class="info_item time">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>{list_video_item_time_ago}
+                </span>
+            </div>
+            <div class="info">
+                <!-- begin_list_video_item_info_name -->
+                <span class="info_item user_name">
+                    <a href="{url_main}{list_video_item_user_url}" class="name">
+                        <span class="icon_status <!-- begin_list_video_item_info_online -->online<!-- end_list_video_item_info_online-->"></span>
+                        {list_video_item_user_name}
+                    </a>
+                </span>
+                <!-- end_list_video_item_info_name -->
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- end_list_video_item_info -->

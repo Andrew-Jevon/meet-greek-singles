@@ -1,0 +1,78 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+
+<style>
+body {
+  background: #fff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    max-width: 400px;
+    overflow: visible;
+  }
+}
+
+svg {
+  animation: fade 10s ease-in-out infinite;
+}
+
+#body,
+#shadow {
+  animation: float 3s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+#face {
+  animation: face-float 3s 0.2s ease-in-out infinite;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) scaleY(1);
+  }
+  50% {
+    transform: translateY(-10px) scaleY(1.0225);
+  }
+  100% {
+    transform: translateY(0px) scaleY(1);
+  }
+}
+
+@keyframes face-float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+</style>
+  <path id="shadow" fill="#cdcdcd" d="M52.319 223.571c0 18.426 14.936 33.386 33.333 33.386 18.326 0 33.217-14.844 33.333-33.171l.001-.215c0 18.426 14.936 33.386 33.333 33.386s33.333-14.96 33.333-33.386c0 18.426 14.936 33.386 33.334 33.386 18.397 0 33.333-14.96 33.333-33.386v5.621c0 18.426-14.936 33.386-33.333 33.386-18.398 0-33.334-14.96-33.334-33.386 0 18.426-14.936 33.386-33.333 33.386s-33.333-14.96-33.333-33.386l-.001.216c-.116 18.327-15.007 33.17-33.333 33.17-18.397 0-33.333-14.96-33.333-33.386v-5.621Z" />
+  <path id="body" fill="#ebebeb" d="M118.985 223.786c-.116 18.327-15.007 33.171-33.333 33.171-18.397 0-33.333-14.96-33.333-33.386V120.994h.029c1.282-54.162 45.585-97.741 99.971-97.741s98.689 43.579 99.971 97.741h.029v102.577c0 18.426-14.936 33.386-33.333 33.386-18.398 0-33.334-14.96-33.334-33.386 0 18.426-14.936 33.386-33.333 33.386s-33.333-14.96-33.333-33.386l-.001.215Z" />
+  <g id="face" fill="#585858">
+    <ellipse id="left-eye" cx="126.522" cy="115.394" rx="25" ry="22.5" />
+    <ellipse id="right-eye" cx="178.478" cy="119.815" rx="20" ry="18.079" />
+    <path id="mouth" d="M101.522 174.658c3.098-9.696 20.439-15.154 40.16-12.292 20.82 3.023 36.46 14.181 34.904 24.904l-.007.046c-8.397-6.522-22.139-11.927-38.104-14.245-14.116-2.049-27.253-1.289-36.953 1.587Z" />
+  </g>
+</svg>

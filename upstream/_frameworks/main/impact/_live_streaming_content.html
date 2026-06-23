@@ -1,0 +1,115 @@
+<script>
+clStream.clearData();
+clStream.setData({lsId: '{ls_id}'*1, lsVideoId: '{ls_video_id}'*1, numberCommentsFrmShow:'{number_comments_frm_show}'*1});
+
+
+<!-- begin_set_url_image_live -->
+_lsCameraImageData='{set_url_image_live}';
+<!-- end_set_url_image_live -->
+
+<!-- begin_set_live_description -->
+_lsSetVideoTitle('{set_live_description}');
+<!-- end_set_live_description -->
+</script>
+
+<!-- begin_ls_module_action -->
+<script>
+    clStream.itemInfoSet('{ls_id}', '{ls_last_action_like}', '{ls_last_action_comment}', '{ls_comments_count}', '{ls_like_user_list}', '{ls_last_action_comment_like}');
+    clStream.setLikeLiveHeart('{ls_like_hidden}');
+</script>
+
+{list_viewers}
+
+{likes}
+
+<div class="like_comment_and_share">
+    <ul class="list">
+        <!-- begin_ls_like_module_like -->
+        <li id="ls_feed_like_action_{ls_like_id}" class="feed_btn_like {ls_like_hidden}">
+            <a href="#" title="{a_like}" onclick="clStream.likeAdd($(this)); return false;" class="feed_like_like">
+                <span class="glyphicon glyphicon-thumbs-up icon" data-cl-loader="icon_wall_loader" data-no-fade-in="true"></span>{l_like}
+            </a>
+            <a href="#" title="{a_unlike}" onclick="clStream.likeDelete($(this)); return false;" class="feed_like_unlike">
+                <span class="glyphicon glyphicon-thumbs-up icon" data-cl-loader="icon_wall_loader" data-no-fade-in="true"></span>{l_you_like_this}
+            </a>
+        </li>
+        <!-- end_ls_like_module_like -->
+		<!-- begin_ls_report_user -->
+		<li class="feed_btn_report">
+            <a href="#" onclick="Profile.openReport('{ls_report_user_id}', 'v_{ls_report_video_id}', $(this), 'live'); return false;">
+                <i class="fa fa-exclamation-triangle icon" data-cl-loader="icon_wall_loader" data-no-fade-in="true"  aria-hidden="true"></i>
+                <span>{l_report}</span>
+            </a>
+		</li>
+		<!-- end_ls_report_user -->
+    </ul>
+
+    <ul class="how_many_comments_shares">
+        <li id="ls_comments_count_{ls_id}" data-count="{ls_comments_count}" class="wall_item_comments_count <!-- begin_ls_comments_count_title_hide -->to_hide<!-- end_ls_comments_count_title_hide -->">
+            <i class="fa fa-comment-o" aria-hidden="true"></i>
+            <span class="comments_count">{ls_comments_count_title}</span>
+        </li>
+    </ul>
+    <div class="clearfix"></div>
+ </div>
+<!-- end_ls_module_action -->
+
+<!-- begin_ls_comments_enabled -->
+<div class="bl_wall bl_wall_ls bl_wall_blog_post">
+    <div id="ls_feed_comment_top" class="photo_and_field_comment" <!-- begin_ls_feed_comment_top_frm_show -->style="display: block;"<!-- end_ls_feed_comment_top_frm_show -->>
+        <div class="photo">
+            <a href="{comment_guid_url}" class="pic profile_photo_r_{comment_guid_uid} to_hide1" style="background-image:url({url_files}{comment_guid_photo});"></a>
+            <script>onLoadImgToShow('{url_files}{comment_guid_photo}','',function(){$('.profile_photo_r_{comment_guid_uid}.to_hide').removeClass('to_hide')})</script>
+        </div>
+        <div class="field_comment">
+            <textarea id="ls_comment_area_top_{ls_id}" placeholder="{a_write_a_comment}" class="form-control wall_comment_area wall_comment_area_top"></textarea>
+            <button class="ls_send hidden-lg hidden-md">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21.5,11.1l-17.9-9C2.7,1.7,1.7,2.5,2.1,3.4l2.5,6.7L16,12L4.6,13.9l-2.5,6.7c-0.3,0.9,0.6,1.7,1.5,1.2l17.9-9   C22.2,12.5,22.2,11.5,21.5,11.1z" />
+                </svg>
+            </button>
+            <script>clStream.initFeedComment('#ls_comment_area_top_{ls_id}');</script>
+        </div>
+    </div>
+
+    <div id="ls_comments" data-lid="{ls_id}" class="bl_comments ls_comments">
+        <!-- begin_comment -->
+        {comments_list}
+        <!-- end_comment -->
+    </div>
+
+    <!--begin_ls_load_more_comments -->
+    <div id="ls_load_more_comments_bl_{ls_id}" class="like_comment_and_share_bl ls_like_comment_and_share_bl">
+        <div class="like_comment_and_share more">
+            <a href="#" class="comments_replies_load_link" onclick="clStream.loadMoreComments($(this),0); return false;">
+                <span data-no-fade-in="true" data-cl-loader="icon_wall_loader" class="glyphicon glyphicon-comment icon"></span>
+                <span class="comments_replies_load_title">{ls_load_more_comments_number_title}</span>
+            </a>
+            <div class="comm_to_comm_text_number <!-- begin_ls_load_more_comments_number -->to_show<!-- end_ls_load_more_comments_number -->">
+                {ls_load_more_comments_number}
+            </div>
+        </div>
+    </div>
+    <!--end_ls_load_more_comments -->
+
+    <div id="ls_feed_comment_bottom" class="photo_and_field_comment" <!-- begin_ls_feed_comment_bottom_frm_show -->style="display: block;"<!-- end_ls_feed_comment_bottom_frm_show -->>
+        <div class="photo">
+            <a href="{comment_guid_url}" class="pic profile_photo_r_{comment_guid_uid} to_hide" style="background-image:url({url_files}{comment_guid_photo});"></a>
+            <script>onLoadImgToShow('{url_files}{comment_guid_photo}','',function(){$('.profile_photo_r_{comment_guid_uid}.to_hide').removeClass('to_hide')})</script>
+        </div>
+        <div class="field_comment">
+            <textarea id="ls_comment_area_{ls_id}" placeholder="{a_write_a_comment}" class="form-control wall_comment_area"></textarea>
+            <button class="ls_send hidden-lg hidden-md">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21.5,11.1l-17.9-9C2.7,1.7,1.7,2.5,2.1,3.4l2.5,6.7L16,12L4.6,13.9l-2.5,6.7c-0.3,0.9,0.6,1.7,1.5,1.2l17.9-9   C22.2,12.5,22.2,11.5,21.5,11.1z" />
+                </svg>
+            </button>
+            <script>clStream.initFeedComment('#ls_comment_area_{ls_id}',false,false);</script>
+        </div>
+    </div>
+</div>
+<!-- end_ls_comments_enabled -->
+
+<script>
+clStream.init();
+</script>

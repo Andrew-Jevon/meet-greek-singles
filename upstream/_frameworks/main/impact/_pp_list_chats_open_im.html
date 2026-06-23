@@ -1,0 +1,78 @@
+<!-- begin_open_im -->
+<!-- begin_open_im_js -->
+<script>imChats.updateCounter({open_im_all_new_msg_count});</script>
+<!-- end_open_im_js -->
+<div id="im_open_{user_to_id}" data-user-name="{user_to_name}" data-user-photo="{user_to_photo}" data-uid="{user_to_id}" data-user-age="{user_to_age}" data-user-profile-url="{user_to_profile_link}" class="list_chats_item open_im_chat <!-- begin_open_im_show -->to_show<!-- end_open_im_show -->">
+    <div id="im_open_chat_{user_to_id}" class="chat open {open_im_active}" style="opacity:1;">
+        <div class="head" onclick="imChats.openIm('{user_to_id}', event);">
+            <a><span class="marker"></span><span id="im_open_title_{user_to_id}" data-user-name="{user_to_name}" data-new-msg-count="{open_im_new_msg_count}" class="head_title">{open_im_title}</span></a>
+            <span class="icon_close" onclick="imChats.closeOneIm('{user_to_id}'); return false;">
+                <span class="icon_close_pp_chat im_close"></span>
+                <span class="icon_close_pp_chat_hover im_close"></span>
+            </span>
+        </div>
+        <div id="im_cont_{user_to_id}" class="cont">
+            <div id="im_scrollbar_{user_to_id}" class="scrollbarY">
+                <div class="scrollbar"><div class="track"><div id="im_thumb_{user_to_id}" class="thumb im_trans_{user_to_id}"></div></div></div>
+                <div id="im_viewport_{user_to_id}" class="viewport">
+                    <div id="im_overview_{user_to_id}" class="overview im_trans_{user_to_id}">
+                    <div class="item">
+                        <div id="im_open_list_msg_{user_to_id}" class="message">
+                            {list_chats_im_msg}
+                            <script>imChats.initOneIm('{user_to_id}', '{first_msg_id}');</script>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="pp_message_textarea">
+                <textarea data-uid="{user_to_id}" type="text" id="im_open_msg_send_{user_to_id}" class="placeholder" placeholder="{a_enter_your_message}"></textarea>
+                <button class="sngl_sb btns">Send</button>
+            </div>
+            <div class="pp_message_action">
+
+				<!-- begin_im_audio_message_recorder_control -->
+				<div id="im_audio_message_recorder" class="im_audio_message_recorder pp_audio_message_recorder">
+					<span id="im_audio_message_visualizer" class="audio_visualizer im_audio_visualizer"></span>
+
+					<span data-cl-children=".fa-circle" class="im_audio_message_recorder_icon_bl" title="{a_record_audio_message}" onclick="clMessages.runAudioRecorder();">
+						<i class="fa fa-microphone" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+					</span>
+				</div>
+				<!-- end_im_audio_message_recorder_control -->
+
+                <div id="pp_message_upload_img_{user_to_id}" title="{a_upload_image}" class="pp_message_upload_img disabled" onclick="imChats.clearUploadImage('{user_to_id}', true, true);">
+                    <div id="pp_message_upload_img_loader_{user_to_id}" class="pp_message_upload_img_loader"></div>
+                    <i class="fa fa-camera" aria-hidden="true"></i>
+                    <span class="count_upload_image">
+                        <i class="fa fa-check"></i>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </span>
+                    <form id="pp_message_upload_img_frm_{user_to_id}" method="post" enctype="multipart/form-data" action="" onsubmit="return false;">
+                        <input class="pp_message_upload_img_input_file" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" name="file_add_wall"  onclick="imChats.clickUpload($(this));" onChange="imChats.changeUploadImage($(this));"/>
+                        <input class="inp_hide" type="reset" value=""/>
+                        <input class="inp_hide" type="submit" value=""/>
+                    </form>
+                    <script>imChats.initAddImage({user_to_id});</script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .pp_message_textarea {
+    position: relative;
+}
+
+.pp_message_textarea button {
+    position: absolute;
+    right: 10px;
+    background: #142d69;
+    color: #fff;
+    padding: 12px;
+}
+</style>
+<!-- end_open_im -->

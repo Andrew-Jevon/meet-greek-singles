@@ -1,0 +1,241 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/groups_social.php">{l_menu_groups_social_short}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current_short}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+
+<div class="content-body bl_wall_wrapper_admin">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_main_pages -->
+						<div class="total_pages">
+							<p class="num_total">{num_total} {l_count_users}</p>
+
+							<ul class="pagination justify-content-center">
+								<!-- begin_main_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_main_first_page -->
+								<!-- begin_main_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page -->
+								<!-- begin_main_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page_off -->
+								<!-- begin_main_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_main_prev_pages -->
+								<!-- begin_main_page -->
+								<!-- begin_main_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_link_page -->
+								<!-- begin_main_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_this_page -->
+								<!-- end_main_page -->
+								<!-- begin_main_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_main_next_pages -->
+								<!-- begin_main_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page -->
+								<!-- begin_main_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page_off -->
+								<!-- begin_main_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_main_last_page -->
+							</ul>
+						</div>
+						<!-- end_main_pages -->
+
+						<!-- begin_main_items -->
+						<div class="table-responsive mb-2 mt-0">
+							<table class="table table-striped table-hover mb-0 skin skin-flat table_f_sm">
+								<thead class="bg-primary white">
+									<th class="status_menu">
+										<input class="status form-check-input i_checkbox" type="checkbox" id="all">
+									</th>
+									<th>
+										<!-- begin_params_none_date --><a href="{url_page}?{params_current}">{l_date}</a><!-- end_params_none_date -->
+										<!-- begin_params_asc_date -->&uarr;<a href="{url_page}?{params_current}">{l_date}</a><!-- end_params_asc_date -->
+										<!-- begin_params_desc_date -->&darr;<a href="{url_page}?{params_current}">{l_date}</a><!-- end_params_desc_date -->
+									</th>
+									<th>
+										<!-- begin_params_none_name_from --><a href="{url_page}?{params_current}">{l_from}</a><!-- end_params_none_name_from -->
+										<!-- begin_params_asc_name_from -->&uarr;<a href="{url_page}?{params_current}">{l_from}</a><!-- end_params_asc_name_from -->
+										<!-- begin_params_desc_name_from -->&darr;<a href="{url_page}?{params_current}">{l_from}</a><!-- end_params_desc_name_from -->
+									</th>
+									<th>
+										<!-- begin_params_none_group_title --><a href="{url_page}?{params_current}">{l_title_group}</a><!-- end_params_none_group_title -->
+										<!-- begin_params_asc_group_title -->&uarr;<a href="{url_page}?{params_current}">{l_title_group}</a><!-- end_params_asc_group_title -->
+										<!-- begin_params_desc_group_title -->&darr;<a href="{url_page}?{params_current}">{l_title_group}</a><!-- end_params_desc_group_title -->
+									</th>
+									<th>
+										{l_content}
+									</th>
+									<th>
+										{l_message}
+									</th>
+								</thead>
+								<!-- begin_main_item -->
+								<tr class="{class}">
+									<td class="status_menu">
+										<input class="status form-check-input i_checkbox" type="checkbox" id="chk_{id}">
+									</td>
+                                    <!--
+									<td class="nw">
+										<div>
+											<a href="{url_page}?cmd=delete_report&report_id={id}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete_report&report_id={id}')}); return false;">{l_delete_report}</a>
+										</div>
+										<div>
+											<a href="{url_page}?cmd={cmd}&photo_id={photo_id}&user_id={user_to}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd={cmd}&photo_id={photo_id}&user_id={user_to}')}); return false;">{l_delete_content}</a>
+										</div>
+										<div>
+											<a href="{url_page}?cmd=ban&group_id={group_id}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=ban&group_id={group_id}')}); return false;">{group_ban_to}</a>
+										</div>
+									</td>-->
+									<td>{date}</td>
+									<td><a href="../{user_from_url}" target="_blank">{name_from}</a></td>
+									<td><a href="../{group_url}" target="_blank">{group_title}</a></td>
+									<td>
+                                        {type}<br>
+										<!-- begin_photo_url -->
+										<img src="{url_files}{photo_url}">
+										<!-- end_photo_url -->
+										<!-- begin_no_photo_url -->
+										<div>{l_no_photo}</div>
+										<!-- end_no_photo_url -->
+
+										<!-- begin_video_url -->
+										<a href="vids_video_edit.php?id={video_id}" target="_blank">
+											<img class="report_image" src="{url_files}{video_url}">
+										</a>
+										<!-- end_video_url -->
+
+                                        <!-- begin_comment -->
+										<div>{comment_text}</div>
+										<!-- end_comment -->
+
+										<div class="bl_action">
+											<a href="{url_page}?cmd=delete_report&report_id={rep_id}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete_report&report_id={rep_id}')}); return false;">{l_delete_report}</a>
+											<span class="separator">&bull;</span>
+											<a href="{url_page}?cmd={cmd}&photo_id={photo_id}&user_id={content_user_id}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd={cmd}&photo_id={photo_id}&user_id={content_user_id}')}); return false;">{delete_content}</a>
+											<!-- begin_report_comment_delete -->
+											<span class="separator">&bull;</span>
+											<a href="{url_page}?cmd=delete_comment&report_id={rep_id}&comment_type={comm_type}&comment_id={comm_id}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete_comment&report_id={rep_id}&comment_type={comm_type}&comment_id={comm_id}')}); return false;">{l_delete_comment}</a>
+											<!-- end_report_comment_delete -->
+											<span class="separator">&bull;</span>
+											<a href="{url_page}?cmd=ban&user_id={user_to}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=ban&user_id={user_to}')}); return false;">{ban_to}</a>
+										</div>
+
+									</td>
+									<td class="w-40">{msg}</td>
+								</tr>
+								<!-- end_main_item -->
+							</table>
+						</div>
+						<!-- end_main_items -->
+
+						<!-- begin_no_delete -->
+						<div class="wrap_button">
+							<button class="btn btn-secondary mt-1 mb-1" onclick="confirmCustom('{j_are_you_sure}',function(){delete_reports()}); return false;">{l_delete_all_reports}</button>
+						</div>
+						<!-- end_no_delete -->
+
+						<!-- begin_main_noitems -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_reports}
+                        </div>
+						<!-- end_main_noitems -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+    var m="{message}";
+    if (m != "") {
+		alertCustom("{message}");
+    }
+    $(function(){
+        var CBoxNote = function (ch, chkbox){
+            if(ch.is(':checked')) {
+                chkbox.prop("checked", true).iCheck('update');
+            }else{
+                chkbox.prop("checked", false).iCheck('update');
+            }
+        }
+
+        $('#all').change(function(){
+            CBoxNote($(this), $('[id ^= chk_]'))
+        });
+
+    });
+    function delete_reports() {
+        var StrID = '';
+        $('[id ^= chk_]:checked').each(function(){
+            StrID += ($(this).attr("id").replace(/chk_/g, '')+',')
+        })
+        var reports = StrID.slice(0, -1);
+        redirectUrl('{url_page}?cmd=delete_report&report_id='+reports);
+    }
+</script>
+
+{footer}

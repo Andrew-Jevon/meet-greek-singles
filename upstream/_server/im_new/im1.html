@@ -1,0 +1,59 @@
+<table onmousedown="reset_opens({user_id});" cellspacing="0" cellpadding="0" class="chat" id="xajax_im_open_{user_id}" style="left: {x}px; top: {y}px; z-index: {z};">
+
+<tr><td colspan="3" class="sh-t"></td></tr>
+
+<tr>
+	<td class="sh-l"></td>
+	<td class="chatcont">
+    
+    <table class="chathead" id="xajax_im_head_{user_id}">
+        <tr>
+            <td class="chattitle">
+                <p>Chat with {name}</p>
+            </td>
+            <td class="chaticons">
+                <ul><li class="chatclose" onclick="xajax_im_close({user_id});"></li></ul>
+            </td>
+        </tr>
+    </table>
+    
+    <div id="background">
+    
+    <table class="chatmain">
+        <tr>
+            <td class="chatmain-in">
+                <div class="chatbody" id="xajax_im_msgs_{user_id}" />
+    
+                </div>
+                <form class="cinput" id="sent_msg_{user_id}" onsubmit="xajax_im_sent(xajax.getFormValues('sent_msg_{user_id}'));return false;">
+                    <input type="hidden" name="to_user" value="{user_id}" />
+                    <input type="text" class="cinput" name="msg"/>
+                    <div class="csubmit" onclick="xajax_im_sent(xajax.getFormValues('sent_msg_{user_id}'));"></div>
+                </form>
+            </td>
+            <td class="chatside">
+                <div class="cphoto">
+			<a href="{url_main}search_results.php?display=profile&name={name}"><i class="border_im"></i><img width="62" height="70" src="{url_files}{photo}" alt="{l_view_profile}" /></a>
+			<a class="im_block_user" href="{url_main}user_block_edit.php?name={name}" title="{l_block} {name}">&nbsp;</a>
+
+		</div>
+                <ul class="cdesc">
+                    <li>{country}</li>
+                    <li>{city}</li>
+                    <li><b>{age}</b></li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    
+    </div>
+    
+    <i class="background_bottom"></i>
+		
+	</td>
+	<td class="sh-r"></td>
+</tr>
+
+<tr><td colspan="3" class="sh-b"></td></tr>
+
+</table>

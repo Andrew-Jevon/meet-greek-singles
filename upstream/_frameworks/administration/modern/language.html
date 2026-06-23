@@ -1,0 +1,251 @@
+{header}
+
+<script>var _tooltip = jQuery.fn.tooltip;</script>
+<script type="text/javascript" src="{url_main}_server/jquery/jquery-ui-1.11.4.min.js{cache_version_param}"></script>
+<script>jQuery.fn.tooltip = _tooltip;</script>
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_langs_list}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/language.php">{l_menu_languages}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_langs_list}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">
+						{l_langs_list}
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form class="frm_change_language">
+							<select class="select2 form-control select_change_language">
+								<option value="{url_main}administration/language.php?part={part}">{l_please_choose}</option>
+								<!-- begin_mlang -->
+								<option value="{url_main}administration/language_edit.php?part={part}&lang={language}">{title}</option>
+								<!-- end_mlang -->
+							</select>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message_lang}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<div class="alert alert-danger alert-dismissible  mb-2-1" role="alert"></div>
+						<input type="hidden" name="part" id="part" value="{part}">
+						<div class="table-responsive tab_order">
+
+
+							<table id="sortable" class="table table-striped table-hover mb-0">
+								<thead class="bg-primary white">
+									<tr id="no_sortable">
+										<th></th>
+										<th>{l_name}</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<!-- begin_lang_rtl_title -->
+										<th></th>
+										<!-- end_lang_rtl_title -->
+									</tr>
+								</thead>
+								<tbody>
+								<!-- begin_lang -->
+								<tr class="{class}" style="cursor: move;">
+									<td>{title}
+										<input type="hidden" name="order_lang[]" value="{language}">{name_block}
+									</td>
+
+									<!-- begin_lang_off -->
+									<td><a href="{url_page}?part={part}&set={language}">{l_set}</a></td>
+									<!-- end_lang_off -->
+									<!-- begin_lang_on -->
+									<td>{l_default}</td>
+									<!-- end_lang_on -->
+
+									<td><a href="{url_main}administration/language_edit.php?part={part}&lang={language}">{l_edit}</a></td>
+
+									<td>
+									<!-- begin_lang_def_on -->
+									<a onclick="confirmCustom('{j_are_you_sure}', function(){redirectUrl('{url_main}administration/language.php?part={part}&cmd=verify')}); return false;" href="">{l_copy_all_phrases_from_this_language_to_all_other_languages}</a>
+									<!-- end_lang_def_on -->
+									<!-- begin_lang_def_off -->
+									<a onclick="confirmCustom('{j_are_you_sure}', function(){redirectUrl('{url_page}?part={part}&del={language}')}); return false;" href="">{l_delete}</a>
+									<!-- end_lang_def_off -->
+									</td>
+
+									<td>
+									<!-- begin_lang_hide_on -->
+									<a  href="{url_page}?part={part}&cmd=hide&hide={language}">{l_show}</a>
+									<!-- end_lang_hide_on -->
+									<!-- begin_lang_hide_off -->
+									<a  href="{url_page}?part={part}&cmd=hide&hide={language}">{l_hide}</a>
+									<!-- end_lang_hide_off -->
+									</td>
+
+									<!-- begin_lang_rtl -->
+									<td>
+									<!-- begin_lang_rtl_on -->
+									<a  href="{url_page}?part={part}&cmd=rtl&rtl={language}">{l_rtl_on}</a>
+									<!-- end_lang_rtl_on -->
+									<!-- begin_lang_rtl_off -->
+									<a  href="{url_page}?part={part}&cmd=rtl&rtl={language}">{l_rtl_off}</a>
+									<!-- end_lang_rtl_off -->
+									</td>
+									<!-- end_lang_rtl -->
+
+									<td>
+									<!-- begin_lang_restore -->
+									<a onclick="confirmCustom('{j_are_you_sure}', function(){redirectUrl('{url_page}?part={part}&cmd=restore&lang={language}')}); return false;" href="">{l_restore}</a>
+									<!-- end_lang_restore -->
+									</td>
+								</tr>
+								<!-- end_lang -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_new_language}</h4>
+					<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+					<div class="heading-elements">
+						<ul class="list-inline mb-0">
+							<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}?part={part}" method="POST">
+							<input type="hidden" name="cmd" value="add_lang">
+							<fieldset class="form-group">
+								<label>{l_new_title}:</label>
+								<input class="form-control" type="text" name="add_title" value="{add_title}">
+							</fieldset>
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+    $('#sortable tbody').sortable({
+        containment: 'parent',
+	    tolerance: 'pointer',
+	    opacity: 0.5,
+        axis: 'y',
+        cancel: '#no_sortable',
+        cursor: 'move',
+        items: 'tr[id != no_sortable]',
+        helper: fixHelperModified,
+        update: function(e, ui){
+            updateLanguagesOrder();
+		   $('#sortable tbody tr[id != no_sortable]').removeClass('color');
+		   $('#sortable tbody tr[id != no_sortable]:odd').addClass('color');
+		   $('#sortable tbody tr[id != no_sortable] td').removeClass('decor_l');
+		   $('#sortable tbody tr[id != no_sortable] td').removeClass('decor_r');
+		   $('#sortable tbody tr[id != no_sortable] td').removeClass('decor');
+		   $('#sortable tbody tr[id != no_sortable]:odd').each(function(index, element){
+                $(element).children('td:first').addClass('decor_l');
+                $(element).children('td:last').addClass('decor_r');
+		   });
+		   $('#sortable tbody tr[id != no_sortable]:even').each(function(index, element){
+                $(element).children('td:first').addClass('decor');
+                $(element).children('td:last').addClass('decor');
+		   });
+        }
+    });
+    /*$('#sortable tbody th').each(function(index, element){
+        w=$(element).width();
+        $(element).attr('width',w);
+    });*/
+});
+
+var fixHelperModified = function(e, tr) {
+    var $originals = tr.children();
+    tr.children().each(function(index)
+    {
+      $(this).width($originals.eq(index).width());
+      $(this).parent().css({'border-collapse' : 'collapse'});
+    });
+    return tr;
+};
+
+function updateLanguagesOrder()
+{
+    var m_data=[];
+    $('input[name="order_lang[]"]').each(function(index,element){
+        m_data.push($(element).val());
+    })
+    $.post('ajax.php',{cmd:'set_languages_order',order_lang:m_data,part:$('#part').val()},function(res){});
+}
+</script>
+
+
+{footer}

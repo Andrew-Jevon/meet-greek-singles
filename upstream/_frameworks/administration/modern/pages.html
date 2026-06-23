@@ -1,0 +1,195 @@
+{header}
+
+<script type="text/javascript" src="{url_main}_server/jquery/jquery-ui-1.11.4.min.js{cache_version_param}"></script>
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/{section_page}">{l_menu_help_and_news}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+<!-- begin_items -->
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{title_section}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<div class="table-responsive tab_order mb-2">
+							<table id="sortable_{section}" class="table table-striped table-hover mb-0 skin skin-flat">
+								<thead class="bg-primary white">
+									<tr id="sortable_{section}" class="no_sortable">
+										<th class="w-20">{l_action}</th>
+										<th class="w-20-c">{l_table_status}</th>
+										<th class="w-20-c">{l_hide_from_guests}</th>
+										<th>{l_pages}</th>
+									</tr>
+								</thead>
+								<tbody data-section="{section}">
+									<tr class="no"><td></td><td></td><td></td><td></td><tr>
+									<!-- begin_item -->
+									<tr id="{id}" data-alias="{alias}" data-system="{system}" class="cursor_move">
+									<td>
+									<!-- begin_item_edit -->
+									<a href="{url_main}administration/pages_edit.php?lang=default&page={id}">{l_edit}</a>
+									<span class="separator">|</span>
+									<a href="{url_main}administration/{url_page}?cmd=delete&page={id}" onclick="confirmCustom('{j_are_you_sure}', function(){redirectUrl('{url_main}administration/{url_page}?cmd=delete&page={id}')}); return false;">{l_delete}</a>
+									<!-- end_item_edit -->
+									<!-- begin_item_no_edit -->
+									<a href="{url_main}administration/pages_edit.php?lang=default&page={id}">{l_edit}</a>
+                                    <span class="separator">|</span>
+                                    <span>{l_delete}</span>
+									<!-- end_item_no_edit -->
+									</td>
+									<td class="status_menu a_c">
+										<input class="status form-check-input" data-id="{id}" type="checkbox" name="status[{id}]" {checked}>
+									</td>
+									<td  class="status_menu a_c">
+										<!-- begin_item_hide -->
+										<input class="hide_page form-check-input" data-id="{id}" type="checkbox" name="hide[{id}]" {hide_checked}>
+										<!-- end_item_hide -->
+										<!-- begin_item_no_hide -->
+										{l_system}
+										<!-- end_item_no_hide -->
+									</td>
+									<td>
+										{menu_title}
+									</td>
+									</tr>
+									<!-- end_item -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+    <script>
+    $(function() {
+        var tmplName = '{template_name}',
+            startSection;
+        $('#sortable_{section} tbody').sortable( {
+            connectWith : '[id ^= sortable] tbody',
+            tolerance: 'pointer',
+            opacity: 0.5,
+            axis: 'y',
+            cancel: '#no_sortable_{section}, .no',
+            cursor: 'pointer',
+            items: 'tr[id != no_sortable_{section}]',
+            helper: fixHelperModified,
+            update: function(e, ui){
+                setColorClass(ui.item)
+            },
+            start: function(event, ui) {
+                var tr = ui.item;
+                setClass = (tr.attr('class') == 'color') ? true : false;
+                startSection = tr.parent().data('section')
+            },
+            stop: function(event, ui) {
+                var tr = ui.item;
+                if (tr.data('system') && tmplName == 'edge') {
+                    var section=tr.parent().data('section');
+                    if ((startSection == 'bottom' && section != 'bottom')
+                         || (startSection == 'not_in_menu' && section != 'not_in_menu')) {
+                        $(this).sortable('cancel');
+                        setSelColorClass(setClass, tr);
+                    }
+                } else if (tr.data('system') && tr.data('alias') !== 'column_narrow_invite') {
+                    if (tr.parent().data('section')=='not_in_menu') {
+                        $(this).sortable('cancel');
+                        setSelColorClass(setClass, tr);
+                    }else if(tr.parent().data('section')=='bottom') {
+                        if(~tr.data('alias').indexOf('column_narrow_')){
+                            $(this).sortable('cancel');
+                            setSelColorClass(setClass, tr);
+                        }
+                    }else if(tr.parent().data('section')=='narrow') {
+                        if(~tr.data('alias').indexOf('menu_bottom_')){
+                            $(this).sortable('cancel');
+                            setSelColorClass(setClass, tr);
+                        }
+                    }
+                }
+            }
+        });
+    });
+    </script>
+    <!-- end_items -->
+
+	<fieldset class="form-group mt-2">
+		<div class="wrap_button">
+			<button class="btn btn-primary btn_submit" type="submit" onclick="update(); return false;">{l_save}</button>
+			<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+		</div>
+	</fieldset>
+
+<script>
+var setClass;
+
+function getParams(sel)
+{
+    sel=sel||'.status';
+    var el,params={};
+    $(sel).each(function(){
+        el=$(this);
+        params[el.data('id')]=el.prop('checked')*1;
+    })
+    return params;
+}
+
+function update()
+{
+    var val,
+        pages={<!-- begin_items_sortable_js -->'{section}':$('#sortable_{section} tbody').sortable('toArray'),<!-- end_items_sortable_js -->'0':[]};
+        delete pages[0];
+    for (var section in pages) {
+        for (var id in pages[section]) {
+            val=pages[section][id];
+            if (val===''||val==='no') delete pages[section][id];
+        }
+    }
+
+    $.ajax({type: 'POST',
+            url: location.href.split('?')[0],
+            data: {'cmd':'update',
+                   'pages': pages,
+                   'status': getParams(),
+                   'hide' : getParams('.hide_page')},
+            success: function(){
+                window.location.href='pages.php?action=saved';
+            }
+    })
+}
+</script>
+
+{footer}

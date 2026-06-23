@@ -1,0 +1,43 @@
+{header}
+<script>$('body').addClass('body_video_chat');</script>
+<link rel="stylesheet" type="text/css" href="{url_tmpl_main}css/live_stream.css{cache_version_param}"/>
+<script type="text/javascript" src="{url_tmpl_main}js/media_tools.js{cache_version_param}"></script>
+
+<script language="javascript" type="text/javascript">
+	var clMediaTools = new CMediaTools();
+</script>
+
+<div style="display: none;">
+	<div id="placeholder_comment" class="timeline-wrapper timeline-comment">
+            <div class="timeline-item">
+                <div class="animated-background">
+                    <div class="wrap-background-circle">
+                        <div class="animated-background background-circle"></div>
+                    </div>
+                    <div class="background-masker header-top"></div>
+                    <div class="background-masker header-left"></div>
+                    <div class="background-masker header-right"></div>
+                    <div class="background-masker header-bottom"></div>
+                    <div class="background-masker subheader-left"></div>
+                    <div class="background-masker subheader-right"></div>
+                    <div class="background-masker subheader-bottom"></div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="col_center">
+    <div class="head">
+		<span id="ls_title_user_play" class="ls_title_user_play_bl to_hide">
+			<span class="ls_title_user_play"></span>
+		</span>
+        <span id="ls_video_title" class="ls_video_title" title="{page_title_all}">{page_title}</span>
+        <a class="link_back_media history_back" href="#">
+            <span class="icon_fa" data-cl-loader="back_page_loader"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>{l_go_back}
+        </a>
+	</div>
+    <div class="cont wrap_video_chat wrap_live">
+        {live_streaming}
+    </div>
+</div>
+{footer}

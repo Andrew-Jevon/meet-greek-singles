@@ -1,0 +1,136 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/partner.php">{l_menu_partners}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_main}administration/partner_bank.php?cmd=edit&id={partner_id}" method="POST">
+
+						<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_name}:</label>
+								<input class="form-control" type="text" name="bank_name" value="{bank_name}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_phone}:</label>
+								<input class="form-control" type="text" name="bank_phone" value="{bank_phone}"/>
+							</fieldset>
+						</div>
+        				<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_address_1}:</label>
+								<input class="form-control" type="text" name="bank_adress1" value="{bank_adress1}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_address_2}:</label>
+								<input class="form-control" type="text" name="bank_adress2" value="{bank_adress2}"/>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_city}:</label>
+								<input class="form-control" type="text" name="bank_city" value="{bank_city}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_state}:</label>
+								<input class="form-control" type="text" name="bank_state" value="{bank_state}"/>
+							</fieldset>
+						</div>
+
+						<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_zipcode}:</label>
+								<input class="form-control" type="text" name="bank_zip" value="{bank_zip}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_country}:</label>
+								<input class="form-control" type="text" name="bank_country" value="{bank_country}"/>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_account_number}:</label>
+								<input class="form-control" type="text" name="bank_account" value="{bank_account}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_aba_routing_code}:</label>
+								<input class="form-control" type="text" name="bank_aba" value="{bank_aba}"/>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_swift_code}:</label>
+								<input class="form-control" type="text" name="bank_swift" value="{bank_swift}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_bank_account_type}:</label>
+								<input class="form-control" type="text" name="bank_type" value="{bank_type}"/>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="form-group col-md-6">
+								<label>{l_make_payment}:</label>
+								<input class="form-control" type="text" name="bank_to" value="{bank_to}"/>
+							</fieldset>
+							<fieldset class="form-group col-md-6">
+								<label>{l_paypal}:</label>
+								<input class="form-control" type="text" name="paypal" value="{paypal}"/>
+							</fieldset>
+						</div>
+						<fieldset class="form-group">
+							<label>{l_other_information}:</label>
+							<textarea class="form-control h_120" name="other">{other}</textarea>
+
+						</fieldset>
+						<fieldset class="form-group">
+							<div class="wrap_button">
+								<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+								<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+							</div>
+						</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

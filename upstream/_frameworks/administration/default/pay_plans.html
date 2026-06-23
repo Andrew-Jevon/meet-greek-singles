@@ -1,0 +1,186 @@
+{header}
+<script>
+    $(function(){
+        $('.frm_pay').submit(function(){
+            var isEmpty=true;
+            $(this).find('input[type="text"]:not(".2co")').each(function(){
+                var inp=$(this),val=$.trim(inp.val());
+                if(val==''){
+                    alert('{l_field_is_required}');
+                    inp.focus();
+                    isEmpty=false;
+                    return false;
+                }else{inp.val(val)}
+            });
+            return isEmpty;
+        });
+
+        $('input[type="radio"').change(function(){
+            var type=$(this).data('type');
+			if (!type) {
+				return;
+			}
+            $('[data-type='+type+']').prop('checked',false);
+            $(this).prop('checked',true);
+            $('.default_plan_'+type).val($(this).val());
+        })
+    })
+</script>
+<div class="block_narrow">
+    {menu_page}
+</div>
+<div class="block_main">
+    <!-- begin_items  -->
+    <h2>{title_plans}</h2>
+
+    <div class="bl_form">
+        <!-- begin_item  -->
+        <form class="frm_pay" action="{url_page}" method="POST">
+        <input type="hidden" name="cmd" value="update">
+        <input type="hidden" name="item" value="{item}">
+        <input class="default_plan_{type}" type="hidden" name="default_plan" value="{default_item}">
+        <h2>{item_name_title}</h2>
+
+        <label>{l_item_name}:</label>
+        <input type="text" name="item_name" value="{item_name}"/>
+
+        <label>{l_amount}:</label>
+        <input type="text" name="amount" value="{amount}"/>
+
+        <!-- begin_item_amount_old -->
+        <label>{l_amount_old}:</label>
+        <input type="text" name="amount_old" value="{amount_old}"/>
+        <!-- end_item_amount_old -->
+
+        <label>{gold_days_label}:</label>
+        <input maxlength="{paid_days_length}" type="text" name="gold_days" value="{gold_days}"/>
+
+        <label>{l_payment_2co_id}:</label>
+        <input class="2co" type="text" name="co_id" value="{co_id}"/>
+
+        <label>{l_fortumo_service_id}:</label>
+        <input class="2co" type="text" name="fortumo_service_id" value="{fortumo_service_id}"/>
+
+        <label>{l_fortumo_secret}:</label>
+        <input class="2co" type="text" name="fortumo_secret" value="{fortumo_secret}"/>
+
+        <label>{l_iapgoogle_product_id}:</label>
+        <input  class="2co" type="text" name="iapgoogle_product_id" value="{iapgoogle_product_id}"/>
+		
+        <label>{l_iapapple_product_id}:</label>
+        <input  class="2co" type="text" name="iapapple_product_id" value="{iapapple_product_id}"/>		
+
+        <!-- begin_item_default -->
+        <div class="radio_wrap">
+            <label for="radio_{item}">{l_default_payment_plan}:</label>
+            <input data-type="{type}" type="radio" id="radio_{item}" value="{item}" name="default" {checked} >
+        </div>
+        <!-- end_item_default -->
+
+        <ul class="checkbox_pay_list">
+            <!-- begin_pay_item -->
+            <li>
+                <input type="checkbox" value="{pay_key}" name="pay[{pay_key}]" {pay_checked}>
+                <label>{pay_title}</label>
+            </li>
+            <!-- end_pay_item -->
+        </ul>
+
+        <!-- begin_item_type -->
+        <div class="payment_plan_type">
+            <label>{l_type}:</label>
+            <select name="type">{select_type}</select>
+        </div>
+        <!-- end_item_type -->
+        <!-- begin_item_type_const -->
+        <input type="hidden" name="type" value="{type}">
+        <!-- end_item_type_const -->
+        <div class="cl"></div>
+
+        <div class="wrap_buttons">
+            <div class="item">
+                <div class="wrap_button fl_left">
+                    <button class="button submit" type="submit">{l_save}</button>
+                    <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="wrap_button fl_right">
+                    <button class="button" type="button" onclick="if(confirm('{l_are_you_sure}')) redirectUrl('{url_page}?cmd=delete&item={item}'); else return false;">{l_delete}</button>
+                </div>
+            </div>
+        </div>
+
+        </form>
+        <!-- end_item -->
+        <form class="frm_pay" action="{url_page}" method="POST">
+        <input type="hidden" name="cmd" value="add">
+        <input class="default_plan_{type}" type="hidden" name="default_plan" value="{default_item}">
+        <h2>{new_plan}</h2>
+
+        <label>{l_item_name}:</label>
+        <input type="text" name="item_name" value=""/>
+
+        <label>{l_amount}:</label>
+        <input type="text" name="amount" value=""/>
+        <!-- begin_item_amount_old_add -->
+        <label>{l_amount_old}:</label>
+        <input type="text" name="amount_old" value=""/>
+        <!-- end_item_amount_old_add -->
+
+        <label>{gold_days_label}:</label>
+        <input maxlength="{paid_days_length}" type="text" name="gold_days" value=""/>
+
+        <label>{l_payment_2co_id}:</label>
+        <input class="2co" type="text" name="co_id" value=""/>
+
+        <label>{l_fortumo_service_id}:</label>
+        <input class="2co" type="text" name="fortumo_service_id" value=""/>
+
+        <label>{l_fortumo_secret}:</label>
+        <input class="2co" type="text" name="fortumo_secret" value=""/>
+
+        <label>{l_iapgoogle_product_id}:</label>
+        <input  class="2co" type="text" name="iapgoogle_product_id" value=""/>
+		
+        <label>{l_iapapple_product_id}:</label>
+        <input  class="2co" type="text" name="iapapple_product_id" value=""/>		
+
+        <!-- begin_item_default_add -->
+        <div class="radio_wrap">
+            <label for="radio_{item}">{l_default_payment_plan}:</label>
+            <input data-type="{type}" type="radio" id="radio_{item}" value="add" name="default" >
+        </div>
+        <!-- end_item_default_add -->
+
+        <ul class="checkbox_pay_list">
+            <!-- begin_pay_item_add -->
+            <li>
+                <input type="checkbox" value="{pay_key}" name="pay[{pay_key}]" {pay_checked}>
+                <label>{pay_title}</label>
+            </li>
+            <!-- end_pay_item_add -->
+        </ul>
+
+        <!-- begin_item_type_add -->
+        <div class="payment_plan_type">
+            <label>{l_type}:</label>
+            <select name="type">{add_select_type}</select>
+        </div>
+        <!-- end_item_type_add -->
+        <!-- begin_item_type_add_const -->
+        <input type="hidden" name="type" value="{type}">
+        <!-- end_item_type_add_const -->
+        <div class="input"></div>
+
+        <div class="wrap_button fl_right">
+            <button class="button submit" type="submit">{l_save}</button>
+            <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+		</div>
+        </form>
+    </div>
+    <!-- end_items  -->
+    <div class="empty"></div>
+</div>
+{footer}

@@ -1,0 +1,386 @@
+{header}
+<style>
+    /* Onboarding — calm, elegant, mobile-first per Irene's outline 2026-04-25.
+       One question per screen, big tap-targets, no dropdowns, no visible radio dots. */
+
+    .obrd_page {
+        background: #f7f3ec;
+        min-height: calc(100vh - 80px);
+        padding: 56px 16px 80px;
+    }
+    .obrd_wrap { max-width: 560px; margin: 0 auto; }
+
+    /* 2026-06-05 (Milestone B) — overall registration progress indicator
+       (consistent visual with /register and /join2). The inner "Question
+       X of 4" dots below are unchanged — they show progress within this
+       overall Step 3. */
+    .mgs_step_progress {
+        position: relative;
+        max-width: 720px;
+        margin: 0 auto 28px;
+        padding: 18px 26px 14px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 12px 28px rgba(15, 58, 106, 0.08);
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+    }
+    .mgs_step_progress ol {
+        list-style: none; margin: 0; padding: 0;
+        display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+    }
+    .mgs_step_progress li {
+        flex: 1; position: relative; text-align: center;
+        color: #94a3b8; font-size: 12.5px; font-weight: 600; line-height: 1.3;
+    }
+    .mgs_step_progress li .mgs_step_num {
+        display: flex; align-items: center; justify-content: center;
+        width: 32px; height: 32px; margin: 0 auto 6px;
+        border-radius: 50%; background: #e5e7eb; color: #94a3b8;
+        font-size: 13px; font-weight: 700;
+        transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .mgs_step_progress li.is-done .mgs_step_num { background: rgba(200, 154, 58, 0.85); color: #fff; }
+    .mgs_step_progress li.is-active .mgs_step_num {
+        background: #0f3a6a; color: #fff;
+        transform: scale(1.08); box-shadow: 0 4px 12px rgba(15, 58, 106, 0.32);
+    }
+    .mgs_step_progress li.is-active { color: #0f3a6a; }
+    .mgs_step_progress li.is-done   { color: #5b6471; }
+    .mgs_step_progress li::after {
+        content: ''; position: absolute; top: 16px; right: -50%;
+        width: 100%; height: 2px; background: #e5e7eb; z-index: -1;
+    }
+    .mgs_step_progress li:last-child::after { display: none; }
+    .mgs_step_progress li.is-done::after { background: rgba(200, 154, 58, 0.55); }
+    .mgs_step_text {
+        text-align: center; margin: 12px 0 0;
+        font-size: 12px; font-weight: 600; color: #0f3a6a;
+        letter-spacing: 0.4px; text-transform: uppercase;
+    }
+    @media (max-width: 520px) {
+        .mgs_step_progress { padding: 14px 16px 12px; border-radius: 12px; }
+        .mgs_step_progress li { font-size: 11px; }
+        .mgs_step_progress li .mgs_step_num { width: 26px; height: 26px; font-size: 12px; }
+        .mgs_step_progress li::after { top: 13px; }
+    }
+
+    .obrd_intro { text-align: center; margin-bottom: 28px; }
+    .obrd_intro .obrd_brand_mark {
+        display: inline-block;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 14px;
+    }
+    .obrd_intro h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(24px, 3.6vw, 30px);
+        color: #1f2937;
+        margin: 0 0 6px;
+        line-height: 1.3;
+    }
+    .obrd_intro p { color: #5b6471; font-size: 14.5px; margin: 0; }
+
+    /* Progress dots */
+    .obrd_dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin: 0 auto 36px;
+    }
+    .obrd_dot {
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: #e8e1d2;
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .obrd_dot.is-active { background: #b88a3e; transform: scale(1.3); }
+    .obrd_dot.is-done   { background: #c9b88e; }
+
+    .obrd_card {
+        display: none;
+        background: #ffffff;
+        border: 1px solid #e8e1d2;
+        border-radius: 18px;
+        padding: 36px 32px 32px;
+        box-shadow: 0 8px 28px rgba(28,40,64,0.05);
+        animation: obrd_fade 0.35s ease;
+    }
+    .obrd_card.is-active { display: block; }
+    @keyframes obrd_fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .obrd_step_no {
+        font-size: 11px;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: #b88a3e;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    .obrd_card h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: 22px;
+        color: #1f2937;
+        margin: 0 0 6px;
+        line-height: 1.3;
+    }
+    .obrd_card .obrd_subtitle {
+        color: #5b6471;
+        font-size: 14.5px;
+        font-style: italic;
+        margin: 0 0 24px;
+    }
+
+    /* Big, button-shaped option cards — no visible radio circle */
+    .obrd_options { list-style: none; padding: 0; margin: 0 0 26px; }
+    .obrd_options li { margin-bottom: 10px; }
+    .obrd_options input { position: absolute; opacity: 0; pointer-events: none; }
+    .obrd_options label {
+        display: block;
+        padding: 16px 18px;
+        border: 1.5px solid #e8e1d2;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 15.5px;
+        color: #1f2937;
+        background: #fff;
+        transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+        line-height: 1.4;
+    }
+    .obrd_options label:hover {
+        border-color: #b88a3e;
+        background: #faf6ec;
+    }
+    .obrd_options input:checked + label,
+    .obrd_options label.is-selected {
+        border-color: #2c4a76;
+        background: #eaf0f8;
+        box-shadow: 0 0 0 3px rgba(44,74,118,0.08);
+    }
+
+    .obrd_actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+    }
+    .obrd_btn {
+        padding: 12px 22px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+    }
+    .obrd_btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .obrd_btn_back {
+        background: transparent;
+        color: #5b6471;
+        border: 1px solid #e8e1d2;
+    }
+    .obrd_btn_back:hover:not(:disabled) { background: #f5ecd8; }
+    .obrd_btn_next {
+        background: #2c4a76;
+        color: #fff;
+        margin-left: auto;
+    }
+    .obrd_btn_next:hover:not(:disabled) { background: #1f3a60; transform: translateY(-1px); }
+
+    .obrd_btn_skip {
+        display: block;
+        margin: 18px auto 0;
+        background: none;
+        border: none;
+        color: #8a8f99;
+        font-size: 13px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .obrd_btn_skip:hover { color: #5b6471; }
+
+    @media (max-width: 480px) {
+        .obrd_card { padding: 28px 22px 26px; border-radius: 14px; }
+        .obrd_card h2 { font-size: 20px; }
+        .obrd_options label { padding: 14px 16px; font-size: 15px; }
+    }
+</style>
+
+<div class="col_center obrd_page">
+    <div class="obrd_wrap">
+
+        <div class="obrd_intro">
+            <!-- 2026-05-07 per Irene: heart-icon-only mark above onboarding -->
+            <img class="obrd_brand_mark" src="/_files/logo/heart_icon.png?v=2026-05-07" alt="Meet Greek Singles" />
+            <h1>Welcome &mdash; let&rsquo;s set up your matches</h1>
+            <p>Four short questions so we can introduce you to people who really fit.</p>
+        </div>
+
+        <div class="obrd_dots" id="obrd_dots"></div>
+
+        <form id="obrd_form" method="post" action="onboarding.php">
+            <input type="hidden" name="cmd" value="submit" />
+
+            <!-- begin_card -->
+            <div class="obrd_card {card_active}" data-step="{q_index}">
+                <div class="obrd_step_no">Question {q_index} of {q_total}</div>
+                <h2>{q_title}</h2>
+                <!-- begin_subtitle --><p class="obrd_subtitle">{q_subtitle}</p><!-- end_subtitle -->
+
+                <ul class="obrd_options">
+                    <!-- begin_opt_radio -->
+                    <li>
+                        <input type="radio" name="{q_input_name}" id="opt_{q_name}_{opt_id}" value="{opt_id}" />
+                        <label for="opt_{q_name}_{opt_id}">{opt_title}</label>
+                    </li>
+                    <!-- end_opt_radio -->
+
+                    <!-- begin_opt_checkbox -->
+                    <li>
+                        <input type="checkbox" name="{q_input_name}" id="opt_{q_name}_{opt_id}" value="{opt_id}" />
+                        <label for="opt_{q_name}_{opt_id}">{opt_title}</label>
+                    </li>
+                    <!-- end_opt_checkbox -->
+                </ul>
+
+                <div class="obrd_actions">
+                    <button type="button" class="obrd_btn obrd_btn_back" data-action="back">Back</button>
+                    <button type="button" class="obrd_btn obrd_btn_next" data-action="next">Next</button>
+                </div>
+            </div>
+            <!-- end_card -->
+
+            <!-- 2026-05-04 per Irene — final "thank you" card shown briefly
+                 after the last question is answered, before submit redirects
+                 to home. Hidden until JS triggers it. -->
+            <div class="obrd_card obrd_card_final" data-step="final">
+                <div class="obrd_final_inner">
+                    <div class="obrd_final_ornament" aria-hidden="true">&#9825;</div>
+                    <h2>Thank you</h2>
+                    <p class="obrd_subtitle">We're now ready to introduce you to people who truly fit you.</p>
+                    <div class="obrd_final_loader" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="obrd_btn_skip" id="obrd_skip">Skip for now</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Final-screen styles (companion to .obrd_card above). */
+    .obrd_card_final { text-align: center; padding: 56px 32px 48px; }
+    .obrd_final_ornament {
+        font-size: 28px;
+        color: #b88a3e;
+        margin-bottom: 12px;
+        line-height: 1;
+    }
+    .obrd_card_final h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: 26px;
+        color: #1f2937;
+        margin: 0 0 10px;
+    }
+    .obrd_card_final .obrd_subtitle {
+        font-size: 15.5px;
+        color: #5b6471;
+        font-style: italic;
+        margin: 0 auto;
+        max-width: 380px;
+    }
+    .obrd_final_loader {
+        margin-top: 28px;
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+    }
+    .obrd_final_loader span {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: #b88a3e; opacity: 0.4;
+        animation: obrd_pulse 1.05s ease-in-out infinite;
+    }
+    .obrd_final_loader span:nth-child(2) { animation-delay: 0.18s; }
+    .obrd_final_loader span:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes obrd_pulse {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50%      { opacity: 1;   transform: scale(1.25); }
+    }
+</style>
+
+<script>
+(function() {
+    // Only the question cards drive step navigation — the final
+    // "Thank you" card is shown by showFinal() on submit and is NOT
+    // counted toward `total` (otherwise the dot count would be N+1
+    // and Q4's "next" would advance into the final card without ever
+    // calling showFinal, leaving the form un-submitted).
+    var cards   = document.querySelectorAll('.obrd_card:not(.obrd_card_final)');
+    var form    = document.getElementById('obrd_form');
+    var skipBtn = document.getElementById('obrd_skip');
+    var dotsBox = document.getElementById('obrd_dots');
+    var total   = cards.length;
+    var step    = 0;
+
+    // Build progress dots
+    for (var i = 0; i < total; i++) {
+        var d = document.createElement('span');
+        d.className = 'obrd_dot';
+        dotsBox.appendChild(d);
+    }
+    var dots = dotsBox.querySelectorAll('.obrd_dot');
+
+    function paint() {
+        cards.forEach(function(c, i) { c.classList.toggle('is-active', i === step); });
+        dots.forEach(function(d, i) {
+            d.classList.toggle('is-active', i === step);
+            d.classList.toggle('is-done',   i <  step);
+        });
+        var card = cards[step];
+        var back = card.querySelector('[data-action="back"]');
+        if (back) back.disabled = (step === 0);
+    }
+
+    var finalCard = document.querySelector('.obrd_card_final');
+
+    function showFinal() {
+        // Hide all question cards, show the thank-you card, then submit
+        // after a brief beat so the user actually reads the message.
+        cards.forEach(function(c) { c.classList.remove('is-active'); });
+        if (finalCard) finalCard.classList.add('is-active');
+        // Hide skip button + dots on the final screen
+        if (skipBtn) skipBtn.style.display = 'none';
+        if (dotsBox) dotsBox.style.opacity = '0.4';
+        setTimeout(function() { form.submit(); }, 1600);
+    }
+
+    cards.forEach(function(card) {
+        // Auto-advance: when a radio gets selected, hop to next card after a short beat.
+        // (Multi-select checkboxes don't auto-advance.)
+        card.querySelectorAll('input[type="radio"]').forEach(function(r) {
+            r.addEventListener('change', function() {
+                if (step < total - 1) setTimeout(function() { step++; paint(); }, 220);
+            });
+        });
+        var backBtn = card.querySelector('[data-action="back"]');
+        if (backBtn) backBtn.addEventListener('click', function() {
+            if (step > 0) { step--; paint(); }
+        });
+        var nextBtn = card.querySelector('[data-action="next"]');
+        if (nextBtn) nextBtn.addEventListener('click', function() {
+            if (step < total - 1) { step++; paint(); }
+            else                  { showFinal(); }
+        });
+    });
+
+    skipBtn.addEventListener('click', function() { form.submit(); });
+    paint();
+})();
+</script>
+{footer}

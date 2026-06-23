@@ -1,0 +1,649 @@
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{header}
+<script type="text/javascript" src="{url_tmpl_main}js/join.js{cache_version_param}"></script>
+<script>
+var joinLangParts = {
+    incorrect_date : '{j_incorrect_date}',
+    incorrect_email : '{j_incorrect_email}',
+    incorrect_city : '{j_we_need_a_city}',
+    next : '{j_next}',
+    done : '{j_done}',
+    incorrect_password_contain : '{j_invalid_password_contain}',
+    incorrect_password_length : '{max_min_length_password}',
+    incorrect_name : '{j_invalid_username}',
+    incorrect_name_length : '{max_min_length_username}',
+    choose_a_city : '{j_choose_a_city}',
+    choose_a_state : '{j_choose_a_state}'
+};
+usersAge={users_age};
+passwordLengthMin='{password_length_min}'*1;
+passwordLengthMax='{password_length_max}'*1;
+nameLengthMin='{username_length_min}'*1;
+nameLengthMax='{username_length}'*1;
+</script>
+<style>
+    select{ opacity: 0; height: 34px; width: 50px; }
+    .header{ min-height: 110vh; }
+    .header .cover{ min-height: 110vh; }
+    .wrap_header_cont{ height: 100vh; }
+    .wrap_header_cont .bl {    padding: 3.2rem .93rem;}
+    .bl .hide1 { display:none; }
+    /* 2026-05-05 per Irene — Welcome (Accept/Decline) card now mirrors the
+       form-step right alignment, so the chairs/balcony image stays visible
+       on the left through both screens for visual continuity. */
+    .steps {    -ms-flex-pack: center;    -webkit-box-pack: center;    align-items: center;    background-color: #fff;    flex-direction: column;    margin: auto 2% auto auto;    max-width: 663px;    min-height: 80%;    overflow: hidden;    padding: 4.68rem 3.56rem;    z-index: 88;    display: flex; }
+    .steps h2 {    font-family: Poppins,sans-serif;    font-weight: 800;    color: #000; }
+    .steps * { font-family: Poppins,sans-serif; }
+    .steps h1 {    font-family: 'Poppins';    font-weight: 800;    color: #000; }
+    .steps ul li p {    font-size: 14px;    margin: 0; }
+    .steps ul {        margin-bottom: 20px;    }
+    .steps ul li {        padding-bottom: 15px; }
+    .py-3 {    padding-bottom: 1rem !important;    padding-top: 1rem !important; }
+    .steps button {    cursor: pointer; }
+    div#step-1, div#step-2 {    -ms-flex-pack: center;    -webkit-box-pack: center;    align-items: center;    background-color: #fff;   flex-direction: column;    margin: auto 2% auto auto;    max-width: 663px;    min-height: 80%;    overflow: hidden;    padding: 4.68rem 3.56rem;    z-index: 88;    border-radius: 40px;}
+    div#bl_frm_register {        width: 100%;        padding: 0;       margin: 0;    }
+    .bl_form_registration.bl_form_registration_step_1 {        width: 100%;    }
+    div#bl_frm_register .bl {        background-image: none !important;    }
+    div#bl_frm_register label {        color: #000;    }
+    div#bl_frm_register form {        width: 100%;        display: block;        }
+    div#bl_frm_register input[type="text"], div#bl_frm_register input[type="password"], div#bl_frm_register select {        width: 100%;    }
+    label {        display: block !important;        font-size: 14px !important;        font-weight: 700 !important;        color: #333 !important;        margin-bottom: 8px !important;       text-align: left !important;    }
+    /* 2026-05-05 per Irene — slightly shorter, more elegant fields. */
+    .inp, .jq-selectbox, .jq-selectbox__select {        width: 100% !important;        height: 42px !important;        display: flex !important;        align-items: center !important;        box-sizing: border-box !important;        border-radius: 8px !important;    }
+    .inp {        border: 1px solid #d1d5db !important;        padding: 0 14px !important;        font-size: 15px !important;    }
+    form[name="frm_date"] {        display: grid !important;        grid-template-columns: repeat(3, 1fr) !important;        gap: 10px !important;        width: 100% !important;    }
+    .bl_location {        display: grid !important;        grid-template-columns: repeat(2, 1fr) !important;        gap: 10px !important;        width: 100% !important;    }
+    .radio-area {        gap: 20px !important;        border: 1px solid #d1d5db !important;        padding: 12px 15px !important;        border-radius: 8px !important;        justify-content: flex-start !important;    }
+    .radio-area label {        display: flex !important;        align-items: center !important;        gap: 8px !important;        margin-bottom: 0 !important;        font-weight: 500 !important;        cursor: pointer !important;    }
+    .btn.pink {        display: block !important;        width: 100% !important;        height: 54px !important;        background-color: #0f3a6a !important;        color: #ffffff !important;        border-radius: 27px !important;        border: 2px solid #b88a3e !important;        font-size: 18px !important;        font-weight: 700 !important;        letter-spacing: 0.4px !important;        cursor: pointer !important;        margin-top: 25px !important;        transition: background 0.25s, color 0.25s, border-color 0.25s, box-shadow 0.25s !important;        box-shadow: 0 4px 14px rgba(15, 58, 106, 0.22) !important;    }
+    .btn.pink:hover {        background-color: #b88a3e !important;        border-color: #b88a3e !important;        box-shadow: 0 6px 18px rgba(184, 138, 62, 0.32) !important;    }
+    .btn.pink:disabled, .btn.pink[disabled] {        opacity: 0.55 !important;        cursor: not-allowed !important;    }
+    /* Region "Other / Not listed" write-in field. */
+    .bl_location_other_wrap {        margin-top: 8px !important;    }
+    /* Optional manual city input (per Irene 2026-04-30). */
+    .bl_city_wrap {        margin-top: 10px !important;    }
+    .bl_optional_hint {        color: #888 !important;        font-weight: 400 !important;        font-size: 13px !important;        margin-left: 6px !important;        text-transform: none !important;    }
+    #state_other {        width: 100% !important;        height: 48px !important;        border: 1px solid #d1d5db !important;        border-radius: 8px !important;        padding: 0 15px !important;        font-size: 16px !important;        box-sizing: border-box !important;    }
+    /* Footer readability override.
+       The join page sits on the dark hero background photo, so the footer needs
+       LIGHT text (cream/white) — not the dark text used on the cream-bg pages.
+       2026-04-28 set this dark; 2026-05-03 flipped to light per Irene's
+       screenshot showing the dark text was unreadable on the navy. */
+    body .footer {        color: #f4eddb !important;        font-size: 14px !important;        font-weight: 500 !important;        text-shadow: 0 1px 2px rgba(0,0,0,0.45) !important;    }
+    body .footer .nav li a {        color: #ffffff !important;        font-weight: 600 !important;        text-shadow: 0 1px 2px rgba(0,0,0,0.45) !important;    }
+    body .footer .nav li a:hover {        color: #f3d68a !important;    }
+    body .footer .nav li span {        color: #f4eddb !important;    }
+    body .footer_w .title_orig {        font-size: 13px !important;        color: #f4eddb !important;        font-weight: 600 !important;        text-shadow: 0 1px 2px rgba(0,0,0,0.45) !important;    }
+    .custom_checkbox {        display: flex !important;        align-items: flex-start !important;        gap: 10px !important;        margin-top: 15px !important;        font-size: 13px !important;    }
+    .custom_checkbox input {        margin-top: 2px !important;        width: 18px !important;        height: 18px !important;    }
+    .custom_checkbox a {        color: #2477ba !important;          text-decoration: none !important;        font-weight: 600 !important;    }
+    .custom_checkbox input[type="checkbox"] + label span {  background-color: #000; }
+    @media (max-width: 600px) {
+         #bl_frm_register {
+            margin: 10px !important;
+            padding: 20px !important;
+            width: auto !important;
+        }
+    
+        form[name="frm_date"], 
+        .bl_location {
+            grid-template-columns: 1fr !important; 
+        }
+    
+        .radio-area {
+            flex-direction: column !important;
+            gap: 5px !important;
+        }
+    } 
+    .faq-content ul {
+        list-style: auto !important;
+        padding: 0px 20px;
+    }
+    .footer
+    {
+        display:block !important;
+    }
+    .pp_shadow, .pp_wrapper
+    {
+        display:none !important;
+    }
+    .part.br {
+        display: none !important;
+    }
+
+    .faq-content li {
+        list-style: disc;
+        font-size: 11px;
+        margin: 0;
+        padding-bottom: 2px !important;
+    }
+    .jq-selectbox__select {
+        border: 1px solid #a4a4a4 !important; 
+        border-radius: 8px !important;     
+        background: #ffffff;            
+    }
+    .jq-selectbox__dropdown.drop_down {
+        top: 55px !important;
+        background:#f3f3f3;
+        width:180px !important;
+        }
+        .bl_location.to_show {
+            display: flex !important;
+        }
+        .head_top.absolute {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 99999999;
+        }
+
+        body.joinpage  .header {
+            display: none;
+            }
+    .wrap_header_cont.absolute {
+        background-image: url(https://meetgreeksingles.com/_files/banner/shutterstock_1011591358.jpg) !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: scroll !important;
+        width: 100%;
+        min-height: 100vh !important;
+        z-index: 99999;
+        position: relative;
+    }
+    /* 2026-05-03: location row — match the 2-col grid used by .bl_location
+       below so each label sits directly above its dropdown. */
+    .rwcst {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+    .rwcst label {
+        width: 100% !important;
+        padding-left: 0 !important;
+    }
+    /* Helper line that sits directly under the Region/State dropdown to give
+       diaspora users a familiar cue (per Irene 2026-05-03). Sits in column 2
+       of the bl_location grid so it doesn't span across to the country side. */
+    .bl_region_helper {
+        grid-column: 2 / 3;
+        color: #6b7280;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 4px;
+        line-height: 1.35;
+    }
+    @media (max-width: 600px) {
+        .bl_region_helper {
+            grid-column: 1 / -1;
+        }
+    }
+    .pom {
+        padding-top: calc(var(--spacing) * 8);
+        margin-top: calc(var(--spacing) * 10);
+    }
+
+    .pom h3 {
+        margin-bottom: 20px;
+    }
+
+    .faq-item {
+        margin-bottom: 10px;
+    }
+
+    .faq-item.active .faq-content {
+        padding: 10px;
+    }
+    .footer_w li:nth-child(1) {
+        display:none;
+    }
+    /* FAQ ACCORDION CSS */
+    .faq-trigger { cursor: pointer; transition: color 0.2s; }
+    .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, margin 0.3s; }
+    .faq-item.active .faq-content { max-height: 500px; margin-top: 4px; }
+    .faq-item.active .faq-trigger { color: #004d99; }
+</style>
+
+        <section class="steps step-1 active rounded-[40px] relative">
+            <div class="w-[100%] bg-[#EFEDEE] pt-[30px] z-[999] pb-[20px] fixed top-[0px]">
+                <div class="bg-white w-[83%] h-[5px] mx-auto rounded-full">
+                    <div class="bg-[#0066CC] rounded-full w-[9%] h-[5px]"></div>
+                </div>
+            </div>
+            <!-- 2026-05-07 per Irene: heart-icon-only brand mark on join screens -->
+            <div class="flex flex-col items-center justify-center pl-6 text-center"><img src="/_files/logo/heart_icon.png?v=2026-05-07" width="150"
+                    alt="Logo" class="mb-4">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-[#222222] mb-3 leading-tight">Welcome to Meet Greek Singles!
+                </h1>
+                <p class="text-md md:text-[16px] text-[#222222] mb-4 max-w-xl">We're delighted to have you here. <br>Find love,
+                    friendship &amp; Greek connection — wherever you are.</p>
+
+                <!-- Identity statement, moved here per Irene 2026-04-25 so it lands
+                     in the emotional opening of the page rather than buried at the bottom. -->
+                <div class="mt-2 mb-6 px-5 py-4 bg-blue-50 rounded-2xl text-center max-w-xl">
+                    <p class="text-sm text-blue-800 italic m-0">
+                        Identity is personal. Whether you have one Greek parent or are from the diaspora, you are welcome here.
+                    </p>
+                </div>
+
+                <h2 class="text-2xl md:text-3xl font-bold text-[#222222] mb-4 border-b-4 border-[#222222] pb-2">To Join Our
+                    Community:</h2>
+                <ul class="text-[18px] text-start text-gray-700 mb-5 space-y-3 max-w-xl">
+                    <li class="flex items-center gap-3"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                            viewBox="0 0 1024 1024" class="text-[#222222] w-6 h-6 flex-shrink-0" height="1em" width="1em"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z">
+                            </path>
+                            <path
+                                d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                            </path>
+                        </svg>
+                        <p class="leading-snug">You must be <strong>18 years or older</strong> to join.</p>
+                    </li>
+                    <li class="flex items-center gap-3"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                            viewBox="0 0 1024 1024" class="text-[#222222] w-6 h-6 flex-shrink-0" height="1em" width="1em"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z">
+                            </path>
+                            <path
+                                d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                            </path>
+                        </svg>
+                        <p class="leading-snug">This site is strictly for single, separated, divorced, or widowed individuals,
+                            seeking meaningful connections with Greek-origin singles.</p>
+                    </li>
+                    <li class="flex items-center gap-3"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                            viewBox="0 0 1024 1024" fill-rule="evenodd" class="text-[#C95B5B] w-6 h-6 flex-shrink-0"
+                            height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64Zm0 76c-205.4 0-372 166.6-372 372s166.6 372 372 372 372-166.6 372-372-166.6-372-372-372Zm128.013 198.826c.023.007.042.018.083.059l45.02 45.019c.04.04.05.06.058.083a.118.118 0 0 1 0 .07c-.007.022-.018.041-.059.082L557.254 512l127.861 127.862a.268.268 0 0 1 .05.06l.009.023a.118.118 0 0 1 0 .07c-.007.022-.018.041-.059.082l-45.019 45.02c-.04.04-.06.05-.083.058a.118.118 0 0 1-.07 0c-.022-.007-.041-.018-.082-.059L512 557.254 384.14 685.115c-.042.041-.06.052-.084.059a.118.118 0 0 1-.07 0c-.022-.007-.041-.018-.082-.059l-45.02-45.019c-.04-.04-.05-.06-.058-.083a.118.118 0 0 1 0-.07c.007-.022.018-.041.059-.082L466.745 512l-127.86-127.86a.268.268 0 0 1-.05-.061l-.009-.023a.118.118 0 0 1 0-.07c.007-.022.018-.041.059-.082l45.019-45.02c.04-.04.06-.05.083-.058a.118.118 0 0 1 .07 0c.022.007.041.018.082.059L512 466.745l127.862-127.86c.04-.041.06-.052.083-.059a.118.118 0 0 1 .07 0Z">
+                            </path>
+                        </svg>
+                        <p class="leading-snug"><strong>Married individuals</strong> are not permitted.</p>
+                    </li>
+                </ul>
+                <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                        <button
+                        class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#0066CC] text-white font-semibold rounded-full hover:bg-[#0055aa] transition-all duration-300 shadow-md hover:shadow-lg acpt_btn"><svg
+                            stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em"
+                            width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z">
+                            </path>
+                            <path
+                                d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                            </path>
+                        </svg> Accept</button>
+                        <button
+                        class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-full hover:bg-gray-400 transition-all duration-300 shadow-md hover:shadow-lg"><svg
+                            stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"
+                            fill-rule="evenodd" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64Zm0 76c-205.4 0-372 166.6-372 372s166.6 372 372 372 372-166.6 372-372-166.6-372-372-372Zm128.013 198.826c.023.007.042.018.083.059l45.02 45.019c.04.04.05.06.058.083a.118.118 0 0 1 0 .07c-.007.022-.018.041-.059.082L557.254 512l127.861 127.862a.268.268 0 0 1 .05.06l.009.023a.118.118 0 0 1 0 .07c-.007.022-.018.041-.059.082l-45.019 45.02c-.04.04-.06.05-.083.058a.118.118 0 0 1-.07 0c-.022-.007-.041-.018-.082-.059L512 557.254 384.14 685.115c-.042.041-.06.052-.084.059a.118.118 0 0 1-.07 0c-.022-.007-.041-.018-.082-.059l-45.02-45.019c-.04-.04-.05-.06-.058-.083a.118.118 0 0 1 0-.07c.007-.022.018-.041.059-.082L466.745 512l-127.86-127.86a.268.268 0 0 1-.05-.061l-.009-.023a.118.118 0 0 1 0-.07c.007-.022.018-.041.059-.082l45.019-45.02c.04-.04.06-.05.083-.058a.118.118 0 0 1 .07 0c.022.007.041.018.082.059L512 466.745l127.862-127.86c.04-.041.06-.052.083-.059a.118.118 0 0 1 .07 0Z">
+                            </path>
+                        </svg> Decline</button></div>
+            </div>
+            <!-- Trimmed per Irene 2026-04-25: kept just 4 short, key questions
+                 here so the Join page stays focused. The full Q&A lives on the
+                 footer Questions & Answers page for visitors who want more. -->
+            <div class="pom mt-10 pt-8 border-t border-gray-100 w-full max-w-xl mx-auto text-start">
+                <h3 class="text-xl font-extrabold text-[#222222] mb-6 text-center">Frequently Asked Questions</h3>
+
+                <div class="space-y-5 faq-container">
+                    <div class="faq-item active border-b border-gray-100 pb-2">
+                        <h4 class="faq-trigger font-bold text-[#0066CC] text-[16px] flex justify-between items-center">
+                            What is Meet Greek Singles?
+                            <span class="faq-icon text-lg">−</span>
+                        </h4>
+                        <div class="faq-content">
+                            <p class="text-gray-600 text-sm leading-snug">Meet Greek Singles is a community created to help Greeks and people of Greek heritage form meaningful connections based on shared values, culture, and identity.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item border-b border-gray-100 pb-2">
+                        <h4 class="faq-trigger font-bold text-[#0066CC] text-[16px] flex justify-between items-center">
+                            Who is Meet Greek Singles for?
+                            <span class="faq-icon text-lg">+</span>
+                        </h4>
+                        <div class="faq-content">
+                            <p class="text-gray-600 text-sm leading-snug">It is for single Greek and Greek-connected people worldwide, including Greeks in Greece, the diaspora, people with Greek roots, and philhellenes who genuinely love Greek culture.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item border-b border-gray-100 pb-2">
+                        <h4 class="faq-trigger font-bold text-[#0066CC] text-[16px] flex justify-between items-center">
+                            Is Meet Greek Singles safe?
+                            <span class="faq-icon text-lg">+</span>
+                        </h4>
+                        <div class="faq-content">
+                            <p class="text-gray-600 text-sm leading-snug">We are building the platform with privacy, respect, and serious intentions in mind. Members are expected to communicate honestly and respectfully.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item border-b border-gray-100 pb-2">
+                        <h4 class="faq-trigger font-bold text-[#0066CC] text-[16px] flex justify-between items-center">
+                            Is Meet Greek Singles free to join?
+                            <span class="faq-icon text-lg">+</span>
+                        </h4>
+                        <div class="faq-content">
+                            <p class="text-gray-600 text-sm leading-snug">Yes, registration is free. Some additional features may be available through an optional premium membership later.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2026-05-03: removed the "For more, see the full Questions & Answers
+                     page" link per Irene — page?id=57 is the members-only Q&A and we
+                     don't want guests bounced into a member-gated page from the join
+                     screen. The 4 short Q&As above are intentionally enough for guests. -->
+
+            </div>
+        </section>
+        <div id="step-1" class="hide1 steps">
+            <!-- 2026-05-07 per Irene: heart-icon-only brand mark on join screens -->
+            <div class="flex flex-col items-center justify-center pl-6 text-center"><img src="/_files/logo/heart_icon.png?v=2026-05-07" width="150"
+                    alt="Logo" class="mb-4">
+                <h1 style="font-weight: 600;" class="text-2xl md:text-3xl font-extrabold text-[#222222] mb-3 leading-tight">
+                    Your Story Begins Here😎
+                </h1>
+                <p class="text-[20px] mt-[10px] max-_430_:text-[20px] max-_380_:text-[16px] text-[#333333] font-normal text-center mb-3">Create your free account and begin your journey toward meaningful Greek connections</p>
+                <h2 style="color: rgb(75 85 99/var(--tw-text-opacity,1)); font-weight: 600;" class="text-start text-gray-600 mt-2">Your information is always confidential.</h2>
+                <div class="bl_form_registration bl_form_registration_step_1">
+                <div class="part br" >
+                    <p>{l_social_btn_info}</p>
+                    <ul class="bl_social_buttons bl_social_buttons_register">
+                    <li class="login_{social_login_item_type}"><a href="{social_login_item_url}">&nbsp;</a></li>
+                    </ul>
+                    <div class="line_or">
+                        <div class="line_top"></div>
+                        <div class="or">{l_or}</div>
+                        <div class="line_bottom"></div>
+                    </div>
+                </div>
+                <div id="bl_frm_register" class="part">
+                            <div class="bl">
+                                <div class="singl-field">
+                                    <label>{l_i_am}</label>
+                                    <div class="radio-area">
+                                        <label class="flex items-center space-x-3 cursor-pointer rounded-lg py-2 transition-colors duration-150">
+                                            <input type="radio" name="p_sexuality" class="w-5 h-5 " value="1"><span class="text-gray-700 font-medium">Man</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3 cursor-pointer rounded-lg py-2 transition-colors duration-150">
+                                            <input type="radio" name="p_sexuality" class="w-5 h-5 " value="2"><span class="text-gray-700 font-medium">Woman</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <label>{l_date_birth}</label>
+                                <form class="frfr" name="frm_date" action="" autocomplete="off">
+                                    <div class="inp_birth dd">
+                                        <select name="day" id="day" class="birthday">
+                                        {day_options}
+                                        </select>
+                                    </div>
+                                    <div class="inp_birth mm">
+                                        <select name="month" id="month" class="birthday">
+                                        {month_options}
+                                        </select>
+                                    </div>
+                                    <div class="inp_birth yy">
+                                        <select name="year" id="year" class="birthday">
+                                        {year_options}
+                                        </select>
+                                    </div>
+                                </form>
+                                <div id="birth_error" class="error to_hide">&nbsp;</div>
+                                <div class="cl"></div>
+                            </div>
+
+                        
+                            <div class="bl">
+                                <div class="rwcst">
+                                    <label>I live in</label>
+                                    <label>Region/State</label>
+                                </div>
+                                <div id="css_loader_location" class="css_loader css_loader_location hidden">
+                                    <div class="spinner spinnerw center">
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                        <div class="spinner-blade"></div>
+                                    </div>
+                                </div>
+
+                                <div class="bl_cst">
+                                <div class="bl_location">
+                                <select name="country" data-search-unique-id="true" data-location="geo_states" id="country" class="location country geo" data-search="true" data-search-placeholder="{a_enter_manually}" data-search-not-found="{a_no_matches}">
+                                    {country_options}
+                                </select>
+                                <select name="state" id="state" data-location="geo_cities" class="location state geo" data-search="true" data-search-placeholder="{a_enter_manually}" data-search-not-found="{a_no_matches}">
+                                    {state_options}
+                                    <option value="__other__">Other / Not listed</option>
+                                </select>
+                                <!-- 2026-05-03: helper line for diaspora users so the official region
+                                     names (Attica, Crete, …) feel approachable. CSS positions this in
+                                     column 2 of the bl_location grid so it lives directly under the
+                                     Region dropdown. -->
+                                <div class="bl_region_helper">Select your region — e.g. Athens, Thessaloniki, Rhodes, Crete</div>
+                                </div>
+                                <div class="bl_location_other_wrap">
+                                    <input type="text" id="state_other" class="not_frm" placeholder="Type your region or state" style="display:none;" autocomplete="off" />
+                                </div>
+                                <!-- Optional city field (per Irene 2026-04-30 + 2026-05-01).
+                                     Free text submitted as name="home_city". cjoinform.class.php
+                                     reads it raw and writes to userinfo.home_city via the user_var
+                                     registered by _mgs_homecity_install.php. The legacy `city`
+                                     INT path (intval'd to 0, validated by validateLocation /
+                                     setDisabledSubmitJoin) is unused.
+                                     class="not_frm" excludes it from the client-side
+                                     enable-button validator so blank is fine. -->
+                                <div class="bl_city_wrap">
+                                    <label class="bl_city_label">City / Town / Island <span class="bl_optional_hint">(optional)</span></label>
+                                    <input type="text" name="home_city" id="home_city" class="inp not_frm" placeholder="Type your city, town or island" autocomplete="off" maxlength="60" />
+                                </div>
+                                </div>
+                                <div id="city_error" class="error to_hide">&nbsp;</div>
+                            <div class="cl"></div>
+                            </div>
+
+                            <div class="bl">
+                                <label>{l_email}</label>
+                                <div class="bl_inp_pos">
+                                    <input id="email" name="email" class="inp email placeholder" type="text" placeholder="{a_placeholder_email}" value="" autocomplete="off"/>
+                                    <div id="email_check" class="icon_check to_hide"></div>
+                                    <div id="email_error" class="error to_hide">&nbsp;</div>
+                                </div>
+                            </div>
+                            <div class="bl">
+                                <label>{l_username} <span class="bl_optional_hint">{username_length_min}&ndash;{username_length} characters</span></label>
+                                <div class="bl_inp_pos">
+                                    <input id="name" class="inp username placeholder" name="join_handle" maxlength="{username_length}" type="text" placeholder="{a_this_will_be_public}" value="" autocomplete="off"/>
+                                    <div id="name_check" class="icon_check to_hide"></div>
+                                    <div id="name_error" class="error to_hide">&nbsp;</div>
+                                </div>
+                            </div>
+                            <div class="bl">
+                                <label>{l_password} <span class="bl_optional_hint">{password_length_min}&ndash;{password_length_max} characters &middot; letters, numbers, and a symbol recommended</span></label>
+                                <div class="bl_inp_pos">
+                                    <input id="password" class="inp psw placeholder" name="join_password" type="password" placeholder="{a_password}" value="" autocomplete="new-password"/>
+                                    <div id="password_check" class="icon_check to_hide"></div>
+                                    <div id="password_error" class="error to_hide">&nbsp;</div>
+                                </div>
+                            </div>
+
+                            <span class="sign custom_checkbox">
+                                <input id="agree" name="privacy_policy" value="1" type="checkbox" required/>
+                                <label for="agree"><span></span>{l_i_agree_to_the}</label>
+                                <a href="" onclick="infoOpen('terms'); return false;">{l_terms}</a>
+                                <label for="agree">{l_and}</label>
+                                <a href="" onclick="infoOpen('priv'); return false;">{l_privacy_policy}</a>
+                                <span class="cl"></span>
+                            </span>
+
+                            <button id="frm_register_submit_2" class="btn pink" disabled>Create Account</button>
+
+                            <span id="agree_error" class="error to_hide">{l_you_need_to_agree_to_the_terms}</span>
+
+                        </div>
+                    <div class="cl"></div>
+                </div>
+                
+            </div>
+        </div>
+<script>
+$(function(){
+    alertCustom('{j_no_confirmation_account}',true,'{j_attention}');
+   
+});
+</script>
+{footer}
+<script>
+    /* Step Switcher Logic */
+    $(document).on('click', '.acpt_btn', function(){
+        $('.steps').hide();
+        $('#step-1').show();
+        return false;
+    });
+
+    /* Region "Other / Not listed" handling (per Irene 2026-04-28).
+       When the user picks "Other / Not listed" in the state dropdown, we
+       reveal a text input. On submit, we mint a custom <option> whose value
+       is the user's typed text and select it, so the form submits the
+       custom region as the state value. */
+    (function(){
+        function toggleOtherInput(){
+            var $other = $('#state_other');
+            if(!$other.length) return;
+            var v = $('#state').val();
+            if(v === '__other__'){
+                $other.show().focus();
+            } else {
+                $other.hide().val('');
+                // Clean up any previously-injected custom option.
+                $('#state').find('option[data-custom-state]').remove();
+            }
+        }
+        $(document).on('change', '#state', toggleOtherInput);
+
+        /* Enable the Create Account button when required fields are filled.
+           Vendor join.js's setDisabledSubmitJoin reassigns its handle to
+           #frm_register_submit (which this form doesn't have) instead of the
+           actual button #frm_register_submit_2, so we drive the button state
+           from here. City is intentionally NOT required. */
+        function checkRegisterFormReady(){
+            var $btn = $('#frm_register_submit_2');
+            if(!$btn.length) return;
+            var ok = $('input[name="p_sexuality"]:checked').length > 0
+                && $('#month').val() && $('#month').val() !== '0'
+                && $('#day').val()   && $('#day').val()   !== '0'
+                && $('#year').val()  && $('#year').val()  !== '0'
+                && $('#country').val() && $('#country').val() !== '0'
+                && $('#state').val()   && $('#state').val()   !== '0'
+                && $.trim($('#email').val()).length > 0
+                && $.trim($('#name').val()).length  > 0
+                && $.trim($('#password').val()).length > 0
+                && $('#agree').prop('checked');
+            if($('#state').val() === '__other__'){
+                ok = ok && $.trim($('#state_other').val()).length > 0;
+            }
+            $btn.prop('disabled', !ok);
+        }
+        $(document).on('change keyup input', '#bl_frm_register input, #bl_frm_register select', checkRegisterFormReady);
+        $(document).on('change', '#agree, #state_other', checkRegisterFormReady);
+        setInterval(checkRegisterFormReady, 600);
+
+        // Right before submit, swap state's value to the user's typed text.
+        // If Other is picked but nothing was typed, block submit.
+        $(document).on('click', '#frm_register_submit_2', function(e){
+            var $state = $('#state');
+            if($state.val() !== '__other__') return;
+            var $other = $('#state_other');
+            var custom = ($other.val() || '').replace(/^\s+|\s+$/g, '');
+            if(!custom){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $other.focus();
+                return false;
+            }
+            $state.find('option[data-custom-state]').remove();
+            var safe = custom.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            $state.append('<option value="'+safe+'" data-custom-state="1" selected>'+safe+'</option>');
+            $state.val(custom);
+            try { $state.trigger('refresh'); } catch(e2){}
+        });
+
+        /* 2026-05-04/05 per Irene — default Country=Greece + Region=Attica.
+           Always force these on first load, overriding any IP-based
+           geolocation Chameleon may have applied (Irene reported seeing
+           Turkey/Izmir defaults from her ISP geolocation, which made the
+           form feel un-Greek for diaspora users). The override only fires
+           on the FIRST application — once the user manually changes the
+           country, we stop interfering (tracked via a data flag on the
+           select). State load is async via Chameleon's join.js so we
+           poll briefly until Attica appears in the options. */
+        function applyLocationDefaults(){
+            var $country = $('#country'), $state = $('#state');
+            if(!$country.length || !$state.length) return;
+            // Skip if user has already manually changed (preserves their
+            // choice across validation re-renders).
+            if ($country.attr('data-mgs-default-applied') === '1') return;
+            $country.attr('data-mgs-default-applied', '1');
+
+            $country.val('84');
+            try { $country.trigger('refresh'); } catch(e){}
+            $country.trigger('change');
+
+            var attempts = 0, maxAttempts = 40;  // ~8s at 200ms
+            var t = setInterval(function(){
+                attempts++;
+                if($state.find('option[value="4174"]').length){
+                    clearInterval(t);
+                    $state.val('4174');
+                    try { $state.trigger('refresh'); } catch(e){}
+                    $state.trigger('change');
+                    checkRegisterFormReady();
+                } else if(attempts >= maxAttempts){
+                    clearInterval(t);
+                }
+            }, 200);
+        }
+        // Slight delay so Chameleon's own form-init finishes first.
+        setTimeout(applyLocationDefaults, 250);
+    })();
+
+    /* FAQ Dropdown logic */
+    document.querySelectorAll('.faq-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const currentItem = trigger.closest('.faq-item');
+            const icon = trigger.querySelector('.faq-icon');
+            
+            // Toggle current item
+            currentItem.classList.toggle('active');
+            
+            // Update Icon
+            if (currentItem.classList.contains('active')) {
+                icon.textContent = '−';
+            } else {
+                icon.textContent = '+';
+            }
+
+            // Optional: Close other FAQ items when opening one
+            /*
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                if (otherItem !== currentItem) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.faq-icon').textContent = '+';
+                }
+            });
+            */
+        });
+    });
+</script>

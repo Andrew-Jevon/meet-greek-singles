@@ -1,0 +1,223 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/fakes_reply_mails.php">{l_menu_fakes_reply}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+var timeoutSec = 10000;
+var status_writing = {};
+$(function() {
+    $('[id ^= msg_field_]').keydown(function(e) {
+        var d = new Date(),
+            data = $(this),
+            param = data[0]['id'].split('_');
+        if (typeof status_writing[param[3]] == 'undefined') {
+            status_writing[param[3]] = {};
+        }
+        status_writing[param[3]]['user_to'] = param[2];
+        status_writing[param[3]]['time'] = parseInt(d.getTime()/1000);
+    })
+
+    setInterval(function(){
+        if ($.isEmptyObject(status_writing) != true) {
+             $.ajax({type: 'POST',
+                     url: '{url_page}',
+                     dataType: 'json',
+                     data: {cmd: 'writing', writing: JSON.stringify(status_writing)}
+            })
+        }
+    }, timeoutSec);
+})
+function showImageIm(){}
+</script>
+
+<div class="content-body">
+
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{error_message}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_mail_list_pages -->
+						<div class="total_pages">
+
+							<ul class="pagination justify-content-center">
+								<!-- begin_mail_list_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_mail_list_first_page -->
+								<!-- begin_mail_list_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mail_list_prev_page -->
+								<!-- begin_mail_list_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mail_list_prev_page_off -->
+								<!-- begin_mail_list_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_mail_list_prev_pages -->
+								<!-- begin_mail_list_page -->
+								<!-- begin_mail_list_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_mail_list_link_page -->
+								<!-- begin_mail_list_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_mail_list_this_page -->
+								<!-- end_mail_list_page -->
+								<!-- begin_mail_list_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_mail_list_next_pages -->
+								<!-- begin_mail_list_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mail_list_next_page -->
+								<!-- begin_mail_list_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mail_list_next_page_off -->
+								<!-- begin_mail_list_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_mail_list_last_page -->
+							</ul>
+						</div>
+						<!-- end_mail_list_pages -->
+
+						<!-- begin_mail_list_items -->
+						<div class="list_im_message_bl mt-2">
+								<!-- begin_mail_list_item -->
+
+								<div class="list_im_message_one {message_type_class}">
+								    <div class="photo_sender_block"><a target="_blank" href="../search_results.php?display=profile&uid={from_user}"><img src="{url_files}{user_from_photo}" class="photo_sender"></a><div class="triangle"></div><a target="_blank" href="../search_results.php?display=profile&uid={to_user}"><img src="{url_files}{user_to_photo}"></a></div>
+                                    <div class="header_from_to"><b>{l_from}</b> <a target="_blank" href="../search_results.php?display=profile&uid={from_user}">{user_from}</a>
+                                        <b>{l_to}</b> <a target="_blank" href="../search_results.php?display=profile&uid={to_user}">{user_to}</a>
+                                    </div>
+								<div class="list_im_message mb-1">
+									<!-- begin_message_audio -->
+									<span class="im_audio_message">
+										<span id="pp_messages_audio_{message_id}" class="im_audio_message_loader" data-audio-message-file="{message_audio_message_file}" >
+											<i class="fa fa-play" aria-hidden="true"></i>
+										</span>
+										<span class="im_audio_message_process"></span>
+										<span class="im_audio_message_process_play"></span>
+									</span>
+									<!-- end_message_audio -->
+									<!-- begin_message_text -->
+									<div class="pp_message_node">
+										{message}
+										<!-- begin_message_block -->
+										<span style="color:red;">{l_you_are_in_block_list}</span>
+										<!-- end_message_block -->
+
+										<!-- begin_message_original_text -->
+										<div class="pp_message_original_title">{l_the_message_was_autotranslated} ({message_original})
+										</div>
+										<!-- end_message_original_text -->
+									</div>
+									<!-- end_message_text -->
+
+									<!-- begin_message_gift -->
+									<div class="frame_gift"><a style="cursor:default;" onclick="return false;" href="#"><img src="{gift_img_url}" alt="" /></a></div>
+									<!-- begin_message_gift_text -->
+									<div class="gift_msg_decor">
+										<div class="gift_msg_decor_txt"><span>{gift_text}</span></div>
+									</div>
+									<!-- end_message_gift_text -->
+									<br clear="all">
+									<!-- end_message_gift -->
+                                    <p class="date">
+                                        <b>{l_date}:</b> {born}
+                                        <!-- begin_is_read -->
+                                        <i class="ft-check-circle"></i>
+                                        <!-- end_is_read -->
+                                    </p>
+								</div>
+
+								<!-- begin_reply -->
+								<form action="{url_page}" method="post">
+									<input type="hidden" name="cmd" value="reply">
+									<input type="hidden" name="user_to" value="{from_user}">
+									<input type="hidden" name="user_from" value="{to_user}">
+									<fieldset class="form-group">
+										<input id="msg_field_{from_user}_{to_user}" type="text" name="text" class="form-control" value="">
+									</fieldset>
+									<fieldset class="form-group">
+										<div class="wrap_button">
+											<button class="btn btn-primary btn_submit" type="submit">{l_send}</button>
+										</div>
+									</fieldset>
+								</form>
+								<!-- end_reply -->
+
+								<!-- begin_reply_block -->
+								<div class="reply_block">
+									{l_you_are_in_block_list}
+								</div>
+								<!-- end_reply_block -->
+								</div>
+								<!-- end_mail_list_item -->
+						</div>
+						<!-- end_mail_list_items -->
+
+						<!-- begin_mail_list_noitems -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_users}
+                        </div>
+						<!-- end_mail_list_noitems -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	_initLightbox()
+</script>
+
+{footer}

@@ -1,0 +1,43 @@
+<table onmousedown="reset_opens({user_id});" cellspacing="0" cellpadding="0" class="chat" id="xajax_im_open_{user_id}" style="left: {x}px; top: {y}px; z-index: {z};">
+<tr><td colspan="3" class="sh-t"></td></tr>
+<tr>
+	<td class="sh-l"></td>
+	<td class="chatcont">
+		<table class="chathead" id="xajax_im_head_{user_id}"><tr>
+			<td class="chattitle"></td>
+			<td class="chaticons">
+				<UL><LI class="chatclose" onclick="xajax_im_close({user_id});"></LI></UL>
+			</td>
+		</tr></table>
+		<table class="chatmain"><tr>
+			<td class="chatmain-in">
+				<DIV class="chatbody" id="xajax_im_msgs_{user_id}" />
+
+				</DIV>
+				<FORM class="cinput nostyle" id="sent_msg_{user_id}" onsubmit="xajax_im_sent(xajax.getFormValues('sent_msg_{user_id}'));return false;">
+					<input type="hidden"" name="to_user" value="{user_id}" />
+					<INPUT type="text" class="cinput" name="msg"/>
+					<DIV class="csubmit" onclick="xajax_im_sent(xajax.getFormValues('sent_msg_{user_id}'));"></DIV>
+				</FORM>
+				<a href="#" onclick="xajax_sound(); return false;" class="sound_link"><img src="_server/im_new/images/im_sound_{sound_value}.png"></a>
+				
+			</td>
+			<td class="chatside">
+				<DIV class="cname"><H3>{name}</H3></DIV>
+				<DIV class="cphoto">
+					<a href="{url_main}search_results.php?display=profile&name={name}"><IMG width="90" height="100" src="{url_files}{photo}" alt="{l_view_profile}" /></a>
+					<a class="im_block_user" href="{url_main}user_block_edit.php?name={name}" title="{l_block} {name}">&nbsp;</a>
+				</DIV>
+				<UL class="cdesc">
+					<LI><SPAN>{l_country}:</SPAN> {country}</LI>
+					<LI class="odd"><SPAN>{l_state}:</SPAN> {state}</LI>
+					<LI><SPAN>{l_city}:</SPAN> {city}</LI>
+					<LI class="odd"><SPAN>{l_age}:</SPAN> {age}</LI>
+				</UL>
+			</td>
+		</tr></table>
+	</td>
+	<td class="sh-r"></td>
+</tr>
+<tr><td colspan="3" class="sh-b"></td></tr>
+</table>

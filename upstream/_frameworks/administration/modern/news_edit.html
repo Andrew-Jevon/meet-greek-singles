@@ -1,0 +1,120 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/news.php?lang={lang}">{l_menu_news}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<div class="alert alert-danger alert-dismissible  mb-2-1" role="alert">{message}</div>
+
+						<form method="POST" action="{url_main}administration/news_edit.php?cmd=edit&lang={lang}">
+							<input type="hidden" name="id" value="{id}">
+							<!-- begin_root_page -->
+							<fieldset class="form-group custom-switch">
+								<input type="hidden" name="root" value="0">
+								<input class="custom-control-input i_checkbox" type="checkbox" id="root" name="root" value="1" {root}>
+								<label class="custom-control-label" for="root">{l_use_as_root_page}</label>
+							</fieldset>
+							<!-- end_root_page -->
+
+							<!-- begin_root_pages -->
+							<fieldset class="form-group">
+								<label>{l_analog_in_the_english_variant}:</label>
+								<select class="form-control" name="root_id">
+									{root_pages_options}
+								</select>
+							</fieldset>
+							<!-- end_root_pages -->
+							<fieldset class="form-group">
+								<label>{l_title_word}:</label>
+								<input class="form-control" type="text" name="title" value="{title}" maxlength="255">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_category}:</label>
+								<select class="form-control" name="cat">
+									{cat_options}
+								</select>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_short_news}:</label>
+								<textarea name="news_short" class="form-control h-120">{news_short}</textarea>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_full_news}:</label>
+								<textarea name="news_long" class="form-control h_300">{news_long}</textarea>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_news_date}:</label>
+								<div class="input-group">
+									<input class="form-control singledate"  id="news_date" name="news_date" type="text" value="{date}"/>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <span class="ft-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+							</fieldset>
+
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+	$('.singledate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+		locale: {
+            format: 'MM/DD/YYYY'
+        }
+    })
+})
+</script>
+
+
+{footer}

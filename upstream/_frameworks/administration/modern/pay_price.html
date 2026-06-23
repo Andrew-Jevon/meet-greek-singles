@@ -1,0 +1,86 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/pay.php">{l_menu_payment}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+    $(function(){
+        $('.frm_pay').submit(function(){
+            var isEmpty=true;
+            $(this).find('input[type="text"]').each(function(){
+                var inp=$(this),val=$.trim(inp.val());
+                if(val==''){
+                    alertCustom('{j_field_is_required}');
+                    inp.focus();
+                    isEmpty=false;
+                    return false;
+                }else{inp.val(val)}
+            });
+            return isEmpty;
+        });
+    })
+</script>
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+						<form class="frm_pay" action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="update">
+							<!-- begin_item  -->
+							<fieldset class="form-group">
+								<h5 class="h4-underline">{title_features}</h5>
+								<label>{l_credits}:</label>
+								<input class="form-control" type="text" name="credits[{alias}]" value="{credits}"/>
+							</fieldset>
+							<!-- end_item -->
+
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

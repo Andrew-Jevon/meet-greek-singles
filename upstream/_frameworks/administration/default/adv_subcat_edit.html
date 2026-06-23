@@ -1,0 +1,25 @@
+{header}
+<div class="block_narrow">
+    <ul class="lmenu_lgreen">
+        <li class="active"><a href="{url_main}administration/adv.php">{l_menu_adv}</a></li>
+        <li><a href="{url_main}administration/home.php">{l_home}</a></li>
+    </ul>
+</div>
+<div class="block_main">
+    <h2>{l_title_current}</h2>
+   <div class="bl_form">
+    <form action="{url_page}?table={table}" method="POST">
+        <input type="hidden" name="cmd" value="edit">
+        <input type="hidden" name="id" value="{id}">
+        <label>{l_name}:</label>
+        <input type="text" name="name" value="{name}">
+        
+        <div class="wrap_button fl_right">
+            <button class="button submit" type="submit">{l_save}</button>
+            <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+        </div>
+    </form>
+
+</div>
+</div>
+{footer}

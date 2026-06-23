@@ -1,0 +1,361 @@
+
+
+	<svg version="1.1" id="rabbit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	width="300px" height="300px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xml:space="preserve">
+	
+	<style>
+.svgWrapper {
+   text-align: center;
+}
+.head {
+	-webkit-transform-origin: 150px 180px;
+	-webkit-animation: head 3s ease 0s infinite;
+	transform-origin: 150px 180px;
+	animation: head 3s ease 0s infinite;
+}
+@-webkit-keyframes head{
+	0% { -webkit-transform:rotate(8deg); }
+	5% { -webkit-transform:rotate(8deg); }
+	70% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(8deg); }
+}
+@keyframes head{
+	0% { transform:rotate(8deg); }
+	5% { transform:rotate(8deg); }
+	70% { transform:rotate(0deg); }
+	100% { transform:rotate(8deg); }
+}
+
+.earRight {
+	-webkit-transform-origin: 130px 100px;
+	-webkit-animation: earRight 3s ease 0.1s infinite;
+	transform-origin: 130px 100px;
+	animation: earRight 3s ease 0.1s infinite;
+}
+@-webkit-keyframes earRight{
+	0% { -webkit-transform:rotate(0deg); }
+
+	75% { -webkit-transform:rotate(0deg); }
+	80% { -webkit-transform:rotate(5deg); }
+	90% { -webkit-transform:rotate(0deg); }
+
+	100% { -webkit-transform:rotate(0deg); }
+}
+@keyframes earRight{
+	0% { transform:rotate(0deg); }
+
+	75% { transform:rotate(0deg); }
+	80% { transform:rotate(5deg); }
+	90% { transform:rotate(0deg); }
+
+	100% { transform:rotate(0deg); }
+}
+
+.earLeft {
+	-webkit-transform-origin: 100px 100px;
+	-webkit-animation: earLeft 3s ease 0.1s infinite;
+	transform-origin: 100px 100px;
+	animation: earLeft 3s ease 0.1s infinite;
+}
+@-webkit-keyframes earLeft{
+	0% { -webkit-transform:rotate(0deg); }
+
+	75% { -webkit-transform:rotate(0deg); }
+	80% { -webkit-transform:rotate(5deg); }
+	90% { -webkit-transform:rotate(0deg); }
+
+	100% { -webkit-transform:rotate(0deg); }
+}
+@keyframes earLeft{
+	0% { transform:rotate(0deg); }
+
+	75% { transform:rotate(0deg); }
+	80% { transform:rotate(5deg); }
+	90% { transform:rotate(0deg); }
+
+	100% { transform:rotate(0deg); }
+}
+
+.openEye {
+	-webkit-animation: openEye 6s ease 0s infinite;
+	animation: openEye 6s ease 0s infinite;
+}
+
+@-webkit-keyframes openEye{
+	0% { opacity: 1; }
+
+	28% { opacity: 1; }
+	30% { opacity: 0; }
+	33% { opacity: 1; }
+
+	83% { opacity: 1; }
+	85% { opacity: 0; }
+	88% { opacity: 1; }
+
+	90% { opacity: 1; }
+	93% { opacity: 0; }
+	95% { opacity: 1; }
+
+	100% { opacity: 1; }
+}
+
+@keyframes openEye{
+	0% { opacity: 1; }
+
+	28% { opacity: 1; }
+	30% { opacity: 0; }
+	33% { opacity: 1; }
+
+	83% { opacity: 1; }
+	85% { opacity: 0; }
+	88% { opacity: 1; }
+
+	90% { opacity: 1; }
+	93% { opacity: 0; }
+	95% { opacity: 1; }
+
+	100% { opacity: 1; }
+}
+
+.closeEye {
+	-webkit-animation: closeEye 6s ease 0s infinite;
+	animation: closeEye 6s ease 0s infinite;
+}
+@-webkit-keyframes closeEye{
+	0% { opacity: 0; }
+
+	28% { opacity: 0; }
+	30% { opacity: 1; }
+	33% { opacity: 0; }
+
+	82% { opacity: 0; }
+	85% { opacity: 1; }
+	88% { opacity: 0; }
+
+	90% { opacity: 0; }
+	93% { opacity: 1; }
+	95% { opacity: 0; }
+
+	100% { opacity: 0; }
+}
+@keyframes closeEye{
+	0% { opacity: 0; }
+
+	28% { opacity: 0; }
+	30% { opacity: 1; }
+	33% { opacity: 0; }
+
+	82% { opacity: 0; }
+	85% { opacity: 1; }
+	88% { opacity: 0; }
+
+	90% { opacity: 0; }
+	93% { opacity: 1; }
+	95% { opacity: 0; }
+
+	100% { opacity: 0; }
+}
+
+.armRight {
+	-webkit-transform-origin: 170px 160px;
+	-webkit-animation: armRight 3s ease 0.1s infinite;
+	transform-origin: 170px 160px;
+	animation: armRight 3s ease 0.1s infinite;
+}
+@-webkit-keyframes armRight{
+	0% { -webkit-transform:rotate(-10deg); }
+	10% { -webkit-transform:rotate(-10deg); }
+	70% { -webkit-transform:rotate(72deg); }
+	75% { -webkit-transform:rotate(72deg); }
+	100% { -webkit-transform:rotate(-10deg); }
+}
+@keyframes armRight{
+	0% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+	10% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+	70% { -webkit-transform:rotate(72deg); transform:rotate(72deg); }
+	75% { -webkit-transform:rotate(72deg); transform:rotate(72deg); }
+	100% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+}
+.armLeft {
+	-webkit-transform-origin: 130px 160px;
+	transform-origin: 130px 160px;
+	-webkit-animation: armLeft 3s ease 0.1s infinite;
+	animation: armLeft 3s ease 0.1s infinite;
+}
+@-webkit-keyframes armLeft{
+	0% { -webkit-transform:rotate(30deg); }
+	20% { -webkit-transform:rotate(30deg); }
+	65% { -webkit-transform:rotate(-40deg); }
+	100% { -webkit-transform:rotate(30deg); }
+}
+@keyframes armLeft{
+	0% { -webkit-transform:rotate(30deg); transform:rotate(30deg); }
+	20% { -webkit-transform:rotate(30deg); transform:rotate(30deg); }
+	65% { -webkit-transform:rotate(-40deg); transform:rotate(-40deg); }
+	100% { -webkit-transform:rotate(30deg); transform:rotate(30deg); }
+}
+.footRight {
+	-webkit-transform-origin: 175px 210px;
+	-webkit-animation: footRight 3s ease 0s infinite;
+	transform-origin: 175px 210px;
+	animation: footRight 3s ease 0s infinite;
+}
+@-webkit-keyframes footRight{
+	0% { -webkit-transform:rotate(-10deg); }
+	10% { -webkit-transform:rotate(-10deg); }
+	70% { -webkit-transform:rotate(32deg); }
+	75% { -webkit-transform:rotate(32deg); }
+	100% { -webkit-transform:rotate(-10deg); }
+}
+@keyframes footRight{
+	0% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+	10% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+	70% { -webkit-transform:rotate(32deg); transform:rotate(32deg); }
+	75% { -webkit-transform:rotate(32deg); transform:rotate(32deg); }
+	100% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+}
+.footLeft {
+	-webkit-transform-origin: 130px 200px;
+	-webkit-animation: footLeft 3s ease 0s infinite;
+	transform-origin: 130px 200px;
+	animation: footLeft 3s ease 0s infinite;
+}
+@-webkit-keyframes footLeft{
+	0% { -webkit-transform:rotate(20deg); }
+	10% { -webkit-transform:rotate(20deg); }
+	30% { -webkit-transform:rotate(5deg); }
+	75% { -webkit-transform:rotate(-10deg); }
+	100% { -webkit-transform:rotate(20deg); }
+}
+@keyframes footLeft{
+	0% { -webkit-transform:rotate(20deg); transform:rotate(20deg); }
+	10% { -webkit-transform:rotate(20deg); transform:rotate(20deg); }
+	30% { -webkit-transform:rotate(5deg); transform:rotate(5deg); }
+	75% { -webkit-transform:rotate(-10deg); transform:rotate(-10deg); }
+	100% { -webkit-transform:rotate(20deg); transform:rotate(20deg); }
+}
+</style>
+
+	<g class="body">
+		<g class="footLeft">
+			<path fill="#FFE3E3" d="M141.084,288.455c-3.038,7.422-12.145,7.497-27.766,4.96c-7.113-1.154-10.798-4.875-9.487-11.745
+			c1.236-6.466,6.041-7.385,12.398-9.112c4.973-1.353,6.526-33.752,18.49-33.812C148.486,238.678,148.475,270.398,141.084,288.455z"
+			/>
+			<path opacity="0.5" fill="#B4B4B5" d="M140.956,288.455c-3.038,7.422-12.145,7.497-27.766,4.96
+			c-7.113-1.154-10.798-4.875-9.487-11.745c1.236-6.466,6.041-7.385,12.398-9.112c4.973-1.353,6.526-33.752,18.49-33.812
+			C148.358,238.678,148.346,270.398,140.956,288.455z"/>
+		</g>
+		<g class="armLeft">
+			<path fill="#FFE3E3" d="M114.523,208.127c-18.773,5.315-41.343-0.23-40.519-13.44c1.439-23.065,14.966-7.973,33.738-13.284
+			c18.775-5.315,11.503-25.33,28.734-20.749C149.27,164.057,133.296,202.813,114.523,208.127z"/>
+			<path opacity="0.5" fill="#B4B4B5" d="M114.395,208.127c-18.773,5.315-41.343-0.23-40.519-13.44
+			c1.439-23.065,14.966-7.973,33.738-13.284c18.775-5.315,11.503-25.33,28.734-20.749
+			C149.141,164.057,133.167,202.813,114.395,208.127z"/>
+		</g>
+		<g>
+			<path fill="#FFBFBF" d="M193.002,214.855c0,32.919-17.329,39.996-39.634,39.996s-45.835-7.077-45.835-39.996
+			c0-32.92,27.262-72.738,45.082-72.738C168.916,142.117,193.002,181.936,193.002,214.855z"/>
+			<path opacity="0.5" fill="#B4B4B5" d="M125.572,230.104c-8.162-15.054,9.369-60.106,9.369-60.106s0.003-0.004,0.005-0.011
+			c15.781,0.237,31.677-5.725,37.31-13.931c-5.091-5.229-15.421-13.939-19.99-13.939c-9.174,0-20.848,10.552-30.019,25.282
+			c-8.602,15.741-14.712,31.564-14.712,47.456c0,32.919,23.898,39.996,46.202,39.996c7.293,0,14.055-0.76,19.851-2.929
+			C151.746,254.3,135.786,248.939,125.572,230.104z"/>
+		</g>
+		<path class="footRight" fill="#FFE3E3" d="M200.017,286.261c-3.224,7.344-12.778,10.838-26.348,8.325c-7.088-1.314-11.995-6.09-10.799-10.493
+		c1.728-6.354,4.679-4.815,8.207-10.24c2.809-4.32-10.828-22.73,3.981-33.89C186.055,231.677,207.14,270.029,200.017,286.261z"/>
+		<path class="armRight" fill="#FFE3E3" d="M216.797,182.216c5.321,18.771-0.219,41.343-13.429,40.521c-23.066-1.432-7.977-14.963-13.297-33.735
+		c-5.318-18.771-25.33-11.493-20.754-28.729C172.717,147.482,211.478,163.44,216.797,182.216z"/>
+	</g>
+	<g class="head">
+		<path class="earLeft" fill="#FFBFBF" d="M138.877,34.615c-8.326,19.833-9.289,33.945-1.525,37.404c7.765,3.458,20.809-9.815,29.135-29.648
+		c8.325-19.833,16.545-35.256,8.784-38.715C167.505,0.196,147.203,14.782,138.877,34.615z"/>
+		<g class="earRight">
+			<path fill="#FFBFBF" d="M218.92,49.895c-9.094,19.898-22.866,32.982-30.757,29.227c-7.894-3.757-3.385-21.126,5.711-41.024
+			c9.096-19.896,27.431-27.572,35.32-23.816C237.086,18.038,228.016,29.997,218.92,49.895z"/>
+			<g>
+				<path fill="#FFFFFF" d="M218.094,49.87c2.666-5.832,5.328-10.979,7.564-15.44c-5.035-0.35-15.424,8.119-18.267,12.058
+				c-7.193,9.959-13.4,21.458-17.665,33.23C197.794,80.313,209.86,67.884,218.094,49.87z"/>
+			</g>
+		</g>
+		<g class="face">
+			<g>
+				<path fill="#FFBFBF" d="M214.699,117.929c0,28.864-28.619,44.921-63.922,44.921c-35.306,0-63.926-13.465-63.926-42.33
+				c0-28.865,28.62-62.197,63.926-62.197C186.08,58.324,214.699,89.065,214.699,117.929z"/>
+				<g class="mouse">
+					<path fill="#FFFFFF" d="M150.195,115.533c-10.984,19.606-31.044,33.259-40.324,38.827c11.075,5.374,25.307,7.978,40.833,7.978
+					c15.832,0,30.318-3.23,41.483-9.396C160.277,139.111,150.195,115.533,150.195,115.533z"/>
+				</g>
+				<g opacity="0.5">
+					<path fill="#B4B4B5" d="M107.533,127.78c-2.507-25.429,9.771-58.819,36.172-68.67c-0.239-0.002-4.744,0.48-4.979,0.515
+					c-23.972,3.589-52.17,32.031-52.17,60.896c0,28.864,28.62,42.33,63.925,42.33c0.65,0,11.707,0.401,28.123-3.773
+					C145.319,159.978,109.872,151.511,107.533,127.78z"/>
+				</g>
+			</g>
+			<g>
+				<rect x="149.561" y="128.254" fill="#B4B4B5" width="1.271" height="14.225"/>
+				<g>
+					<path fill="#B4B4B5" d="M150.324,141.99c-3.205,0-6.492-3.351-7.051-7.773h-1.247c0.307,5.414,4.715,9.154,8.241,9.154
+					c3.936,0,8.297-3.74,8.603-9.154h-1.241C157.071,138.639,153.53,141.99,150.324,141.99z"/>
+				</g>
+				<ellipse fill="#9E9E9F" cx="150.266" cy="127.78" rx="4.946" ry="2.375"/>
+				<ellipse fill="#EEEEEF" cx="151.466" cy="126.899" rx="1.198" ry="0.687"/>
+			</g>
+			<g class="eyeRight">
+				<g class="openEye">
+					<ellipse fill="#FFFFFF" cx="182.122" cy="124.148" rx="11.6" ry="11.382"/>
+					<ellipse fill="#5DC1CF" cx="183.842" cy="123.151" rx="9.596" ry="9.932"/>
+					<ellipse fill="#FFFFFF" cx="187.718" cy="118.152" rx="2.458" ry="2.336"/>
+					<g opacity="0.5">
+						<path fill="#C8C9CA" d="M181.988,128.999c-6.84-0.523-9.785-4.38-11.212-7.636c-0.229,0.891-0.351,1.822-0.351,2.785
+						c0,6.284,5.193,11.379,11.599,11.379c5.969,0,10.885-4.424,11.524-10.112C191.98,127.893,188.019,129.458,181.988,128.999z"/>
+					</g>
+					<g>
+						<path fill="#00AECB" d="M183.828,133.042c4.218,0,7.796-2.817,9.082-6.731c-1.906,1.919-5.577,3.043-10.804,2.646
+						c-3.231-0.247-5.591-1.237-7.332-2.556C176.085,130.27,179.644,133.042,183.828,133.042z"/>
+					</g>
+				</g>
+				<g class="closeEye">
+					<path fill="#9E9E9F" d="M182.074,134.117c-5.406,0-9.789-4.717-9.789-10.536h-1.854c-0.027,0.315-0.043,0.633-0.043,0.954
+					c0,6.286,5.193,11.381,11.598,11.381c6.406,0,11.6-5.095,11.6-11.381c0-0.321-0.014-0.64-0.041-0.954h-1.678
+					C191.865,129.4,187.482,134.117,182.074,134.117z"/>
+				</g>
+
+				<ellipse transform="matrix(0.8837 -0.4681 0.4681 0.8837 -28.2985 91.9436)" fill="#9E9E9F" cx="170.825" cy="102.903" rx="3.645" ry="1.947"/>
+			</g>
+			<g class="eyeLeft">
+				<g class="openEye">
+					<ellipse fill="#FFFFFF" cx="116.703" cy="124.238" rx="11.598" ry="11.379"/>
+					<ellipse fill="#5DC1CF" cx="118.424" cy="123.243" rx="9.596" ry="9.934"/>
+					<ellipse fill="#FFFFFF" cx="122.732" cy="118.245" rx="2.458" ry="2.335"/>
+					<g opacity="0.5">
+						<path fill="#C8C9CA" d="M116.702,129.09c-6.839-0.523-9.785-4.378-11.211-7.636c-0.229,0.892-0.351,1.825-0.351,2.784
+						c0,6.286,5.193,11.381,11.599,11.381c5.969,0,10.883-4.424,11.526-10.113C126.694,127.984,122.732,129.55,116.702,129.09z"/>
+					</g>
+					<g>
+						<path fill="#00AECB" d="M118.409,133.136c4.217,0,7.797-2.818,9.083-6.732c-1.907,1.919-5.579,3.044-10.805,2.644
+						c-3.228-0.245-5.587-1.235-7.332-2.554C110.668,130.362,114.225,133.136,118.409,133.136z"/>
+					</g>
+				</g>
+
+				<g class="closeEye">
+					<path fill="#9E9E9F" d="M116.79,133.117c-5.406,0-9.789-4.717-9.79-10.536h-1.853c-0.027,0.315-0.043,0.633-0.043,0.954
+					c0,6.286,5.192,11.381,11.598,11.381c6.406,0,11.599-5.095,11.599-11.381c0-0.321-0.014-0.64-0.041-0.954h-1.678
+					C126.581,128.4,122.198,133.117,116.79,133.117z"/>
+				</g>
+
+				<ellipse transform="matrix(-0.8836 -0.4683 0.4683 -0.8836 195.6566 255.031)" fill="#9E9E9F" cx="129.53" cy="103.194" rx="3.645" ry="1.948"/>
+			</g>
+			<g class="bearRight">
+				<path fill="#B4B4B5" d="M203.24,127.579c0,0,5.561-5.554,16.859-9.562c5.539-1.963,10.276-3.674,22.487-2.825v1.135
+				c0,0-10.449-1.607-22.236,2.771c-12.687,4.715-16.309,9.241-16.309,9.241L203.24,127.579z"/>
+				<path fill="#B4B4B5" d="M202.422,134.972c0,0,6.633-4.212,18.535-5.665c5.836-0.71,10.83-1.35,22.563,2.138l-0.247,1.107
+				c0,0-9.85-3.844-22.305-2.133c-13.408,1.84-17.928,5.469-17.928,5.469L202.422,134.972z"/>
+			</g>
+			<g class="bearLeft">
+				<path fill="#B4B4B5" d="M96.761,127.579c0,0-5.561-5.554-16.859-9.562c-5.54-1.963-10.276-3.674-22.487-2.825v1.135
+				c0,0,10.45-1.607,22.234,2.771c12.686,4.715,16.309,9.241,16.309,9.241L96.761,127.579z"/>
+				<path fill="#B4B4B5" d="M97.579,134.972c0,0-6.636-4.212-18.536-5.665c-5.834-0.71-10.829-1.35-22.563,2.138l0.247,1.107
+				c0,0,9.851-3.844,22.306-2.133c13.407,1.84,17.93,5.469,17.93,5.469L97.579,134.972z"/>
+			</g>
+		</g>
+	</g>
+</svg>

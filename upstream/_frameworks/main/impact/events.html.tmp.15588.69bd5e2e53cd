@@ -1,0 +1,131 @@
+{header}
+<style>
+    /* Events — calm cream + soft blue + restrained gold to match the rest of
+       the refinement set. Keeps every Chameleon block marker intact. */
+    .ev_page { background: #f7f3ec; padding: 56px 16px 80px; min-height: calc(100vh - 80px); }
+    .ev_wrap { max-width: 960px; margin: 0 auto; }
+
+    .ev_hero { text-align: center; padding-top: 48px; margin-bottom: 36px; }
+    .ev_hero h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(26px, 3.6vw, 34px);
+        color: #1f2937;
+        margin: 0 0 10px;
+        line-height: 1.2;
+    }
+    .ev_hero p { color: #5b6471; font-size: 15.5px; margin: 0; line-height: 1.45; }
+    @media (max-width: 700px) {
+        .ev_hero { padding-top: 32px; margin-bottom: 26px; }
+    }
+
+    .ev_actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+    }
+    .ev_actions a {
+        display: inline-block;
+        padding: 9px 18px;
+        background: #fff;
+        border: 1px solid #e8e1d2;
+        border-radius: 999px;
+        color: #1f2937;
+        text-decoration: none;
+        font-size: 14px;
+        transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .ev_actions a:hover { border-color: #b88a3e; background: #faf6ec; text-decoration: none; }
+
+    .ev_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .ev_card {
+        background: #fff;
+        border: 1px solid #e8e1d2;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 8px 28px rgba(28,40,64,0.05);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .ev_card:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(28,40,64,0.08); }
+    .ev_card_img { display: block; line-height: 0; }
+    .ev_card_img img { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .ev_card_body { padding: 16px 18px 18px; }
+    .ev_card_body strong a {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: 17px;
+        color: #1f2937;
+        text-decoration: none;
+        line-height: 1.3;
+        display: block;
+        margin-bottom: 8px;
+    }
+    .ev_card_body strong a:hover { color: #2c4a76; text-decoration: none; }
+    .ev_card_body span {
+        display: block;
+        font-size: 13px;
+        color: #5b6471;
+        margin-bottom: 4px;
+        line-height: 1.5;
+    }
+    .ev_card_body span:last-child { margin-bottom: 0; }
+    .ev_card_body .pink {
+        color: #b88a3e !important;
+        font-weight: 500;
+        text-decoration: none;
+    }
+    .ev_empty {
+        background: #fff;
+        border: 1px solid #e8e1d2;
+        border-radius: 14px;
+        padding: 40px 20px;
+        text-align: center;
+        color: #5b6471;
+    }
+
+    @media (max-width: 480px) {
+        .ev_page { padding: 36px 12px 60px; }
+        .ev_card_img img { height: 160px; }
+    }
+</style>
+
+<div class="col_center ev_page">
+    <div class="ev_wrap">
+
+        {events_header}
+
+        <div class="ev_hero">
+            <h1>Upcoming Greek Events</h1>
+            <p>Cultural gatherings, meetups, and experiences for our community.</p>
+        </div>
+
+        <div class="ev_actions">
+            <a href="{url_main}events_event_list_upcoming.php">{l_events_browse_all}</a>
+            <a href="{url_main}events_my.php">{l_events_my_events}</a>
+        </div>
+
+        <div class="ev_grid">
+            <!-- begin_event -->
+            <div class="ev_card <!-- begin_event_last -->ev_card_last<!-- end_event_last -->">
+                <a class="ev_card_img" href="{url_main}events_event_show.php?event_id={event_id}">
+                    <img src="{image_thumbnail}" alt="{event_title_full}" />
+                </a>
+                <div class="ev_card_body">
+                    <strong><a href="{url_main}events_event_show.php?event_id={event_id}">{event_title}</a></strong>
+                    <span><a class="pink" href="{url_main}events_search.php?event_place={event_place_full}" title="{event_place_full}">{event_place}</a> &middot; <a href="{url_main}events_search.php?event_datetime={event_datetime_raw}" style="color:#5b6471;text-decoration:none;">{event_date}</a> &middot; {event_time}</span>
+                    <span>{l_events_guests}: {event_n_guests} &middot; {l_events_comments}: {event_n_comments}</span>
+                </div>
+            </div>
+            <!-- end_event -->
+        </div>
+
+    </div>
+</div>
+
+{footer}

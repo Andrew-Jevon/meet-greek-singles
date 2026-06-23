@@ -1,0 +1,137 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/{section_page}">{l_menu_help_and_news}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+{langs}
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_news_pages -->
+						<div class="a_c">
+							<p>{num_total} {l_total}</p>
+
+							<ul class="pagination justify-content-center">
+
+								<!--<li class="page-item first disabled"><a href="" class="page-link">First</a></li>
+								<li class="page-item prev disabled"><a href="" class="page-link">Prev</a></li>
+								<li class="page-item active"><a href="" class="page-link">1</a></li>
+								<li class="page-item"><a href="" class="page-link">2</a></li>
+								<li class="page-item"><a href="" class="page-link">3</a></li>
+								<li class="page-item"><a href="" class="page-link">4</a></li>
+								<li class="page-item"><a href="" class="page-link">5</a></li>
+								<li class="page-item next"><a href="" class="page-link">Next</a></li>
+								<li class="page-item last"><a href="" class="page-link">Last</a></li>-->
+
+								<!-- begin_news_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_news_first_page -->
+								<!-- begin_news_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_news_prev_page -->
+								<!-- begin_news_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_news_prev_page_off -->
+
+								<!-- begin_news_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_news_prev_pages -->
+
+								<!-- begin_news_page -->
+								<!-- begin_news_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{page}</a>
+								</li>
+								<!-- end_news_link_page -->
+								<!-- begin_news_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_news_this_page -->
+								<!-- end_news_page -->
+
+								<!-- begin_news_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_news_next_pages -->
+
+								<!-- begin_news_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_news_next_page -->
+								<!-- begin_news_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_news_next_page_off -->
+								<!-- begin_news_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}&lang={lang}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_news_last_page -->
+							</ul>
+						</div>
+						<!-- end_news_pages -->
+
+						<!-- begin_news_item -->
+						<h4 class="b_bt">{title}</h4>
+						<p>{cat} {day}{dt}</p>
+						<p>{news_short}</p>
+
+						<fieldset class="form-group mb-3">
+							<button class="btn btn-secondary mt-1 mr-1" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?{params}&delete={id}&lang={lang}')}); return false;">{l_delete}</button>
+
+							<button class="btn btn-primary mt-1 mr-1" onclick="redirectUrl('{url_main}administration/news_edit.php?id={id}&lang={lang}'); return false;">{l_edit}</button>
+							<button class="btn btn-info mt-1" onclick="redirectUrl('{url_page}?{params}&visible={id}&lang={lang}'); return false;">{visible}</button>
+						</fieldset>
+						<!-- end_news_item -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

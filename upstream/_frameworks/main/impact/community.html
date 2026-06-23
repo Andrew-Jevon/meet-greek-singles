@@ -1,0 +1,122 @@
+{header}
+<div class="col_center">
+    <div class="head">Become a Community Ambassador </div>
+    {success}
+
+    <p>Thank you for your interest in becoming a Meet Greek Singles Community Ambassador. </p>
+
+    <p>Our Community Ambassadors are the heart of our platform. They help bring people together beyond profiles — through local gatherings, shared experiences, and a warm, welcoming, and safe environment rooted in Greek culture and values. </p>
+
+    <p>This is a voluntary, non-paid role, built on trust, shared values, and genuine engagement with the local community. Ambassadors play an important part in nurturing meaningful human connections and helping the community grow naturally and respectfully. </p>
+
+    <p>For certain approved events, Ambassadors may receive event-related benefits, such as complimentary or preferential participation, or other forms of recognition, depending on the nature of the event. All details are discussed and agreed in advance, on a case-by-case basis. </p>
+
+    <p>If you enjoy bringing people together and celebrating Greek culture and connection, we’d love to hear from you. </p>
+
+    <h3>What Does a Community Ambassador Do? </h3>
+    <p>Community Ambassadors may: </p>
+    <ul>
+        <li>Organize or co-host local meetups and small events </li>
+
+        <li>Welcome new members and encourage engagement </li>
+
+        <li>Support a positive, respectful, and safe community environment </li>
+
+        <li>Represent Meet Greek Singles in their city or region </li>
+    </ul>
+    <p>This role does not constitute employment and does not include a salary. </p>
+    <h3>Who We’re Looking For </h3>
+    <p>We’re looking for people who: </p>
+    <ul>
+        <li>Are reliable, kind, and community-minded </li>
+        <li>Enjoy bringing people together naturally </li>
+        <li>Share the values of authenticity and meaningful connection </li>
+        <li>Are active members of Meet Greek Singles </li>
+    </ul>
+    <p>Previous event-hosting experience is helpful but not required. </p>
+    <h3>Express Interest</h3>
+    <p>Submitting this form does not guarantee selection. Ambassador roles are offered by invitation or approved application, based on community needs in each area. </p>
+    <h3>Ambassador Interest Form</h3>
+    <div class="bl_form">
+     <form action="{url_page}" method="post">
+
+        <label for="fullName">Full Name</label><br>
+        <input type="text" id="fullName" name="fullName" required><br><br>
+
+        <label for="email">Email</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="location">Country / City</label><br>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label>Are you an active Meet Greek Singles member?</label><br>
+        <input type="radio" id="memberYes" name="activeMember" value="Yes" required>
+        <label for="memberYes">Yes</label><br>
+        <input type="radio" id="memberNo" name="activeMember" value="No">
+        <label for="memberNo">No</label><br><br>
+
+        <label for="interest">Why are you interested in becoming a Community Ambassador?</label><br>
+        <textarea id="interest" name="interest" rows="4" required></textarea><br><br>
+
+        <label for="experience">Event-hosting experience (optional)</label><br>
+        <textarea id="experience" name="experience" rows="3"></textarea><br><br>
+        
+        <label for="additional">Anything else you’d like us to know (optional)</label><br>
+        <textarea id="additional" name="additional" rows="3"></textarea><br><br>
+        <input id="cmd" type="hidden" name="cmd" value="add">
+        <p><strong>Important Notice</strong></p>
+        <p>Community Ambassador roles are voluntary and unpaid. Ambassadors are not employees, partners, or authorized agents of Meet Greek Singles beyond approved community activities. </p>
+
+        <br><br>
+
+        <p><strong>What types of events interest you most?</strong></p>
+        <input type="checkbox" id="meetups" name="events[]" value="Meetups / coffee">
+        <label for="meetups">Meetups / coffee</label><br>
+
+        <input type="checkbox" id="dinners" name="events[]" value="Group dinners">
+        <label for="dinners">Group dinners</label><br>
+
+        <input type="checkbox" id="cultural" name="events[]" value="Cultural events">
+        <label for="cultural">Cultural events</label><br>
+
+        <input type="checkbox" id="trips" name="events[]" value="Trips / retreats">
+        <label for="trips">Trips / retreats</label><br>
+
+        <input type="checkbox" id="other" name="events[]" value="Other">
+        <label for="other">Other</label>
+
+        <br><br>
+
+        <input type="checkbox" id="agree" name="agree" required>
+        <label for="agree">
+            I agree to the Terms &amp; Community Guidelines
+        </label>
+
+        <br><br>
+
+        <button class="cstbn" type="submit">Submit Interest</button>
+    </form>
+    <small>Note: Ambassador roles are offered by invitation or approved application. This role does not constitute employment or partnership.</small>
+    </div>
+</div>
+<style>
+    .alert.alert-success {
+    text-align: center;
+    background: #dabe33;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eef402eb;
+    border-radius: 10px;
+}
+
+.alert.alert-success p {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+</style>
+<!-- begin_payment_error -->
+<script>$(function(){alertCustom('{j_seems_there_problem_with_your_payment}', true, '{j_problem_with_the_payment}');})</script>
+
+<!-- end_payment_error -->
+{footer}

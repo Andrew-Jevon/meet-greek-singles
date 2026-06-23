@@ -1,0 +1,133 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/blogs_posts.php">{l_menu_blogs_posts}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current} {blogger_name}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<h5>
+							{post_user_name}:
+							<a href="{url_main}administration/users_edit.php?id={post_user_id}">{l_edit}</a>,
+							<a href="{url_main}administration/blogs_blogger_posts.php?id={post_user_id}">{l_posts}</a>
+							<!-- begin_comments -->
+							<a href="{url_main}administration/blogs_post_comments.php?id={post_id}">{l_comments} {post_count_comments}</a>
+							<!-- end_comments -->
+							<!-- begin_nocomments -->
+							{l_no_comments}
+							<!-- end_nocomments -->
+						</h5>
+						<hr class="mb-2">
+
+						<form method="POST" id="" action="{url_main}administration/blogs_post_edit.php?cmd=update&id={post_id}" enctype="multipart/form-data">
+
+							<fieldset class="form-group">
+								<label>{l_subject}:</label>
+								<input class="form-control" type="text" name="subject" value="{post_subject}">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_text}:</label>
+								<textarea name="text" class="form-control h_300 mt-2">{post_text}</textarea>
+							</fieldset>
+
+							<fieldset id="imgs_uploads" class="form-group">
+								<label class="mb-1"><strong>{l_images}</strong> {l_optional}:</label>
+
+								<div id="input_template" class="blog_inp_file">
+									<input type="file" accept="jpg|gif|png|jpeg" name="img[]"/>
+								</div>
+								<div class="blog_inp_file">
+									<input type="file" accept="jpg|gif|png|jpeg" name="img[]"/>
+								</div>
+								<div class="blog_inp_file">
+									<input type="file" accept="jpg|gif|png|jpeg" name="img[]"/>
+								</div>
+
+								<a id="imgs_uploads_add" href="" class="mt-1" style="display: block;">{l_add_more_images}</a>
+
+							</fieldset>
+
+
+							<h5 class="mt-3">{l_edit_photos}</h5>
+							<hr>
+							<!-- begin_imgs -->
+							<fieldset class="form-group">
+								<!-- begin_img -->
+								<div class="image_list_pl" style="width:85px;" id="post_img_bl_{img_i}">
+									<a id="post_img_{img_i}_lb" class="edit_image_gallery" href="{img_file}">
+										<img id="post_img_{img_i}" src="{img_url}" width="85" height="64" alt=""/>
+									</a>
+									<p class="no_gallery"><a class="post_del_img" imgId="{img_i}">{l_delete}</a></p>
+								</div>
+								<!-- end_img -->
+							</fieldset>
+							<!-- end_imgs -->
+
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+	$("#imgs_uploads_add").click(function() {
+        $('<div class="blog_inp_file">'+document.getElementById('input_template').innerHTML+'</div>').insertBefore($(this));
+		return false;
+    });
+    $(".post_del_img").click(function() {
+		var $el=$(this);
+		confirmCustom('{j_are_you_sure}',function(){
+			$("#post_img_bl_" + $el.attr('imgId')).animate({
+				width: 0, marginRight:0}, 300, function() {
+				$("#post_img_bl_" + $el.attr('imgId')).remove();
+				$.get('{url_main}administration/blogs_img_delete_ajax.php?pid={post_id}&iid=' + $el.attr('imgId'));
+			})
+		})
+    })
+})
+
+_initLightbox();
+</script>
+
+
+{footer}

@@ -1,0 +1,368 @@
+{header}
+
+<script src="{url_main}_frameworks/common/tinymce/tinymce.min.js{cache_version_param}" type="text/javascript"></script>
+<script type="text/javascript">
+tinymce.init({
+        selector: "#mail_content",
+        language : '{lang_vw}',
+        width : 'auto', // width : '98%',
+
+        fontsize_formats: "8px 10px 12px 14px 18px 24px 36px",
+        plugins: [
+                "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern"
+        ],
+
+        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
+        toolbar2: "cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor",
+        toolbar3: "table | hr removeformat | subscript superscript | charmap | print fullscreen | ltr rtl | visualchars visualblocks nonbreaking pagebreak restoredraft",
+
+        menubar: false,
+        toolbar_items_size: 'small',
+
+        style_formats: [
+                {title: 'Line spacing 10', inline: 'span', styles: {lineHeight:'10px'}},
+                {title: 'Line spacing 12', inline: 'span', styles: {lineHeight:'12px'}},
+                {title: 'Line spacing 14', inline: 'span', styles: {lineHeight:'14px'}},
+                {title: 'Line spacing 16', inline: 'span', styles: {lineHeight:'16px'}},
+                {title: 'Line spacing 18', inline: 'span', styles: {lineHeight:'18px'}},
+                {title: 'Line spacing 20', inline: 'span', styles: {lineHeight:'20px'}},
+                {title: 'Line spacing 22', inline: 'span', styles: {lineHeight:'22px'}},
+                {title: 'Line spacing 24', inline: 'span', styles: {lineHeight:'24px'}},
+                {title: 'Line spacing 26', inline: 'span', styles: {lineHeight:'26px'}},
+                {title: 'Line spacing 28', inline: 'span', styles: {lineHeight:'28px'}},
+                {title: 'Line spacing 30', inline: 'span', styles: {lineHeight:'30px'}},
+                {title: 'Line spacing 32', inline: 'span', styles: {lineHeight:'32px'}},
+                {title: 'Line spacing 34', inline: 'span', styles: {lineHeight:'34px'}},
+                {title: 'Line spacing 36', inline: 'span', styles: {lineHeight:'36px'}},
+                {title: 'Line spacing 38', inline: 'span', styles: {lineHeight:'38px'}},
+                {title: 'Line spacing 40', inline: 'span', styles: {lineHeight:'40px'}},
+                {title: 'Example 1', inline: 'span', classes: 'example1'},
+                {title: 'Example 2', inline: 'span', classes: 'example2'},
+                {title: 'Example 3', inline: 'span', classes: 'example3'},
+                {title: 'Example 4', inline: 'span', classes: 'example4'},
+                {title: 'Example 5', inline: 'span', classes: 'example5'}
+        ],
+
+        templates: [
+                {title: 'Test template 1', content: 'Test 1'},
+                {title: 'Test template 2', content: 'Test 2'}
+        ],
+        convert_urls: false
+});
+
+
+    $(function(){
+
+		$('.paid_type').click(function(){
+			$('.paid_type').not(this).prop('checked', false).iCheck('update');
+			this.isChecked = this.checked;
+			$(this).prop('checked', !this.isChecked).iCheck('update');
+		});
+
+		var setCheckedAll = function (ch, chkbox){
+			console.log(chkbox);
+            if(ch.is(':checked')) {
+                chkbox.prop("checked", true).iCheck('update');
+            }else{
+                chkbox.prop("checked", false).iCheck('update');
+            }
+        }
+        $('#all_languages').change(function(){
+            setCheckedAll($(this), $('[id ^= language_]'))
+        });
+
+    });
+
+</script>
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{message_send}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message_error}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="update">
+
+							{config_fields}
+
+							<!-- begin_field -->
+							<fieldset class="form-group">
+								<label>{l_field}:</label>
+								<input type="text" name="{key}" class="form-control" value="{value}"/>
+							</fieldset>
+							<!-- end_field -->
+
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+
+						<form name="massmail" action="{url_page}" method="POST" class="mt-2">
+							<input type="hidden" name="cmd" value="send">
+							<input type="hidden" name="id" value="{edit_id}">
+							<fieldset class="form-group">
+								<label>{l_subject}:</label>
+								<input class="form-control" type="text" name="subject" value="{massmail_subject}">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_text_mail}:</label>
+								<textarea name="text" id="mail_content" class="form-control h_400">{massmail_text}</textarea>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_specific}:</label>
+								<input class="form-control" type="text" name="to" value="{to}">
+							</fieldset>
+							<fieldset class="form-group form-group-border custom-switch">
+								<div class="bl_label">
+									<input class="custom-control-input i_checkbox" type="checkbox" name="users" id="usrs" value="1" {users_checked}>
+									<label class="custom-control-label" for="usrs">{l_users}</label>
+								</div>
+								<div class="bl_label">
+									<input class="custom-control-input i_checkbox" type="checkbox" name="other" id ="other" value="1" {other_checked}>
+									<label class="custom-control-label" for="other">{l_other}</label>
+								</div>
+								<div class="bl_label">
+									<input class="custom-control-input i_checkbox" type="checkbox" name="partners" id ="partners" value="1" {partners_checked}>
+									<label class="custom-control-label" for="partners">{l_partners}</label>
+								</div>
+							</fieldset>
+
+							<fieldset class="form-group form-group-border skin skin-flat">
+								<div class="bl_label">
+									<label for="radio_paid">{l_gold}:</label>
+									<input id="radio_paid" class="i_radio paid_type" type="radio" name="paid" {paid_checked} value="1">
+								</div>
+								<div class="bl_label">
+									<label for="radio_free">{l_free}:</label>
+									<input id="radio_free" class="i_radio paid_type" type="radio" name="paid" {free_checked} value="0">
+								</div>
+        					</fieldset>
+
+							<!-- begin_orientations -->
+							<fieldset class="form-group form-group-border">
+								<div class="label_frm">{orientation_field_title}:</div>
+								<!-- begin_orientation -->
+								<div class="bl_label custom-switch">
+									<input id="orientation_{orientation_id}" class="custom-control-input i_checkbox" name="orientation[]" type="checkbox" value="{orientation_id}" {checked}>
+									<label class="custom-control-label" for="orientation_{orientation_id}">{orientation_title}</label>
+								</div>
+								<!-- end_orientation -->
+							</fieldset>
+							<!-- end_orientations -->
+
+							<fieldset class="form-group form-group-border">
+								<fieldset class="form-group">
+									<span class="label_frm">{l_date_register}:</span>
+									<input class="form-control w-20 in_bl" type="date" name="date_register_from" value="{date_register_from}" maxlength="10">
+									<span class="label_frm">{l_to}:</span>
+									<input class="form-control w-20 in_bl" type="date" name="date_register_to" value="{date_register_to}" maxlength="10">
+								</fieldset>
+
+								<fieldset class="form-group">
+									<span class="label_frm">{l_last_visit_from}:</span>
+									<input class="form-control w-20 in_bl" type="date" name="last_visit_from" value="{last_visit_from}" maxlength="10">
+									<span class="label_frm">{l_to}:</span>
+									<input class="form-control w-20 in_bl" type="date" name="last_visit_to" value="{last_visit_to}" maxlength="10">
+								</fieldset>
+
+								<fieldset class="form-group mb-0">
+									<span class="label_frm">{l_from}:</span>
+									<select class="form-control w-20 in_bl" name="age_from">{age_from_options}</select>
+									<span class="label_frm">{l_to}:</span>
+									<select class="form-control w-20 in_bl" name="age_to">{age_to_options}</select> {l_years_old}
+								</fieldset>
+							</fieldset>
+
+							<p><h4>{l_send_to_these_languages_speakers}</h4></p>
+							<fieldset class="form-group form-group-border custom-switch">
+								<div class="bl_label">
+									<input class="custom-control-input i_checkbox" type="checkbox" name="all_languages" id="all_languages" value="1">
+									<label class="custom-control-label" for="all_languages">{l_all}</label>
+								</div>
+								<!-- begin_language -->
+								<div class="bl_label">
+									<input class="custom-control-input i_checkbox" type="checkbox" name="language[{language_value}]" id="language_{language_value}" value="1" {language_checked}>
+									<label class="custom-control-label" for="language_{language_value}">{language_title}</label>
+								</div>
+								<!-- end_language -->
+							</fieldset>
+							<script>
+								function resetMassMail(){
+									document.forms.massmail.to.value='';
+									tinymce.activeEditor.setContent('');
+									$('body, html').animate({scrollTop:0});
+								}
+							</script>
+							<fieldset class="form-group">
+								<button class="btn btn-primary mt-1 mr-1" type="submit">{l_send}</button>
+								<button class="btn btn-secondary mt-1 mr-1" onclick="resetMassMail(); return false;" type="reset">{l_reset}</button>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- begin_massmail_items -->
+<div class="content-body">
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_massmail_pages -->
+						<div class="total_pages">
+							<p class="num_total">{num_total} {l_count_massmail}</p>
+
+							<ul class="pagination justify-content-center">
+								<!-- begin_massmail_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_massmail_first_page -->
+								<!-- begin_massmail_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_massmail_prev_page -->
+								<!-- begin_massmail_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_massmail_prev_page_off -->
+								<!-- begin_massmail_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_massmail_prev_pages -->
+								<!-- begin_massmail_page -->
+								<!-- begin_massmail_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_massmail_link_page -->
+								<!-- begin_massmail_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_massmail_this_page -->
+								<!-- end_massmail_page -->
+								<!-- begin_massmail_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_massmail_next_pages -->
+								<!-- begin_massmail_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_massmail_next_page -->
+								<!-- begin_massmail_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_massmail_next_page_off -->
+								<!-- begin_massmail_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_massmail_last_page -->
+							</ul>
+						</div>
+						<!-- end_massmail_pages -->
+						<div class="table-responsive mb-2 mt-0">
+							<table class="table table-striped table-hover mb-0 skin skin-flat table_nw table_f_sm">
+								<thead class="bg-primary white">
+									<th>{l_action}</th>
+									<th>{l_subject}</th>
+									<th>{l_status}</th>
+									<th>{l_date}</th>
+									<th>{l_for}</th>
+									<th>{l_language}</th>
+									<th>{l_emails_sent}</th>
+								</thead>
+								<tbody>
+								<!-- begin_massmail_item -->
+								<tr class="{class}">
+									<td class="links_action">
+									<!-- begin_stop -->
+									<a onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=stop&id={id}')}); return false;" href="{url_page}?cmd=stop&id={id}">
+										<i class="ft-stop-circle" title="{a_stop}"></i> <span>{l_stop}</span>
+									</a>
+									<span>|</span>
+									<!-- end_stop -->
+									<!-- begin_start -->
+									<a onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=start&id={id}')}); return false;" href="{url_page}?cmd=start&id={id}">
+										<i class="ft-play-circle" title="{a_start}"></i> <span>{l_start}</span>
+									</a>
+									<span>|</span>
+									<!-- end_start -->
+									<a onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete&id={id}')}); return false;" href="{url_page}?cmd=delete&id={id}">
+										<i class="ft-trash-2" title="{a_delete}"></i> <span>{l_delete}</span>
+									</a>
+									</td>
+									<td><a href="{url_page}?cmd=view&id={id}">{subject}</a></td>
+									<td>{status}</td>
+									<td>{date}</td>
+									<td>{for}</td>
+									<td>{languages}</td>
+									<td>{emails_sent}</td>
+								</tr>
+								<!-- end_massmail_item -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end_massmail_items -->
+
+{footer}

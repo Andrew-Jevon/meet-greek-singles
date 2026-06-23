@@ -1,0 +1,162 @@
+"""
+Deploy 2026-06-11 batch to production.
+
+Files:
+  - messages.html        (NEW: 1000px min-height inbox card + modern styling)
+  - messages_one.html    (1000px min-height + footer overlap fix)
+  - css/style.css        (heart icons + match chart wrap)
+  - js/mgs_translations.js  (Greek translations, ~475 strings)
+  - _header.html         (cache bust + mgs-lang meta + i18n script)
+  - register.html        (radio spacing + Q27 restyle + mandatory fields)
+
+Run (PowerShell):
+    $env:PROD_PASS = 'finaltest123123'
+    python d:\MyProjects\Irene\Irene\Irene\site\deploy_2026_06_11.py
+"""
+import os
+import sys
+import ftplib
+import ssl
+import socket
+import urllib.request
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+HOST = "meetgreeksingles.com"
+DEFAULT_USER = "Final@meetgreeksingles.com"
+
+LOCAL_ROOT = r"d:\MyProjects\Irene\Irene\Irene\_local\webroot"
+
+FILES = [
+    ("_frameworks/main/impact/messages.html",          "messages.html"),
+    ("_frameworks/main/impact/messages_one.html",      "messages_one.html"),
+    ("_frameworks/main/impact/css/style.css",          "css/style.css"),
+    ("_frameworks/main/impact/js/mgs_translations.js", "js/mgs_translations.js"),
+    ("_frameworks/main/impact/_header.html",           "_header.html"),
+    ("_frameworks/main/impact/register.html",          "register.html"),
+]
+
+
+class FTP_TLS_Reuse(ftplib.FTP_TLS):
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(
+                conn,
+                server_hostname=self.host,
+                session=self.sock.session,
+            )
+        return conn, size
+
+
+def preflight():
+    print(f"Preflight: TCP probe {HOST}:21 ...")
+    try:
+        with socket.create_connection((HOST, 21), timeout=10) as s:
+            s.settimeout(8)
+            try:
+                banner = s.recv(256).decode("utf-8", errors="replace").strip()
+                print(f"  banner: {banner!r}")
+                return True
+            except socket.timeout:
+                print("  TCP accepted but no banner within 8s -> firewall is still blocking")
+                return False
+    except Exception as e:
+        print(f"  TCP failed: {e}")
+        return False
+
+
+def upload_all(password, user):
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    print(f"Connecting to {HOST} as {user} ...")
+    ftp = FTP_TLS_Reuse(context=ctx)
+    ftp.connect(HOST, 21, timeout=60)
+    ftp.login(user, password)
+    ftp.prot_p()
+    ftp.set_pasv(True)
+    print("Login OK.")
+
+    ok = 0
+    fail = 0
+    for remote, rel in FILES:
+        local = os.path.join(LOCAL_ROOT, rel.replace("/", os.sep))
+        if not os.path.exists(local):
+            print(f"  SKIP  {remote}  (missing local: {local})")
+            fail += 1
+            continue
+
+        parts = remote.strip("/").split("/")
+        name = parts.pop()
+        dirpath = "/" + "/".join(parts)
+        try:
+            ftp.cwd(dirpath)
+        except ftplib.error_perm as e:
+            print(f"  FAIL  cd {dirpath}: {e}")
+            fail += 1
+            continue
+
+        size = os.path.getsize(local)
+        print(f"  PUT   /{remote}  ({size:,} bytes)")
+        with open(local, "rb") as f:
+            ftp.storbinary(f"STOR {name}", f)
+        ok += 1
+
+    try:
+        ftp.quit()
+    except Exception:
+        pass
+    print(f"\nUploaded {ok}/{len(FILES)} files. Failures: {fail}")
+    return ok, fail
+
+
+def smoke():
+    print("\nSmoke tests:")
+    checks = [
+        ("https://meetgreeksingles.com/messages.php",
+         ["mgs_msg_list", "min-height: 1000px"]),
+        ("https://meetgreeksingles.com/",
+         ["mgs-lang", "mgs_translations.js"]),
+    ]
+    for url, markers in checks:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "deploy-2026-06-11/1.0"})
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                body = resp.read().decode("utf-8", errors="replace")
+            hits = {m: (m in body) for m in markers}
+            status = "OK" if all(hits.values()) else "PARTIAL"
+            print(f"  [{status}] {url}")
+            for m, hit in hits.items():
+                print(f"        {'PASS' if hit else 'MISS'}  '{m}'")
+        except Exception as e:
+            print(f"  [ERR ] {url}  -> {e}")
+
+
+def main():
+    password = os.environ.get("PROD_PASS")
+    if not password:
+        print("ERROR: set $env:PROD_PASS before running.")
+        sys.exit(1)
+    user = os.environ.get("PROD_USER", DEFAULT_USER)
+
+    if not preflight():
+        print("\nFTPS unreachable. GoDaddy firewall is still blocking this IP.")
+        print("Falling back: deploy via cPanel File Manager.")
+        sys.exit(2)
+
+    ok, fail = upload_all(password, user)
+    try:
+        smoke()
+    except Exception as e:
+        print(f"Smoke failed: {e}")
+
+    if fail == 0:
+        print("\nDEPLOY OK.")
+    else:
+        print(f"\nDEPLOY PARTIAL — {fail} failure(s).")
+
+
+if __name__ == "__main__":
+    main()

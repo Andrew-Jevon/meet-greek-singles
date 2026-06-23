@@ -1,0 +1,177 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/music_musicians.php">{l_menu_musicians}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_musician_name -->
+						<h5>{musician_name}</h5>
+						<hr class="mb-2">
+						<!-- end_musician_name -->
+
+						<!-- begin_main_pages -->
+						<div class="total_pages">
+							<p class="num_total">{num_total} {l_count_places}</p>
+
+							<ul class="pagination justify-content-center">
+
+								<!-- begin_main_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_main_first_page -->
+								<!-- begin_main_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page -->
+								<!-- begin_main_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page_off -->
+								<!-- begin_main_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_main_prev_pages -->
+								<!-- begin_main_page -->
+								<!-- begin_main_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_link_page -->
+								<!-- begin_main_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_this_page -->
+								<!-- end_main_page -->
+								<!-- begin_main_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_main_next_pages -->
+								<!-- begin_main_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page -->
+								<!-- begin_main_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page_off -->
+								<!-- begin_main_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_main_last_page -->
+							</ul>
+						</div>
+						<!-- end_main_pages -->
+
+						<!-- begin_main_items -->
+						<div class="table-responsive mb-2 mt-0">
+							<table class="table table-striped table-hover mb-0 skin skin-flat table_nw1 table_f_sm">
+								<thead class="bg-primary white">
+									<th>{l_action}</th>
+									<th>
+										<!-- begin_params_none_comment_id --><a href="{url_page}?{params_current}">{l_comment_id}</a><!-- end_params_none_comment_id -->
+										<!-- begin_params_asc_comment_id -->&uarr;<a href="{url_page}?{params_current}">{l_comment_id}</a><!-- end_params_asc_comment_id -->
+										<!-- begin_params_desc_comment_id -->&darr;<a href="{url_page}?{params_current}">{l_comment_id}</a><!-- end_params_desc_comment_id -->
+									</th>
+									<th>
+										<!-- begin_params_none_musician_id --><a href="{url_page}?{params_current}">{l_musician_id}</a><!-- end_params_none_musician_id -->
+										<!-- begin_params_asc_musician_id -->&uarr;<a href="{url_page}?{params_current}">{l_musician_id}</a><!-- end_params_asc_musician_id -->
+										<!-- begin_params_desc_musician_id -->&darr;<a href="{url_page}?{params_current}">{l_musician_id}</a><!-- end_params_desc_musician_id -->
+									</th>
+									<th>
+										<!-- begin_params_none_user_id --><a href="{url_page}?{params_current}">{l_user}</a><!-- end_params_none_user_id -->
+										<!-- begin_params_asc_user_id -->&uarr;<a href="{url_page}?{params_current}">{l_user}</a><!-- end_params_asc_user_id -->
+										<!-- begin_params_desc_user_id -->&darr;<a href="{url_page}?{params_current}">{l_user}</a><!-- end_params_desc_user_id -->
+									</th>
+									<th>
+										<!-- begin_params_none_comment_text --><a href="{url_page}?{params_current}">{l_comment_text}</a><!-- end_params_none_comment_text -->
+										<!-- begin_params_asc_comment_text -->&uarr;<a href="{url_page}?{params_current}">{l_comment_text}</a><!-- end_params_asc_comment_text -->
+										<!-- begin_params_desc_comment_text -->&darr;<a href="{url_page}?{params_current}">{l_comment_text}</a><!-- end_params_desc_comment_text -->
+									</th>
+									<th>
+										<!-- begin_params_none_created_at --><a href="{url_page}?{params_current}">{l_created_at}</a><!-- end_params_none_created_at -->
+										<!-- begin_params_asc_created_at -->&uarr;<a href="{url_page}?{params_current}">{l_created_at}</a><!-- end_params_asc_created_at -->
+										<!-- begin_params_desc_created_at -->&darr;<a href="{url_page}?{params_current}">{l_created_at}</a><!-- end_params_desc_created_at -->
+									</th>
+								</thead>
+								<tbody>
+									<!-- begin_main_item -->
+									<tr class="{class}">
+										<td>
+											<a href="{url_main}administration/music_musician_comment_edit.php?comment_id={comment_id}">{l_edit}</a>
+											|
+											<a href="{url_main}administration/music_musician_comment_delete.php?comment_id={comment_id}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_main}administration/music_musician_comment_delete.php?comment_id={comment_id}')}); return false;">{l_delete}</a>
+										</td>
+										<td>{comment_id}</td>
+										<td>{musician_id}</td>
+										<td>{user_id}</td>
+										<td>{comment_text}</td>
+										<td>{created_at}</td>
+									</tr>
+									<!-- end_main_item -->
+								</tbody>
+							</table>
+						</div>
+						<!-- end_main_items -->
+
+						<!-- begin_main_noitems -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_places}
+                        </div>
+						<!-- end_main_noitems -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{footer}

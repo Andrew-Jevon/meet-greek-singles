@@ -1,0 +1,27 @@
+{header}
+<div class="block_narrow">
+{menu_page}
+</div>
+<div class="block_main">
+    <h2>{l_title_current}</h2>
+
+    <div class="bl_form">
+        <form id="image_option" action="{url_page}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="cmd" value="update">
+
+		{config_fields}
+
+        <!-- begin_field -->
+        <label>{l_field}:</label>
+        <input type="text" name="{key}" value="{value}"/>
+        <!-- end_field -->
+        <div class="wrap_button fl_right">
+            <button class="button submit" type="submit">{l_save}</button>
+            <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+		</div>
+        </form>
+    </div>
+
+    <div class="empty"></div>
+</div>
+{footer}

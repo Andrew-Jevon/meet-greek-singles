@@ -1,0 +1,147 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_fields.php">{l_menu_profile_fields}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body fileds_no_social">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_language_edit_instruction}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form method="get" action="{url_page}">
+							<fieldset class="form-group">
+								<label>{l_translation}:</label>
+								<select id="language" class="form-control mt-1" name="language">
+									<option value="edit_mode">{l_please_choose}</option>
+									{select_options_language}
+								</select>
+							</fieldset>
+						</form>
+
+						<form name="geo_country" method="get" action="{url_page}">
+							<fieldset class="form-group">
+								<label>{l_country}:</label>
+									<select class="form-control" id="select_country" name="country_id" onchange="document.forms.geo_country.submit()">
+										{geo_countries}
+									</select>
+							</fieldset>
+						</form>
+
+						<h5 class="mt-3">{l_menu_states}</h5>
+						<hr>
+						<form action="{url_page}" method="POST">
+
+							<!-- begin_select_btn -->
+							<fieldset class="form-group skin skin-flat">
+								<div class="location_loader_bl"></div>
+								<input type="checkbox" id="all" class="i_checkbox in_bl">
+								<label for="all">{l_select_all}</label>
+							</fieldset>
+							<!-- end_select_btn -->
+
+							<!-- begin_state -->
+							<fieldset id="block_{state_id}" class="form-group">
+								<div class="location_loader_bl">
+									<img id="preloader_{state_id}" src="{url_tmpl_administration}images/loader.gif">
+								</div>
+								<div class="skin skin-flat in_bl">
+									<input type="checkbox" id="chk_{state_id}">
+								</div>
+								<input id="{state_id}" data-current="{state_title}" class="location form-control in_bl" type="text" name="name" value="{state_title}">
+								<div class="in_bl bl_location_action">
+									<a id="hide_item_{state_id}" <!-- begin_item_show -->class="to_hide"<!-- end_item_show --> onClick="confirmCustom('{j_are_you_sure}',function(){geoHideItem({state_id});}); return false;" href="#">{l_hide}</a>
+									<a id="show_item_{state_id}" <!-- begin_item_hide -->class="to_hide"<!-- end_item_hide --> onClick="confirmCustom('{j_are_you_sure}',function(){geoShowItem({state_id});}); return false;" href="#">{l_show}</a>
+									|
+									<a onClick="confirmCustom('{j_are_you_sure}',function(){geoDeleteItem({state_id});}); return false;"  href="#">{l_delete}</a>
+								</div>
+							</fieldset>
+							<!-- end_state -->
+						</form>
+
+						<!-- begin_delete_btn -->
+						<fieldset class="form-group mb-3">
+							<button class="btn btn-info mt-1 mr-1" onclick="confirmCustom('{j_are_you_sure}',function(){geoHideItem(0,1)}); return false;">{l_hide}</button>
+
+							<button class="btn btn-primary mt-1 mr-1" onclick="confirmCustom('{j_are_you_sure}',function(){geoShowItem(0,1)}); return false;">{l_show}</button>
+							<button class="btn btn-secondary mt-1" onclick="confirmCustom('{j_are_you_sure}',function(){geoDeleteItem(0,1)}); return false;">{l_delete}</button>
+						</fieldset>
+						<!-- end_delete_btn -->
+
+						<h5>{l_add}</h5>
+						<hr>
+						<form action="{url_page}" method="POST">
+							<input name="country_id" value="{country_id}" type="hidden">
+							<input name="cmd" value="add" type="hidden">
+
+							<fieldset class="form-group">
+								<input type="text" name="name" value="" class="form-control">
+							</fieldset>
+
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit mt-1 mb-2" type="submit">{l_add}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+$(function() {
+    $('.location').keydown(function(e){
+        if (isKeyPressed(e, 13)) {
+            updateItem($(this).attr('id'));
+            return false;
+        };
+    }).blur(function(e){
+        geoUpdateItem($(this).attr('id'));
+    });
+
+    $('#all').change(function(){
+        choiceChkbox($(this), $('[id ^= chk_]'))
+    });
+
+    $('#language').change(function(){
+        var lang = $(this).val();
+        if (lang != 'edit_mode') {
+            window.location.href='users_fields_localization.php?mode=state&country_id='+$('#select_country').val()+'&lang='+lang;
+        }
+    });
+});
+</script>
+
+{footer}

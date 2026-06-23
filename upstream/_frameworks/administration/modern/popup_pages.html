@@ -1,0 +1,136 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/{section_page}">{l_menu_help_and_news}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">
+						{l_langs_list}
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form class="frm_change_language">
+							<select class="select2 form-control select_change_language">
+								<!-- begin_language -->
+								<!-- begin_language_link -->
+								<option value="{url_page}?page={page_current}&lang={language_value}">{language_title}</option>
+								<!-- end_language_link -->
+								<!-- begin_language_active -->
+								<option selected value="{url_page}?page={page_current}&lang={language_value}">{language_title}</option>
+								<!-- end_language_active -->
+								<!-- end_language -->
+							</select>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">
+						{l_pages_list}
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<ul class="lmenu_page">
+							<!-- begin_mail -->
+							<!-- begin_mail_on -->
+							<li class="active">
+								<a href="" onclick="return false;">{page_title_link}</a>
+								<span class="marker">&#8226;</span>
+							</li>
+							<!-- end_mail_on -->
+							<!-- begin_mail_off -->
+							<li>
+								<a href="{url_page}?page={page}&lang={lang}">{page_title_link}</a>
+								<span class="marker">&#8226;</span>
+							</li>
+							<!-- end_mail_off -->
+							<!-- end_mail -->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message_auto}</div>
+
+						<form action="{url_page}?page={page_current}&lang={lang}" method="POST">
+						<input type="hidden" name="cmd" value="edit">
+						<fieldset class="form-group">
+							<label>{l_subject}:</label>
+							<input class="form-control" type="text" name="title" value="{page_title}">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>{l_text}:</label>
+							<textarea name="text" class="form-control h_400">{page_text}</textarea>
+						</fieldset>
+						<fieldset class="form-group">
+							<div class="wrap_button">
+								<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+								<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+							</div>
+						</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

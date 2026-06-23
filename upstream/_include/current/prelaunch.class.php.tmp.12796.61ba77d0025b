@@ -1,0 +1,298 @@
+<?php
+/* Milestone 4 — Pre-launch gate.
+ * Lives alongside Chameleon's built-in maintenance-mode pattern.
+ *
+ * Config row driving this class:
+ *   module  = 'options'
+ *   option  = 'platform_mode'
+ *   value   = 'prelaunch' | 'live'
+ *   type    = 'selectbox'
+ *   options = 'prelaunch|Pre-launch (registration only),live|Live'
+ *
+ * URL bypasses (mirror maintenance_off/maintenance_on):
+ *   ?platform_mode_off=Y   set session flag to ignore the gate (admin preview)
+ *   ?platform_mode_on=Y    clear that flag
+ *
+ * Integration: Common::setSiteOptions() calls Prelaunch::apply() once per request.
+ */
+
+class Prelaunch
+{
+    // Public scripts (by basename) reachable by logged-OUT visitors.
+    // In prelaunch mode, a guest requesting anything NOT in this list is
+    // redirected to the login page. Logged-in users are not limited by it
+    // (see the ACCESS MODEL note after the array).
+    private static $allow = array(
+        // Public / landing
+        'index.php',           // homepage (shows pre-launch banner)
+        'robots.txt',
+        'manifest.php',
+        'favicon.ico',
+        'css.php',
+        'js.php',
+        // Registration + verification
+        'join.php', 'join2.php', 'join3.php',
+        'join_facebook.php',
+        'social_login.php',
+        'confirm_email.php',
+        'email_not_confirmed.php',
+        'forget_password.php',
+        'logout.php',
+        // Static + error pages
+        'not_found.php',
+        'email_confirmed.php',
+        // Basic public content pages.
+        // 2026-06-17 (per Irene): the ONLY non-member pages are Home, About,
+        // Contact, Registration and Login. Legal pages (terms/privacy via
+        // info.php) and help stay public because they're footer links that
+        // must be reachable before registration. Search / Events / Advice /
+        // member profiles are intentionally NOT here — see $memberAllow and
+        // the note below.
+        'about.php',
+        'contact.php',
+        'info.php',            // terms & conditions / privacy policy (footer legal links)
+        'help.php',
+        'page.php',            // CMS pages (About/Contact may render through these)
+        'page_custom.php',
+        // Essential utility endpoints
+        'ajax.php',            // Chameleon's shared AJAX router — still needed by allowed pages
+        'sitemap.php',
+        'tmpl_img_loader.php',
+        'files_uploader.php',  // avatar upload during onboarding
+        // Captcha image endpoints (SecurImage). Without these the join wizard
+        // can't render the captcha challenge and registration is blocked.
+        'securimage_show_custom.php',
+        'securimage_show.php',
+        'securimage_audio.php',
+        'securimage_play.php',
+        // 2026-05-08: service worker URLs. The site has a manifest.php
+        // (PWA) so browsers may still try to fetch /serviceworker.js or
+        // /sw.js to refresh stale registrations from earlier visits. If we
+        // 302 those, the user's existing SW can't be updated and stale
+        // cached behavior persists (Irene's "buttons stuck in Chrome but
+        // fine in Incognito" was exactly this). Allowing them through lets
+        // the kill-switch SW (site/upstream/serviceworker.js) run, which
+        // unregisters itself + clears caches.
+        'serviceworker.js',
+        'sw.js',
+    );
+
+    // ACCESS MODEL (2026-06-17, per Irene's access-control spec):
+    //   * Logged-OUT visitors  -> may reach ONLY the public $allow list above
+    //                             (Home / About / Contact / Register / Login /
+    //                             legal). Everything else redirects to login.
+    //   * Logged-IN members     -> pass straight through; the platform's own
+    //                             membership rules govern what they can use
+    //                             (Search, Profiles, Events, Messages, Chat,
+    //                             Likes, Visitors, Matches, dashboard, etc.).
+    //   * Admins                -> bypass entirely (see apply()).
+    // This makes the gate a pure login-required guard for guests, so it behaves
+    // correctly whether platform_mode is 'prelaunch' or (later) 'live'.
+
+    // AJAX action names (from ajax.php?action=) that pre-launch denies even though
+    // ajax.php itself is allowed. Keep this tight — only allow what join / profile_edit need.
+    private static $ajaxAllow = array(
+        'get_states', 'get_cities', 'get_country_states',  // dropdowns on /join
+        'check_login_availability', 'check_mail_availability',
+        'send_forgot_password', 'confirm_email',
+        'save_profile_photo', 'upload_avatar',
+        'login',           // 2026-05-04: registered members must be able to log
+                           // back in during pre-launch (e.g. after logout). Was
+                           // missing since M4 — discovered during the matching
+                           // round's logged-in verification probe.
+        'logout',
+    );
+
+    public static function currentMode()
+    {
+        global $g;
+        $mode = isset($g['options']['platform_mode']) ? $g['options']['platform_mode'] : 'live';
+        // Normalise — fall back to "live" if value is unknown.
+        return ($mode === 'prelaunch') ? 'prelaunch' : 'live';
+    }
+
+    public static function isPrelaunch()
+    {
+        return self::currentMode() === 'prelaunch';
+    }
+
+    /**
+     * Invoked once per request from Common::setSiteOptions().
+     * Applies the URL bypasses AND redirects if the current request is blocked.
+     */
+    public static function apply()
+    {
+        // URL-level bypass flags (parallel to maintenance_off)
+        if (get_param('platform_mode_off') == 'Y') {
+            set_session('platform_mode_off', 'Y');
+        }
+        if (get_param('platform_mode_on') == 'Y') {
+            set_session('platform_mode_off', 'N');
+        }
+
+        // If we were redirected HERE by our own gate, suppress Chameleon's
+        // Common::toHomePage() auto-redirect (which would send logged-in users
+        // to their own profile URL, re-triggering the gate and causing a loop).
+        if (get_param('__plfb') == '1') {
+            global $gc;
+            if (!isset($gc)) {
+                $gc = 'prelaunch';
+            }
+            return;
+        }
+
+        if (!self::isPrelaunch()) {
+            return; // live mode — no gating
+        }
+
+        // Admin preview session bypass
+        if (get_session('platform_mode_off') == 'Y') {
+            return;
+        }
+
+        // Admin area always allowed (admin URLs don't hit this integration path,
+        // but belt-and-braces in case of future hook reuse)
+        if (self::isAdminArea()) {
+            return;
+        }
+
+        // Logged-in admin user bypass
+        if (self::isAdminUser()) {
+            return;
+        }
+
+        // Logged-in (non-admin) MEMBER bypass. Once a visitor has registered and
+        // logged in, the platform's own membership rules take over — they may
+        // use Search, Profiles, Events, Messages, Chat, Likes, Visitors, Matches,
+        // their dashboard, etc. The gate below only restricts logged-OUT guests.
+        if (function_exists('guid') && guid() > 0) {
+            return;
+        }
+
+        $script = self::currentScript();
+
+        // GUEST request: only the public $allow list is reachable. Anything else
+        // (Search, member profiles, Events, Messages, Chat, Likes, Visitors,
+        // Matches, …) redirects to the login/registration landing page.
+        // Pretty URLs route through router.php, which rewrites $p to the
+        // real target (login → join.php, about → about.php, etc.).
+        if ($script === 'router.php') {
+            $resolved = self::resolveRouterTarget();
+            if (!$resolved || !in_array($resolved, self::$allow, true)) {
+                self::redirectToLanding();
+                return;
+            }
+        } elseif (!in_array($script, self::$allow, true)) {
+            self::redirectToLanding();
+            return;
+        }
+
+        // If it's ajax.php, ALSO check the action/method name
+        if ($script === 'ajax.php') {
+            $action = get_param('action', '');
+            if (!$action) {
+                $action = get_param('method', '');
+            }
+            if ($action !== '' && !in_array($action, self::$ajaxAllow, true)) {
+                // Deny silently — AJAX callers shouldn't redirect, they should get a clean error
+                header('HTTP/1.1 403 Forbidden');
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(array(
+                    'error'    => 'prelaunch_mode',
+                    'message'  => 'This feature is locked during pre-launch.',
+                ));
+                exit;
+            }
+        }
+    }
+
+    private static function currentScript()
+    {
+        global $p; // Chameleon sets $p to the current page filename
+        if (isset($p) && is_string($p) && $p !== '') {
+            return basename($p);
+        }
+        // Fallback for cases where $p isn't set yet
+        if (isset($_SERVER['SCRIPT_NAME'])) {
+            return basename($_SERVER['SCRIPT_NAME']);
+        }
+        return '';
+    }
+
+    /**
+     * When the request hits router.php, resolve the SEO slug to its PHP
+     * target filename (before Router::init rewrites $p).
+     */
+    private static function resolveRouterTarget()
+    {
+        global $p;
+        if (!isset($p) || $p !== 'router.php') {
+            return '';
+        }
+        if (!class_exists('Router')) {
+            $routerFile = dirname(__FILE__) . '/router.class.php';
+            if (is_readable($routerFile)) {
+                include_once($routerFile);
+            }
+        }
+        if (!class_exists('Router') || !method_exists('Router', 'getIncludePageCompatibleWithSystem')) {
+            return '';
+        }
+
+        $target = Router::getIncludePageCompatibleWithSystem();
+        if (!$target || !is_string($target)) {
+            return '';
+        }
+        if (substr($target, -4) !== '.php') {
+            $target .= '.php';
+        }
+        return basename($target);
+    }
+
+    private static function isAdminArea()
+    {
+        // Path check first — catches any file under /administration/, including
+        // ones we add ourselves (Common::isAdminSitePart has an internal allowlist
+        // that doesn't recognise new admin pages and was returning false for our
+        // M2 visibility_scope.php, sending the gate to redirect it to homepage).
+        if (strpos($_SERVER['SCRIPT_NAME'] ?? '', '/administration/') !== false) {
+            return true;
+        }
+        if (method_exists('Common', 'isAdminSitePart')) {
+            return Common::isAdminSitePart();
+        }
+        return false;
+    }
+
+    private static function isAdminUser()
+    {
+        // Chameleon stores the admin flag on user.admin (bool/int). Guest returns 0.
+        if (function_exists('guid') && guid() > 0) {
+            $uid = guid();
+            $row = DB::getOneRow('SELECT admin FROM user WHERE user_id = ' . to_sql($uid, 'Number'));
+            if ($row && !empty($row['admin'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static function redirectToLanding()
+    {
+        // A logged-out visitor tried to reach a protected page. Send them to the
+        // platform's native login page (join.php?cmd=please_login), which renders
+        // the login form together with Chameleon's "please log in" message — a
+        // friendlier landing than the bare homepage and a clear call to register.
+        //
+        // join.php is in the public $allow list, so the redirected request passes
+        // the gate cleanly (no redirect loop). Base path is preserved so staging
+        // (/staging/...) stays in /staging/ and the live root stays at /.
+        $host = $_SERVER['HTTP_HOST'] ?? '';
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $script = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '/';
+        $basePath = rtrim(str_replace('\\', '/', dirname($script)), '/') . '/';
+        $url = $scheme . '://' . $host . $basePath . 'join.php?cmd=please_login&notice=login_required';
+        header('Location: ' . $url, true, 302);
+        exit;
+    }
+}

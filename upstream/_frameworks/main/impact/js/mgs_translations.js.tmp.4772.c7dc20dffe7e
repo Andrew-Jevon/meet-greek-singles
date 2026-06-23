@@ -1,0 +1,728 @@
+/* 2026-06-11 — Meet Greek Singles Greek translation layer (v2).
+ *
+ * PHASE 1 optimizations (speed):
+ *  - No MutationObserver — was running the entire scan on every DOM change.
+ *    Single pass at DOMContentLoaded, then expose window.MGS_TranslateNow()
+ *    for AJAX content that needs a manual re-run.
+ *  - Map<string,string> for O(1) dictionary lookups instead of object access.
+ *  - Pre-compiled list of "skip these tags" instead of per-node check.
+ *  - Early exit at the top if Greek is not active — zero cost when English.
+ *  - Batched attribute scan using a single querySelectorAll per attribute.
+ *
+ * PHASE 2 coverage (complete):
+ *  - Expanded dictionary to ~500 strings covering nav, homepage, register,
+ *    login, join2/onboarding, contact, events, upgrade, advice, messaging,
+ *    member sidebar, profile fields, search filters, forms, errors,
+ *    placeholders, dialogs, and common Chameleon labels.
+ *  - Language preference read from server-set meta tag first (instant),
+ *    then sessionStorage, then URL param (fallback).
+ *
+ * To add a string: drop "English": "Ελληνικά" into MGS_DICT below.
+ */
+(function () {
+    "use strict";
+
+    /* ─── 1. Determine the active language — server-set first ───────── */
+    var STORAGE_KEY = "mgs_lang";
+    var lang = "default";
+
+    // 1a. Server-set meta tag (fastest, no parsing required)
+    var meta = document.querySelector('meta[name="mgs-lang"]');
+    if (meta && meta.content === "greek") lang = "greek";
+
+    // 1b. URL parameter (?set_language=greek)
+    if (lang === "default") {
+        var qs = window.location.search;
+        if (qs.indexOf("set_language=greek") !== -1) lang = "greek";
+        else if (qs.indexOf("set_language=default") !== -1) {
+            try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        }
+    }
+
+    // 1c. Saved choice from sessionStorage
+    if (lang === "default") {
+        try {
+            if (sessionStorage.getItem(STORAGE_KEY) === "greek") lang = "greek";
+        } catch (e) {}
+    }
+
+    // Persist for navigation
+    if (lang === "greek") {
+        try { sessionStorage.setItem(STORAGE_KEY, "greek"); } catch (e) {}
+    }
+
+    // PHASE 1 speed: zero work if English is active
+    if (lang !== "greek") {
+        window.MGS_TranslateNow = function () {};
+        window.MGS_T = function (s) { return s; };
+        return;
+    }
+
+    /* ─── 2. Translation dictionary — comprehensive ─────────────────── */
+    var MGS_DICT = {
+        /* === Navigation === */
+        "Home": "Αρχική",
+        "About Us": "Σχετικά",
+        "About": "Σχετικά",
+        "Search": "Αναζήτηση",
+        "Events": "Εκδηλώσεις",
+        "Advice": "Συμβουλές",
+        "Upgrade": "Αναβάθμιση",
+        "Contact": "Επικοινωνία",
+        "Contact Us": "Επικοινωνία",
+        "Log In": "Σύνδεση",
+        "Login": "Σύνδεση",
+        "Sign In": "Σύνδεση",
+        "Join Now": "Εγγραφή",
+        "JOIN": "ΕΓΓΡΑΦΗ",
+        "Sign Up": "Εγγραφή",
+        "Register": "Εγγραφή",
+        "Log out": "Αποσύνδεση",
+        "Logout": "Αποσύνδεση",
+        "Sign Out": "Αποσύνδεση",
+        "Settings": "Ρυθμίσεις",
+        "My Profile": "Το Προφίλ μου",
+        "Profile": "Προφίλ",
+
+        /* === Homepage === */
+        "Where Greek Hearts Meet": "Όπου Συναντιούνται Ελληνικές Καρδιές",
+        "WHERE GREEK HEARTS MEET": "ΟΠΟΥ ΣΥΝΑΝΤΙΟΥΝΤΑΙ ΕΛΛΗΝΙΚΕΣ ΚΑΡΔΙΕΣ",
+        "Find your Greek connection and build meaningful relationships based on shared heritage, values, and culture.":
+            "Βρείτε την Ελληνική σας σύνδεση και χτίστε ουσιαστικές σχέσεις βασισμένες σε κοινή κληρονομιά, αξίες και κουλτούρα.",
+        "JOIN NOW – IT'S FREE": "ΕΓΓΡΑΦΗ ΤΩΡΑ – ΕΙΝΑΙ ΔΩΡΕΑΝ",
+        "JOIN NOW - IT'S FREE": "ΕΓΓΡΑΦΗ ΤΩΡΑ – ΕΙΝΑΙ ΔΩΡΕΑΝ",
+        "Private, secure, and built for meaningful connections.":
+            "Ιδιωτικό, ασφαλές και χτισμένο για ουσιαστικές συνδέσεις.",
+        "Find Your Greek Connection": "Βρείτε την Ελληνική σας Σύνδεση",
+        "Because the right connection can change everything.":
+            "Επειδή η σωστή σύνδεση μπορεί να αλλάξει τα πάντα.",
+        "Meaningful Connections": "Ουσιαστικές Συνδέσεις",
+        "We bring together Greek singles who are looking for authentic, long-term relationships.":
+            "Συγκεντρώνουμε Έλληνες ανύπαντρους που αναζητούν αυθεντικές, μακροχρόνιες σχέσεις.",
+        "Built on Shared Values": "Χτισμένο σε Κοινές Αξίες",
+        "Faith, family, culture and tradition are at the heart of our community.":
+            "Πίστη, οικογένεια, κουλτούρα και παράδοση βρίσκονται στην καρδιά της κοινότητάς μας.",
+        "Safe & Private": "Ασφαλές & Ιδιωτικό",
+        "Your privacy and security are our top priority.":
+            "Η ιδιωτικότητα και η ασφάλειά σας είναι η ύψιστη προτεραιότητά μας.",
+        "Worldwide Community": "Παγκόσμια Κοινότητα",
+        "Connect with Greek singles across Greece and around the world.":
+            "Συνδεθείτε με Έλληνες ανύπαντρους σε όλη την Ελλάδα και τον κόσμο.",
+        "Registration is now open": "Οι εγγραφές είναι ανοιχτές",
+        "create your FREE account and be among the first to join Meet Greek Singles.":
+            "δημιουργήστε ΔΩΡΕΑΝ λογαριασμό και γίνετε από τους πρώτους που θα ενταχθούν στο Meet Greek Singles.",
+
+        /* === Register page === */
+        "Let's Get Started!": "Ας Ξεκινήσουμε!",
+        "Let’s Get Started!": "Ας Ξεκινήσουμε!",
+        "Create your free account and start connecting with Greek singles.":
+            "Δημιουργήστε δωρεάν λογαριασμό και ξεκινήστε να συνδέεστε με Έλληνες ανύπαντρους.",
+        "Meet Greeks from around the world": "Γνωρίστε Έλληνες από όλο τον κόσμο",
+        "Connect through shared culture, values, and traditions":
+            "Συνδεθείτε μέσα από κοινή κουλτούρα, αξίες και παραδόσεις",
+        "Safe and private community": "Ασφαλής και ιδιωτική κοινότητα",
+        "Free registration": "Δωρεάν εγγραφή",
+        "Your information is always confidential.": "Οι πληροφορίες σας είναι πάντα εμπιστευτικές.",
+        "You must be 18 or older and single (not married) to join. By registering you agree to our community standards.":
+            "Πρέπει να είστε 18 ετών ή μεγαλύτεροι και ανύπαντροι (όχι παντρεμένοι) για να εγγραφείτε. Με την εγγραφή σας συμφωνείτε με τα πρότυπα της κοινότητάς μας.",
+        "Create Your Free Account": "Δημιουργήστε Δωρεάν Λογαριασμό",
+        "Create My Free Account": "Δημιουργία Δωρεάν Λογαριασμού",
+        "I am": "Είμαι",
+        "Man": "Άνδρας",
+        "Woman": "Γυναίκα",
+        "Male": "Άνδρας",
+        "Female": "Γυναίκα",
+        "Birthdate": "Ημερομηνία γέννησης",
+        "Date of birth": "Ημερομηνία γέννησης",
+        "Day": "Ημέρα",
+        "Month": "Μήνας",
+        "Year": "Έτος",
+        "I live in": "Μένω στη/στο",
+        "Country": "Χώρα",
+        "Region / State": "Περιφέρεια",
+        "Region": "Περιφέρεια",
+        "State": "Νομός",
+        "Other / Not listed": "Άλλο / Δεν αναφέρεται",
+        "City / Town / Island": "Πόλη / Χωριό / Νησί",
+        "City": "Πόλη",
+        "e.g. Athens, Thessaloniki, Rhodes": "π.χ. Αθήνα, Θεσσαλονίκη, Ρόδος",
+        "e.g. Athens, Thessaloniki, Rhodes, Crete": "π.χ. Αθήνα, Θεσσαλονίκη, Ρόδος, Κρήτη",
+        "Type your region or state": "Πληκτρολογήστε την περιφέρεια σας",
+        "Choose a screen name": "Επιλέξτε ψευδώνυμο",
+        "This is the name other members will see.": "Αυτό είναι το όνομα που θα βλέπουν τα άλλα μέλη.",
+        "Username": "Όνομα χρήστη",
+        "Screen name": "Ψευδώνυμο",
+        "Password": "Κωδικός",
+        "Create a password": "Δημιουργήστε έναν κωδικό",
+        "Confirm password": "Επιβεβαίωση κωδικού",
+        "Your email address will never be shared with anyone.":
+            "Η διεύθυνση email σας δεν θα κοινοποιηθεί ποτέ σε κανέναν.",
+        "Already have an account?": "Έχετε ήδη λογαριασμό;",
+        "Log in": "Σύνδεση",
+        "100% Confidential": "100% Εμπιστευτικό",
+        "Safe & Secure": "Ασφαλές & Σίγουρο",
+        "Email": "Email",
+        "Email address": "Διεύθυνση email",
+        "you@example.com": "esas@example.com",
+        "(optional)": "(προαιρετικό)",
+        "I agree to the": "Συμφωνώ με τους",
+        "Terms": "Όρους",
+        "Terms & Conditions": "Όρους & Προϋποθέσεις",
+        "and": "και",
+        "Privacy Policy": "Πολιτική Απορρήτου",
+        "Questions & Answers": "Συχνές Ερωτήσεις",
+        "Q&A": "Συχνές Ερωτήσεις",
+
+        /* === Progress indicator === */
+        "Step 1 of 4": "Βήμα 1 από 4",
+        "Step 2 of 4": "Βήμα 2 από 4",
+        "Step 3 of 4": "Βήμα 3 από 4",
+        "Step 4 of 4": "Βήμα 4 από 4",
+        "Account": "Λογαριασμός",
+        "Compatibility": "Συμβατότητα",
+        "Welcome": "Καλώς ήρθατε",
+        "Continue": "Συνέχεια",
+
+        /* === Login page === */
+        "Welcome back to Meet Greek Singles!": "Καλώς ήρθατε ξανά στο Meet Greek Singles!",
+        "We're glad to see you again.": "Χαιρόμαστε που σας ξαναβλέπουμε.",
+        "We’re glad to see you again.": "Χαιρόμαστε που σας ξαναβλέπουμε.",
+        "Sign in to continue your journey toward meaningful Greek connections.":
+            "Συνδεθείτε για να συνεχίσετε το ταξίδι σας προς ουσιαστικές Ελληνικές συνδέσεις.",
+        "Identity is personal. Whether you have one Greek parent or are from the diaspora, you are welcome here.":
+            "Η ταυτότητα είναι προσωπική. Είτε έχετε έναν Έλληνα γονιό είτε προέρχεστε από τη διασπορά, είστε ευπρόσδεκτοι εδώ.",
+        "Forgot your password?": "Ξεχάσατε τον κωδικό σας;",
+        "Forgot password?": "Ξεχάσατε τον κωδικό;",
+        "Create an account": "Δημιουργία λογαριασμού",
+        "Remember me": "Να με θυμάσαι",
+
+        /* === Join2 / profile completion === */
+        "Complete Your Profile": "Ολοκληρώστε το Προφίλ σας",
+        "Add a photo and tell us a little about yourself so other members can get to know you.":
+            "Προσθέστε μια φωτογραφία και πείτε μας λίγα για εσάς ώστε τα άλλα μέλη να σας γνωρίσουν.",
+        "Add Your Photos": "Προσθέστε τις Φωτογραφίες σας",
+        "Profiles with photos receive significantly more attention and messages from other members. Add at least one clear, recent photo of yourself.":
+            "Τα προφίλ με φωτογραφίες λαμβάνουν σημαντικά περισσότερη προσοχή και μηνύματα από άλλα μέλη. Προσθέστε τουλάχιστον μία καθαρή, πρόσφατη φωτογραφία σας.",
+        "Add a Photo": "Προσθέστε Φωτογραφία",
+        "Use a real photo of yourself that is clear and current.":
+            "Χρησιμοποιήστε μια αληθινή φωτογραφία σας που είναι καθαρή και πρόσφατη.",
+        "Add more than one photo so members can get to know the real you.":
+            "Προσθέστε περισσότερες από μία φωτογραφίες ώστε τα μέλη να γνωρίσουν τον πραγματικό σας εαυτό.",
+        "A warm smile and natural lighting make a real difference.":
+            "Ένα ζεστό χαμόγελο και φυσικός φωτισμός κάνουν πραγματική διαφορά.",
+        "About Me": "Σχετικά με εμένα",
+        "Tell Us About Your Ideal Match": "Πείτε μας για τον Ιδανικό σας Σύντροφο",
+        "What Are You Looking For in a Partner?": "Τι Αναζητάτε σε έναν Σύντροφο;",
+        "You are in control of your privacy.": "Έχετε τον έλεγχο της ιδιωτικότητάς σας.",
+        "Refresh": "Ανανέωση",
+        "Write your bio here...": "Γράψτε το βιογραφικό σας εδώ...",
+        "Write a thoughtful message...": "Γράψτε ένα στοχαστικό μήνυμα...",
+        "Tell us a little about yourself.": "Πείτε μας λίγα για εσάς.",
+
+        /* === Footer === */
+        "Made with care for the Greek world": "Φτιαγμένο με αγάπη για τον Ελληνικό κόσμο",
+        "Made with care for the Greek world.": "Φτιαγμένο με αγάπη για τον Ελληνικό κόσμο.",
+        "All rights reserved.": "Με την επιφύλαξη παντός δικαιώματος.",
+        "All rights reserved": "Με την επιφύλαξη παντός δικαιώματος",
+        "© 2025 Meet Greek Singles. All rights reserved.": "© 2025 Meet Greek Singles. Με την επιφύλαξη παντός δικαιώματος.",
+        "© 2026 Meet Greek Singles. All rights reserved.": "© 2026 Meet Greek Singles. Με την επιφύλαξη παντός δικαιώματος.",
+        "© 2027 Meet Greek Singles. All rights reserved.": "© 2027 Meet Greek Singles. Με την επιφύλαξη παντός δικαιώματος.",
+        "© 2028 Meet Greek Singles. All rights reserved.": "© 2028 Meet Greek Singles. Με την επιφύλαξη παντός δικαιώματος.",
+        "About": "Σχετικά",
+        "About Us": "Σχετικά",
+
+        /* === Contact page === */
+        "Send us a message": "Στείλτε μας ένα μήνυμα",
+        "Get in touch": "Επικοινωνήστε μαζί μας",
+        "Looking for a quick answer?": "Ψάχνετε γρήγορη απάντηση;",
+        "Browse our help & FAQ": "Δείτε τις συχνές ερωτήσεις",
+        "Email us at": "Στείλτε μας email στο",
+        "We aim to respond within 48 hours.": "Στόχος μας είναι να απαντήσουμε εντός 48 ωρών.",
+        "Send": "Αποστολή",
+        "Your message": "Το μήνυμά σας",
+
+        /* === Events === */
+        "Upcoming Greek Events": "Επερχόμενες Ελληνικές Εκδηλώσεις",
+        "Cultural gatherings, meetups, and experiences for our community.":
+            "Πολιτιστικές συγκεντρώσεις, συναντήσεις και εμπειρίες για την κοινότητά μας.",
+        "Browse All": "Δείτε Όλες",
+        "My Events": "Οι Εκδηλώσεις μου",
+        "Coming Events": "Επερχόμενες Εκδηλώσεις",
+        "Past Events": "Προηγούμενες Εκδηλώσεις",
+
+        /* === Upgrade === */
+        "Premium Membership": "Συνδρομή Premium",
+        "Premium membership": "Συνδρομή Premium",
+        "A deeper way to connect": "Ένας βαθύτερος τρόπος σύνδεσης",
+        "Open up the full Meet Greek Singles experience — and give yourself the time and space to find the right person.":
+            "Ανοίξτε την πλήρη εμπειρία του Meet Greek Singles — και δώστε στον εαυτό σας τον χρόνο και τον χώρο να βρει τον σωστό άνθρωπο.",
+        "6-month membership": "Εξάμηνη συνδρομή",
+        "Premium Membership — 6 months": "Συνδρομή Premium — 6 μήνες",
+        "for 6 months": "για 6 μήνες",
+        "that's about €10 a month": "δηλαδή περίπου €10 τον μήνα",
+        "that’s about €10 a month": "δηλαδή περίπου €10 τον μήνα",
+        "Become a member": "Γίνετε μέλος",
+        "Secure payment": "Ασφαλής πληρωμή",
+        "activated instantly": "ενεργοποιείται άμεσα",
+        "cancel anytime": "ακύρωση οποτεδήποτε",
+        "What's included": "Τι περιλαμβάνεται",
+        "What’s included": "Τι περιλαμβάνεται",
+        "Send a message to anyone, anytime": "Στείλτε μήνυμα σε οποιονδήποτε, οποτεδήποτε",
+        "Voice and video calls within the platform": "Κλήσεις φωνής και βίντεο μέσα στην πλατφόρμα",
+        "See everyone who liked your profile": "Δείτε όλους όσοι έκαναν like στο προφίλ σας",
+        "Browse profiles privately, on your own terms": "Περιηγηθείτε σε προφίλ ιδιωτικά, με τους δικούς σας όρους",
+        "Priority placement in match results": "Προτεραιότητα στα αποτελέσματα ταιριάσματος",
+
+        /* === Email confirmation === */
+        "Welcome to Meet Greek Singles!": "Καλώς ήρθατε στο Meet Greek Singles!",
+        "Confirmation Email Sent": "Email Επιβεβαίωσης Στάλθηκε",
+        "We've sent a confirmation email to your registered email address. Please click the link in that email to activate your account.":
+            "Στείλαμε email επιβεβαίωσης στη διεύθυνση που καταχωρήσατε. Πατήστε τον σύνδεσμο στο email για να ενεργοποιήσετε τον λογαριασμό σας.",
+        "We’ve sent a confirmation email to your registered email address. Please click the link in that email to activate your account.":
+            "Στείλαμε email επιβεβαίωσης στη διεύθυνση που καταχωρήσατε. Πατήστε τον σύνδεσμο στο email για να ενεργοποιήσετε τον λογαριασμό σας.",
+        "We've sent a fresh confirmation email to your registered email address. Please click the link in that email to activate your account.":
+            "Στείλαμε νέο email επιβεβαίωσης στη διεύθυνση που καταχωρήσατε. Πατήστε τον σύνδεσμο στο email για να ενεργοποιήσετε τον λογαριασμό σας.",
+        "A new confirmation email has been sent. Please check your inbox — and your spam folder, just in case.":
+            "Στάλθηκε νέο email επιβεβαίωσης. Ελέγξτε τα εισερχόμενά σας — και τον φάκελο ανεπιθύμητης αλληλογραφίας, για κάθε ενδεχόμενο.",
+        "Your registered email": "Το εγγεγραμμένο email σας",
+        "YOUR REGISTERED EMAIL": "ΤΟ ΕΓΓΕΓΡΑΜΜΕΝΟ EMAIL ΣΑΣ",
+        "Resend Confirmation Email": "Επαναποστολή Email Επιβεβαίωσης",
+        "RESEND CONFIRMATION EMAIL": "ΕΠΑΝΑΠΟΣΤΟΛΗ EMAIL ΕΠΙΒΕΒΑΙΩΣΗΣ",
+        "Change Email Address": "Αλλαγή Email",
+        "Back to homepage (log me out)": "Επιστροφή στην αρχική (αποσύνδεση)",
+        "New email address": "Νέα διεύθυνση email",
+        "Update & Resend": "Ενημέρωση & Επαναποστολή",
+        "Cancel": "Ακύρωση",
+
+        /* === Messaging === */
+        "Send Message": "Αποστολή Μηνύματος",
+        "Enter your message...": "Γράψτε το μήνυμά σας...",
+        "Messages": "Μηνύματα",
+        "Online": "Συνδεδεμένος",
+        "Offline": "Εκτός σύνδεσης",
+        "Last seen": "Τελευταία σύνδεση",
+        "Typing...": "Πληκτρολογεί...",
+        "Read": "Αναγνωσμένο",
+        "Delivered": "Παραδόθηκε",
+        "New message": "Νέο μήνυμα",
+        "Reply": "Απάντηση",
+        "Forward": "Προώθηση",
+        "Delete message": "Διαγραφή μηνύματος",
+
+        /* === Member sidebar / member nav === */
+        "Find your match": "Βρείτε το ταίρι σας",
+        "Browse matches": "Περιήγηση",
+        "Chat rooms": "Δωμάτια συνομιλίας",
+        "Chat room": "Δωμάτιο συνομιλίας",
+        "Profile visitors": "Επισκέπτες προφίλ",
+        "Mutual likes": "Αμοιβαία ενδιαφέροντα",
+        "Likes you": "Σας θέλουν",
+        "People You Like": "Σας ενδιαφέρουν",
+        "Whom you like": "Σας ενδιαφέρουν",
+        "Who likes you": "Σας θέλουν",
+        "Blocked": "Μπλοκαρισμένοι",
+        "Hot or not": "Hot or not",
+        "Recently visited": "Πρόσφατες επισκέψεις",
+        "Invite friends": "Προσκαλέστε φίλους",
+        "Private photos": "Ιδιωτικές φωτογραφίες",
+        "My friends": "Οι φίλοι μου",
+        "Friends": "Φίλοι",
+        "Notifications": "Ειδοποιήσεις",
+
+        /* === Profile fields === */
+        "Age": "Ηλικία",
+        "Gender": "Φύλο",
+        "Location": "Τοποθεσία",
+        "Looking for": "Αναζητώ",
+        "Friendship": "Φιλία",
+        "Serious relationship": "Σοβαρή σχέση",
+        "Marriage": "Γάμος",
+        "Open to possibilities": "Ανοιχτός σε δυνατότητες",
+        "Height": "Ύψος",
+        "Weight": "Βάρος",
+        "Body type": "Σωματότυπος",
+        "Hair color": "Χρώμα μαλλιών",
+        "Eye color": "Χρώμα ματιών",
+        "Religion": "Θρησκεία",
+        "Faith": "Πίστη",
+        "Ethnicity": "Εθνικότητα",
+        "Education": "Εκπαίδευση",
+        "Career": "Καριέρα",
+        "Occupation": "Επάγγελμα",
+        "Income": "Εισόδημα",
+        "Smoking": "Κάπνισμα",
+        "Drinking": "Αλκοόλ",
+        "Children": "Παιδιά",
+        "Interests": "Ενδιαφέροντα",
+        "Hobbies": "Χόμπι",
+        "Languages": "Γλώσσες",
+        "Star sign": "Ζώδιο",
+        "Greek Orthodox": "Ορθόδοξος",
+        "Catholic": "Καθολικός",
+        "Christian": "Χριστιανός",
+        "Other": "Άλλο",
+        "Prefer not to say": "Προτιμώ να μην το πω",
+
+        /* === Search filters === */
+        "Filters": "Φίλτρα",
+        "Apply filters": "Εφαρμογή φίλτρων",
+        "Apply": "Εφαρμογή",
+        "Clear": "Καθαρισμός",
+        "Reset": "Επαναφορά",
+        "Show more": "Δείτε περισσότερα",
+        "Show less": "Δείτε λιγότερα",
+        "From": "Από",
+        "To": "Έως",
+        "Min": "Ελάχ.",
+        "Max": "Μέγ.",
+        "Any": "Οποιοδήποτε",
+        "Sort by": "Ταξινόμηση",
+        "Newest": "Νεότερα",
+        "Oldest": "Παλαιότερα",
+        "Most popular": "Πιο δημοφιλή",
+        "Online now": "Συνδεδεμένοι τώρα",
+        "Recently active": "Πρόσφατα ενεργοί",
+        "New members": "Νέα μέλη",
+        "With photo": "Με φωτογραφία",
+
+        /* === Search results === */
+        "Search results": "Αποτελέσματα αναζήτησης",
+        "No results found": "Δεν βρέθηκαν αποτελέσματα",
+        "results": "αποτελέσματα",
+        "result": "αποτέλεσμα",
+        "View profile": "Δείτε το προφίλ",
+        "Send message": "Στείλτε μήνυμα",
+        "Like": "Μου αρέσει",
+        "Liked": "Αρέσει",
+        "Unlike": "Δεν αρέσει",
+        "Block": "Αποκλεισμός",
+        "Unblock": "Άρση αποκλεισμού",
+        "Report": "Αναφορά",
+        "Add to favorites": "Προσθήκη στα αγαπημένα",
+        "Remove from favorites": "Αφαίρεση από τα αγαπημένα",
+        "Next page": "Επόμενη σελίδα",
+        "Previous page": "Προηγούμενη σελίδα",
+
+        /* === Common buttons / actions === */
+        "Submit": "Υποβολή",
+        "Save": "Αποθήκευση",
+        "Save Changes": "Αποθήκευση Αλλαγών",
+        "Edit": "Επεξεργασία",
+        "Delete": "Διαγραφή",
+        "Remove": "Αφαίρεση",
+        "Add": "Προσθήκη",
+        "Update": "Ενημέρωση",
+        "Confirm": "Επιβεβαίωση",
+        "Next": "Επόμενο",
+        "Back": "Πίσω",
+        "Previous": "Προηγούμενο",
+        "Yes": "Ναι",
+        "No": "Όχι",
+        "OK": "Εντάξει",
+        "Close": "Κλείσιμο",
+        "Open": "Άνοιγμα",
+        "Done": "Έτοιμο",
+        "Loading...": "Φόρτωση...",
+        "Please wait...": "Περιμένετε...",
+        "Today": "Σήμερα",
+        "Yesterday": "Χθες",
+        "Tomorrow": "Αύριο",
+        "Now": "Τώρα",
+
+        /* === Form validation / errors === */
+        "Required field": "Υποχρεωτικό πεδίο",
+        "This field is required": "Αυτό το πεδίο είναι υποχρεωτικό",
+        "Required": "Υποχρεωτικό",
+        "Invalid email": "Μη έγκυρο email",
+        "Invalid email address": "Μη έγκυρη διεύθυνση email",
+        "Invalid password": "Μη έγκυρος κωδικός",
+        "Passwords don't match": "Οι κωδικοί δεν ταιριάζουν",
+        "Passwords do not match": "Οι κωδικοί δεν ταιριάζουν",
+        "Username already exists": "Το όνομα χρήστη υπάρχει ήδη",
+        "Email already exists": "Το email υπάρχει ήδη",
+        "Wrong password": "Λάθος κωδικός",
+        "User not found": "Δεν βρέθηκε χρήστης",
+        "Incorrect username or password": "Λάθος όνομα χρήστη ή κωδικός",
+        "Error": "Σφάλμα",
+        "Success": "Επιτυχία",
+        "Warning": "Προειδοποίηση",
+
+        /* === Advice page === */
+        "Advice for Meaningful Connections": "Συμβουλές για Ουσιαστικές Συνδέσεις",
+        "This page is being prepared. Final content coming soon.":
+            "Αυτή η σελίδα προετοιμάζεται. Το τελικό περιεχόμενο σύντομα κοντά σας.",
+
+        /* === Time / date === */
+        "Just now": "Μόλις τώρα",
+        "minutes ago": "λεπτά πριν",
+        "minute ago": "λεπτό πριν",
+        "hours ago": "ώρες πριν",
+        "hour ago": "ώρα πριν",
+        "days ago": "μέρες πριν",
+        "day ago": "μέρα πριν",
+        "weeks ago": "εβδομάδες πριν",
+        "week ago": "εβδομάδα πριν",
+        "months ago": "μήνες πριν",
+        "month ago": "μήνας πριν",
+        "years ago": "χρόνια πριν",
+        "year ago": "χρόνος πριν",
+
+        /* === Days / months === */
+        "Monday": "Δευτέρα", "Tuesday": "Τρίτη", "Wednesday": "Τετάρτη",
+        "Thursday": "Πέμπτη", "Friday": "Παρασκευή", "Saturday": "Σάββατο", "Sunday": "Κυριακή",
+        "Mon": "Δευ", "Tue": "Τρι", "Wed": "Τετ", "Thu": "Πεμ", "Fri": "Παρ", "Sat": "Σαβ", "Sun": "Κυρ",
+        "January": "Ιανουάριος", "February": "Φεβρουάριος", "March": "Μάρτιος",
+        "April": "Απρίλιος", "May": "Μάιος", "June": "Ιούνιος", "July": "Ιούλιος",
+        "August": "Αύγουστος", "September": "Σεπτέμβριος", "October": "Οκτώβριος",
+        "November": "Νοέμβριος", "December": "Δεκέμβριος",
+
+        /* === Greek regions (13 modern administrative regions) === */
+        "Attica": "Αττική",
+        "Central Greece": "Στερεά Ελλάδα",
+        "Central Macedonia": "Κεντρική Μακεδονία",
+        "Crete": "Κρήτη",
+        "Eastern Macedonia and Thrace": "Ανατολική Μακεδονία και Θράκη",
+        "Epirus": "Ήπειρος",
+        "Ionian Islands": "Ιόνια Νησιά",
+        "North Aegean": "Βόρειο Αιγαίο",
+        "Peloponnese": "Πελοπόννησος",
+        "South Aegean": "Νότιο Αιγαίο",
+        "Thessaly": "Θεσσαλία",
+        "Western Greece": "Δυτική Ελλάδα",
+        "Western Macedonia": "Δυτική Μακεδονία",
+
+        /* === Common countries (top of country dropdown) === */
+        "Greece": "Ελλάδα",
+        "Cyprus": "Κύπρος",
+        "United States": "Ηνωμένες Πολιτείες",
+        "USA": "ΗΠΑ",
+        "United Kingdom": "Ηνωμένο Βασίλειο",
+        "UK": "Ηνωμένο Βασίλειο",
+        "Australia": "Αυστραλία",
+        "Canada": "Καναδάς",
+        "Germany": "Γερμανία",
+        "France": "Γαλλία",
+        "Italy": "Ιταλία",
+        "Spain": "Ισπανία",
+        "Netherlands": "Ολλανδία",
+        "Belgium": "Βέλγιο",
+        "Switzerland": "Ελβετία",
+        "Austria": "Αυστρία",
+        "Sweden": "Σουηδία",
+        "Norway": "Νορβηγία",
+        "Denmark": "Δανία",
+        "Finland": "Φινλανδία",
+        "Ireland": "Ιρλανδία",
+        "Portugal": "Πορτογαλία",
+        "Russia": "Ρωσία",
+        "Turkey": "Τουρκία",
+        "Bulgaria": "Βουλγαρία",
+        "Romania": "Ρουμανία",
+        "Albania": "Αλβανία",
+        "Serbia": "Σερβία",
+        "Israel": "Ισραήλ",
+        "South Africa": "Νότια Αφρική",
+        "Brazil": "Βραζιλία",
+        "Argentina": "Αργεντινή",
+        "Mexico": "Μεξικό",
+        "Japan": "Ιαπωνία",
+        "China": "Κίνα",
+        "India": "Ινδία",
+
+        /* === Cities (common Greek cities) === */
+        "Athens": "Αθήνα",
+        "Thessaloniki": "Θεσσαλονίκη",
+        "Rhodes": "Ρόδος",
+        "Heraklion": "Ηράκλειο",
+        "Patras": "Πάτρα",
+        "Larissa": "Λάρισα",
+        "Volos": "Βόλος",
+        "Ioannina": "Ιωάννινα",
+        "Chania": "Χανιά",
+        "Kalamata": "Καλαμάτα",
+        "Corfu": "Κέρκυρα",
+        "Mykonos": "Μύκονος",
+        "Santorini": "Σαντορίνη",
+        "Naxos": "Νάξος",
+        "Chios": "Χίος",
+
+        /* === Register / join — complete coverage === */
+        "Choose": "Επιλέξτε",
+        "Choose a city": "Επιλέξτε πόλη",
+        "Choose a state": "Επιλέξτε περιφέρεια",
+        "Choose your email or username": "Εισάγετε email ή όνομα χρήστη",
+        "Enter your email or username": "Εισάγετε email ή όνομα χρήστη",
+        "Enter your email": "Εισάγετε email",
+        "Enter your password": "Εισάγετε κωδικό",
+        "Sign In": "Σύνδεση",
+        "Sign Up": "Εγγραφή",
+        "Sign in": "Σύνδεση",
+        "or": "ή",
+        "OR": "Ή",
+        "By registering": "Με την εγγραφή",
+        "I agree to the Terms and Privacy Policy": "Συμφωνώ με τους Όρους και την Πολιτική Απορρήτου",
+        "I agree to": "Συμφωνώ με",
+        "the Terms": "τους Όρους",
+        "the Privacy Policy": "την Πολιτική Απορρήτου",
+        "community standards": "πρότυπα κοινότητας",
+        "You need to agree to the terms": "Πρέπει να συμφωνήσετε με τους όρους",
+        "Almost there...": "Σχεδόν τελειώσαμε...",
+        "Almost there…": "Σχεδόν τελειώσαμε…",
+        "Thank you": "Ευχαριστούμε",
+        "We're now ready to introduce you to people who truly fit you.":
+            "Είμαστε έτοιμοι να σας γνωρίσουμε με ανθρώπους που πραγματικά σας ταιριάζουν.",
+        "We’re now ready to introduce you to people who truly fit you.":
+            "Είμαστε έτοιμοι να σας γνωρίσουμε με ανθρώπους που πραγματικά σας ταιριάζουν.",
+
+        /* Onboarding 4 questions */
+        "What are you looking for?": "Τι αναζητάτε;",
+        "How important is Greek culture in your life?": "Πόσο σημαντική είναι η Ελληνική κουλτούρα στη ζωή σας;",
+        "What does being Greek mean to you?": "Τι σημαίνει για εσάς το να είστε Έλληνας;",
+        "Do you see yourself open to relocating for the right person?":
+            "Είστε ανοιχτοί σε μετακόμιση για τον σωστό άνθρωπο;",
+        "Skip for now": "Παράλειψη προς το παρόν",
+
+        /* Forms & errors */
+        "Required field": "Υποχρεωτικό πεδίο",
+        "is required": "είναι υποχρεωτικό",
+        "Please enter a valid email address": "Εισάγετε έγκυρη διεύθυνση email",
+        "Please enter your name": "Εισάγετε το όνομά σας",
+        "Wrong password or log in information.": "Λάθος κωδικός ή στοιχεία σύνδεσης.",
+        "Incorrect captcha": "Λάθος captcha",
+        "Please enter the code": "Εισάγετε τον κωδικό",
+        "Enter the symbols you see": "Εισάγετε τους χαρακτήρες που βλέπετε",
+
+        /* Confirmation status */
+        "Email Sent, Check Your Inbox": "Email Στάλθηκε, Δείτε τα Εισερχόμενά σας",
+        "Please Confirm your Email": "Παρακαλώ Επιβεβαιώστε το Email σας",
+        "Your e-mail": "Το e-mail σας",
+        "Your email": "Το email σας",
+        "This site requires account activation, an activation link has been sent to the e-mail address you provided. Please check your e-mail for further information.":
+            "Αυτός ο ιστότοπος απαιτεί ενεργοποίηση λογαριασμού — στείλαμε σύνδεσμο ενεργοποίησης στο email σας. Ελέγξτε τα εισερχόμενά σας για περισσότερες πληροφορίες.",
+        "If you haven't received the activation link you can request it using the form below.":
+            "Αν δεν λάβατε τον σύνδεσμο ενεργοποίησης, μπορείτε να τον ζητήσετε ξανά μέσω της φόρμας παρακάτω.",
+        "If you haven’t received the activation link you can request it using the form below.":
+            "Αν δεν λάβατε τον σύνδεσμο ενεργοποίησης, μπορείτε να τον ζητήσετε ξανά μέσω της φόρμας παρακάτω.",
+        "Didn't get the email? Check your spam or promotions folder. If your email address is wrong, click \"Change Email Address\" above.":
+            "Δεν λάβατε το email; Ελέγξτε τον φάκελο ανεπιθύμητης αλληλογραφίας. Αν η διεύθυνση είναι λάθος, πατήστε \"Αλλαγή Email\" παραπάνω.",
+        "Didn’t get the email?": "Δεν λάβατε το email;",
+        "spam": "ανεπιθύμητη αλληλογραφία",
+        "promotions": "προωθητικά",
+        "folder": "φάκελος"
+    };
+
+    // Build a Map for O(1) lookups (faster than object access)
+    var dict = new Map();
+    var k;
+    for (k in MGS_DICT) {
+        if (Object.prototype.hasOwnProperty.call(MGS_DICT, k)) {
+            dict.set(k, MGS_DICT[k]);
+        }
+    }
+
+    /* ─── 3. Tags to skip during text node walk ─────────────────────── */
+    var SKIP_TAGS = {
+        SCRIPT: 1, STYLE: 1, NOSCRIPT: 1,
+        CODE: 1, PRE: 1, TEXTAREA: 1, IFRAME: 1
+    };
+
+    /* ─── 4. Text node walker — single pass, no re-runs ─────────────── */
+    function translateTextNodes(root) {
+        var walker = document.createTreeWalker(
+            root,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: function (node) {
+                    var p = node.parentNode;
+                    if (!p || SKIP_TAGS[p.tagName]) return NodeFilter.FILTER_REJECT;
+                    var v = node.nodeValue;
+                    if (!v || v.length < 2) return NodeFilter.FILTER_REJECT;
+                    // Quick check: skip nodes that are pure whitespace
+                    if (!/\S/.test(v)) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            }
+        );
+
+        var n;
+        while ((n = walker.nextNode())) {
+            var orig = n.nodeValue;
+            var trimmed = orig.replace(/^\s+|\s+$/g, "");
+            if (!trimmed) continue;
+
+            // Direct dictionary hit
+            if (dict.has(trimmed)) {
+                n.nodeValue = orig.replace(trimmed, dict.get(trimmed));
+                continue;
+            }
+
+            // Trim trailing colon (common in form labels like "Email:")
+            if (trimmed.charAt(trimmed.length - 1) === ":") {
+                var noColon = trimmed.slice(0, -1);
+                if (dict.has(noColon)) {
+                    n.nodeValue = orig.replace(trimmed, dict.get(noColon) + ":");
+                    continue;
+                }
+            }
+
+            // Smart fallback for copyright lines (any year)
+            // Matches: © 2025 Meet Greek Singles. All rights reserved.
+            var copyMatch = trimmed.match(/^[©Ⓒ]\s*(\d{4})\s+Meet\s+Greek\s+Singles\.\s+All\s+rights\s+reserved\.?$/i);
+            if (copyMatch) {
+                n.nodeValue = orig.replace(
+                    trimmed,
+                    "© " + copyMatch[1] + " Meet Greek Singles. Με την επιφύλαξη παντός δικαιώματος."
+                );
+            }
+        }
+    }
+
+    /* ─── 5. Attribute translation — batched ────────────────────────── */
+    var ATTRS = ["placeholder", "title", "alt", "aria-label"];
+    function translateAttributes(root) {
+        for (var i = 0; i < ATTRS.length; i++) {
+            var attr = ATTRS[i];
+            var els = root.querySelectorAll("[" + attr + "]");
+            for (var j = 0; j < els.length; j++) {
+                var v = els[j].getAttribute(attr);
+                if (v && dict.has(v)) {
+                    els[j].setAttribute(attr, dict.get(v));
+                }
+            }
+        }
+    }
+
+    /* ─── 6. Main run + AJAX hook ───────────────────────────────────── */
+    function run(root) {
+        try {
+            translateTextNodes(root || document.body);
+            translateAttributes(root || document.body);
+        } catch (e) {
+            if (window.console && console.warn) {
+                console.warn("[MGS i18n]", e);
+            }
+        }
+    }
+
+    // Expose for AJAX-loaded content to call after insertion
+    window.MGS_TranslateNow = run;
+    window.MGS_T = function (s) { return dict.has(s) ? dict.get(s) : s; };
+
+    // Run multiple times to catch late-rendered content (formstyler, dropdowns,
+    // search-result AJAX, etc.) without the heavy MutationObserver cost.
+    function runAll() { run(); }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", runAll);
+    } else {
+        runAll();
+    }
+
+    // After window.load (when formstyler has rendered its styled selects)
+    window.addEventListener("load", runAll);
+
+    // Final pass to catch anything inserted by jQuery $(document).ready()
+    // handlers that fire after window.load (rare but happens)
+    setTimeout(runAll, 600);
+    setTimeout(runAll, 1500);
+})();

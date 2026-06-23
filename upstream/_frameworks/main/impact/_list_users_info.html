@@ -1,0 +1,157 @@
+<style>
+    /* 2026-05-04: subtle compatibility badge per Irene. Sits in the
+       top-right corner of each user card on search results.
+       Cream-ivory pill with a thin gold border so it reads against any
+       photo without competing with the design language. Hidden via CSS
+       attribute selector when match_score is 0 (score not available —
+       either viewer or candidate hasn't completed onboarding). */
+    .item.search_results { position: relative; }
+    .mgs_match_badge {
+        position: absolute;
+        top: 9px;
+        right: 9px;
+        z-index: 4;
+        /* inline-block (not inline-flex) so the optional Strong Match
+           child with display:block correctly wraps to a new line below.
+           In flex layout, child display:block gets blockified into a
+           flex item — Strong Match would appear inline beside the % */
+        display: inline-block;
+        text-align: center;
+        padding: 3px 11px;
+        background: rgba(252, 247, 233, 0.92);
+        border: 1px solid rgba(184, 138, 62, 0.32);
+        border-radius: 999px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 10.5px;
+        font-weight: 500;
+        letter-spacing: 0.15px;
+        color: #6b522a;
+        line-height: 1.35;
+        box-shadow: 0 1px 4px rgba(15, 58, 106, 0.08);
+        backdrop-filter: blur(2px);
+        pointer-events: none;
+        user-select: none;
+        white-space: nowrap;            /* keep "X% Compatible" on one line */
+    }
+    .mgs_match_badge_pct {
+        font-weight: 600;
+        color: #8a6627;
+        letter-spacing: 0.2px;
+    }
+    /* Optional secondary label for strong matches (≥85%). Wraps to a new
+       line beneath the percentage thanks to display:block on this child
+       inside the inline-block badge parent. Same restraint, just warmer. */
+    .mgs_match_badge_strong {
+        display: block;
+        font-size: 9.5px;
+        font-style: italic;
+        font-weight: 500;
+        color: #b88a3e;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        margin-top: 1px;
+        line-height: 1;
+    }
+    .mgs_match_badge[data-score="0"] { display: none; }
+    .mgs_match_badge[data-score=""]  { display: none; }
+    .mgs_match_badge[data-score=" "] { display: none; }   /* loading sentinel */
+</style>
+<script>
+/* 2026-05-04: populate compatibility badges from /match_scores.php.
+   Gather every visible user_id from .mgs_match_badge[data-uid], post them
+   in one batch, paint each badge with its score. data-score becomes the
+   numeric value (CSS hides 0 / loading sentinel; positive scores show). */
+(function(){
+    function paintBadges(){
+        var badges = document.querySelectorAll('.mgs_match_badge[data-uid]');
+        if (!badges.length) return;
+        var uids = [];
+        badges.forEach(function(b){
+            var u = b.getAttribute('data-uid');
+            if (u && uids.indexOf(u) === -1) uids.push(u);
+        });
+        if (!uids.length) return;
+        // jQuery is loaded sitewide; use $.post for cookie/session continuity
+        $.post('/match_scores.php', { uids: uids }, function(scores){
+            if (!scores || typeof scores !== 'object') return;
+            badges.forEach(function(b){
+                var u = b.getAttribute('data-uid');
+                var s = scores[u];
+                if (typeof s !== 'number') s = parseInt(s, 10);
+                if (isNaN(s)) s = 0;
+                b.setAttribute('data-score', String(s));
+                if (s > 0) {
+                    // Per Irene 2026-05-04 — "92% Compatible" instead of just "92%".
+                    // Strong-match secondary label appears for ≥85%.
+                    var pct = '<span class="mgs_match_badge_pct">' + s + '%</span> Compatible';
+                    if (s >= 85) {
+                        pct += '<span class="mgs_match_badge_strong">Strong Match</span>';
+                    }
+                    b.innerHTML = pct;
+                    b.setAttribute('title', s + '% compatibility based on your onboarding answers');
+                }
+            });
+        }, 'json');
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', paintBadges);
+    } else {
+        paintBadges();
+    }
+    // Also re-run after the AJAX search reloads the result list
+    if (window.jQuery) {
+        $(document).on('mgs:search_loaded', paintBadges);
+        // Existing search uses $.post inline; observe DOM mutations as a fallback
+        var obs = new MutationObserver(function(muts){
+            for (var i=0; i<muts.length; i++){
+                if (muts[i].addedNodes.length) { paintBadges(); break; }
+            }
+        });
+        var target = document.querySelector('.module_filter_result');
+        if (target) obs.observe(target, {childList: true, subtree: true});
+    }
+})();
+</script>
+ <div class="col_center">
+    <div class="head icon_head_browse_matches">{l_browse_matches}</div>
+    <div id="search_cont" class="cont search_cont">
+        <div class="bl_browse">
+            <div class="bl_filter">
+            {users_filter}
+            </div>
+
+            <div class="list_photos_filter module_filter_result">
+            {items}
+            <div id="loader_search_list"  class="frame_loader_search_list to_hide">
+                <div class="css_loader loader_search_list" id="loader_search_list">
+                <div class="spinner center">
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                </div>
+                </div>
+            </div>
+            </div>
+			<div class="paging">
+			{pages}
+			</div>
+        </div>
+        <div class="cl"></div>
+    </div>
+</div>
+<!-- begin_js_show_alert_change_filter -->
+<script>
+$win.on('load', function(){
+	alertCustom('{j_no_one_to_show_please_edit_the_filters_settings}', false, ALERT_HTML_ALERT);
+})
+</script>
+<!-- end_js_show_alert_change_filter -->

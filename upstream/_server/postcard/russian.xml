@@ -1,0 +1,19 @@
+<lang>
+	<word name="loading">загрузка...</word>
+	<word name="none">ни одного</word>
+	<word name="Please_enter_your_text_here">
+
+Пожалуйста, введите здесь текст</word>
+	<word name="upload_on_the_server">загрузка на сервер</word>
+	<word name="background">фон</word>
+	<word name="object">объект</word>
+	<word name="sound">звук</word>
+	<word name="Choose_background">Выбрать фон</word>
+	<word name="Choose_object">Выбрать объект</word>
+	<word name="Sound">Звук</word>
+	<word name="Upload_background">Загрузить фон</word>
+	<word name="Text">Текст</word>
+	<word name="Preview">Просмотр</word>
+	<word name="Send">Отправить</word>
+
+</lang>

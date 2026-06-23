@@ -1,0 +1,5 @@
+#php_flag register_globals off
+#php_value upload_max_filesize 30M
+#php_value post_max_size 30M
+
+DirectoryIndex index.php 

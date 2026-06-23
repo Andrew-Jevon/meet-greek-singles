@@ -1,0 +1,283 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_fields.php">{l_menu_profile_fields}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_language_edit_instruction}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form method="get" action="{url_page}">
+							<fieldset class="form-group">
+								<label>{l_translation}:</label>
+								<select id="language" class="form-control mt-1" name="language">
+									<option value="edit_mode">{l_please_choose}</option>
+									{select_options_language}
+								</select>
+							</fieldset>
+						</form>
+
+						<div class="row">
+							<form name="geo_country" method="get" action="{url_page}" class="col-md-6">
+								<fieldset class="form-group">
+									<label>{l_country}:</label>
+									<select class="form-control" id="select_country" name="country_id" onchange="document.forms.geo_country.submit()">
+										{geo_countries}
+									</select>
+								</fieldset>
+							</form>
+
+							<form name="geo_state" method="get" action="{url_page}" class="col-md-6">
+								<fieldset class="form-group">
+									<label>{l_state}:</label>
+									<select class="form-control" id="select_state" name="state_id" onchange="document.forms.geo_state.submit()">
+										{geo_states}
+									</select>
+								</fieldset>
+							</form>
+						</div>
+
+						<h5 class="mt-2">{l_menu_cities}</h5>
+						<hr>
+
+						<!-- begin_main_pages -->
+						<div class="total_pages mb-2">
+							<p class="num_total">&nbsp;</p>
+
+							<ul class="pagination justify-content-center">
+
+								<!-- begin_main_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_main_first_page -->
+								<!-- begin_main_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page -->
+								<!-- begin_main_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page_off -->
+								<!-- begin_main_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_main_prev_pages -->
+								<!-- begin_main_page -->
+								<!-- begin_main_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_link_page -->
+								<!-- begin_main_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_this_page -->
+								<!-- end_main_page -->
+								<!-- begin_main_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_main_next_pages -->
+								<!-- begin_main_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page -->
+								<!-- begin_main_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page_off -->
+								<!-- begin_main_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_main_last_page -->
+							</ul>
+						</div>
+						<!-- end_main_pages -->
+
+						<!-- begin_main_items -->
+						<form action="{url_page}" method="POST">
+							<div class="row">
+								<fieldset class="form-group col-md-1 skin skin-flat a_r p_r_l_0">
+									<input type="checkbox" id="all" class="i_checkbox">
+								</fieldset>
+								<fieldset class="form-group col-md-3">
+									<label>{l_item_title}</label>
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+									<label>{l_latitude}</label>
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+									<label>{l_longitude}</label>
+								</fieldset>
+							</div>
+							<!-- begin_main_item -->
+							<div id="block_{city_id}" class="row">
+								<fieldset class="form-group col-md-1 skin skin-flat a_r p_r_l_0">
+									<input type="checkbox" id="chk_{city_id}">
+									<div class="location_loader_bl">
+										<img id="preloader_{city_id}" src="{url_tmpl_administration}images/loader.gif">
+									</div>
+								</fieldset>
+								<fieldset class="form-group col-md-3">
+									<input id="city_{city_id}" data-current="{city_title}" class="location form-control" type="text" name="name" value="{city_title}">
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+									<input data-current="{lat}" class="coords form-control" type="text" name="lat" value="{lat}">
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+									<input data-current="{long}" class="coords form-control" type="text" name="long" value="{long}">
+
+							</div>
+							<div id="block_action_{city_id}" class="row a_r mt-n1">
+								<fieldset class="form-group col-md-12">
+									<div class="action_links_module">
+										<a id="hide_item_{city_id}" <!-- begin_item_show -->class="to_hide"<!-- end_item_show --> onClick="confirmCustom('{j_are_you_sure}',function(){geoHideItem({city_id});}); return false;"  href="#">{l_hide}</a>
+										<a id="show_item_{city_id}" <!-- begin_item_hide -->class="to_hide"<!-- end_item_hide --> onClick="confirmCustom('{j_are_you_sure}',function(){geoShowItem({city_id});}); return false;"  href="#">{l_show}</a>
+										|
+										<a onClick="confirmCustom('{j_are_you_sure}',function(){ geoDeleteItem({city_id});}); return false;"  href="#">{l_delete}</a>
+
+										<!-- begin_set_as_default_city -->
+										 | <a onClick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=default&city_id={city_id}&state_id={state_id}&country_id={country_id}&offset={offset_current}')}); return false;" href="{url_page}?cmd=default&city_id={city_id}&state_id={state_id}&country_id={country_id}&offset={offset_current}">{l_set_as_default_city}</a>
+										<!-- end_set_as_default_city -->
+									</div>
+								</fieldset>
+							</div>
+							<!-- end_main_item -->
+						</form>
+						<!-- end_main_items -->
+
+						<!-- begin_delete_btn -->
+						<fieldset class="form-group mb-3">
+							<button class="btn btn-info mt-1 mr-1" onclick="confirmCustom('{j_are_you_sure}',function(){geoHideItem(0,1)}); return false;">{l_hide}</button>
+
+							<button class="btn btn-primary mt-1 mr-1" onclick="confirmCustom('{j_are_you_sure}',function(){geoShowItem(0,1)}); return false;">{l_show}</button>
+							<button class="btn btn-secondary mt-1" onclick="confirmCustom('{j_are_you_sure}',function(){geoDeleteItem(0,1)}); return false;">{l_delete}</button>
+						</fieldset>
+						<!-- end_delete_btn -->
+
+						<h5>{l_add}</h5>
+						<hr class="mb-2">
+						<form action="{url_page}" method="POST">
+							<input name="cmd" value="add" type="hidden">
+							<input name="state_id" value="{state_id}" type="hidden">
+							<input name="country_id" value="{country_id_real}" type="hidden">
+
+							<div class="row">
+								<fieldset class="form-group col-md-4">
+									<input type="text" name="name" value="" class="form-control">
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+									<input class="coords form-control" type="text" name="lat" value="">
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+									<input class="coords form-control" type="text" name="long" value="">
+								</fieldset>
+							</div>
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit mt-1 mb-2" type="submit">{l_add}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+$(function() {
+    $('.location, .coords').keydown(function(e){
+        if (isKeyPressed(e, 13)) {
+            var id = $(this).attr('id').split('_');
+            updateItem(id[1]);
+            return false;
+        };
+    }).blur(function(e){
+        var id = $(this).attr('id').split('_');
+        updateItem(id[1]);
+    });
+
+    $('#all').change(function(){
+        choiceChkbox($(this), $('[id ^= chk_]'))
+    });
+
+    $('#language').change(function(){
+        var lang = $(this).val();
+        if (lang != 'edit_mode') {
+            window.location.href='users_fields_localization.php?mode=city&country_id='+$('#select_country').val()+'&state_id='+$('#select_state').val()+'&lang='+lang;
+        }
+    });
+
+});
+function updateItem(id_item) {
+    var city = $('#city_'+id_item),
+        lat = $('#lat_'+id_item),
+        long = $('#long_'+id_item),
+        val_city = city.val(),
+        val_lat = lat.val(),
+        val_long = long.val();
+    if (val_city != city.data('current')
+            || val_lat != lat.data('current')
+            || val_long != long.data('current')) {
+        $('#preloader_'+id_item).show();
+        $.post('{url_page}', {cmd: 'edit', id: id_item, name: val_city, lat: val_lat, long: val_long}, function(data){
+            $('#preloader_'+id_item).hide();
+            if (data == 'ok') {
+                city.data('current', val_city);
+                lat.data('current', val_lat);
+                long.data('current', val_long);
+            }
+        });
+    }
+}
+</script>
+
+{footer}

@@ -1,0 +1,160 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/city_options.php">{l_menu_city_options}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="update">
+							{config_fields}
+
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_list_images}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_block_image -->
+						<div class="bl_form_city_gallery_image">
+						<script>
+						$(function() {
+							var $img,${block}Frm=$('#{block}_form'),
+								${block}File=${block}Frm.find('input.upload'),
+							${block}Sbm=${block}Frm.find('#update{block}');
+							${block}Delete=${block}Frm.find('#delete{block}');
+							${block}Cmd=${block}Frm.find('#cmd{block}');
+
+							${block}File.change(function(){
+								${block}Sbm.prop('disabled', false);
+							});
+
+							${block}Frm.ajaxForm({
+								beforeSubmit: function(a,f,o) {
+									${block}Sbm.addChildrenLoader()
+									if (${block}Cmd.val() != 'delete'){
+										if(!trim(${block}File.val())){
+											return false;
+										}
+									}
+									$img=$('#{block}_output').find('img');
+									//$('#{block}_output').html('<div class="submiting">{j_submitting}</div>');
+								},
+								success: function(data) {
+									var url = '{url_images}', $out = $('#{block}_output');
+									${block}File.val('');
+									${block}Sbm.removeChildrenLoader().prop('disabled', true);
+									try {
+										var obj = jQuery.parseJSON(data);
+										if (obj.status == 0 || obj.url == '') {
+											//$out.html('').append($img);
+											alertCustom(obj.msg);
+										} else {
+											url = obj.url;
+											var $imgNew=$('<img class="city_gallery_image" src="'+url+'" alt=""/>').fadeTo(1,0).load(function(){
+												$(this).fadeTo(100,1);
+											});
+											$out.html('').append($imgNew);
+										}
+									} catch (err) {
+										//$out.html('').append($img);
+										alertCustom('{j_file_type_is_incorrect}');
+									}
+								}
+							})
+						})
+
+						function confirmCustom{block}(){
+							confirmCustom('{j_are_you_sure}', function(){
+								$('#cmd{block}').val('delete');
+								$('#{block}_form').submit();
+							})
+						}
+						</script>
+
+						<form id="{block}_form" action="{url_page}" method="POST" enctype="multipart/form-data">
+							<input type="hidden" id="cmd{block}" name="cmd" value="upload">
+							<input type="hidden" name="asset_id" value="{block}">
+							<input type="hidden" name="ajax" value="1">
+
+
+							<div id="{block}_output" class="block_logo city_gallery_image">
+								<img src="{url_images}?rand={rand}" class="city_gallery_image" alt=""/>
+							</div>
+
+							<fieldset class="form-group">
+								<input class="upload" type="file" name="upload_file"/>
+							</fieldset>
+
+							<fieldset class="form-group">
+								<button class="btn btn-primary" type="submit" disabled id="update{block}" onClick="$('#cmd{block}').val('upload');"><span>{l_upload}</span></button>
+								<button class="btn btn-secondary ml-1" type="submit" id="delete{block}" onClick="confirmCustom{block}(); return false;">{l_delete}</button>
+							</fieldset>
+						</form>
+						</div>
+						<!-- end_block_image -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

@@ -1,0 +1,66 @@
+<map>
+    <GMApiKey>ABQIAAAAGnWG_RJ8AVIB4_lHJm4ZZxSy9IRoRspjp8YjbWi91NcZoc8tlRTJS-e9J8UekP8giptzilkvslcf8g</GMApiKey>    
+    <requestKey>1</requestKey>
+    <userlist>
+        <user>
+            <id>1</id>            
+            <longitude>42.940339</longitude>
+            <latitude>-70.356445</latitude>            
+            <minZoom>16</minZoom>
+            <maxZoom>0</maxZoom>
+                        
+            <name>Yandex</name>
+            <comment>Yandex (Russian: Yandex) is a Russian search engine and the largest Russian Web portal. Yandex was launched in 1997. Its name can be explained as "Yet Another iNDEXer" (yandex) or "Ÿ§ëª®¢®?© (language) Index". The Russian word "Ÿ" corresponds to English "I" (as the singular first-person pronoun), making "Ÿndex" a bilingual pun on "index".</comment>
+            <url>http://www.yandex.ru</url>
+            <img>http://imgl.yandex.net/i/www/logo.png</img>
+            <address>Moscow</address>
+        </user>
+        <user>
+            <id>2</id>
+            <longitude>2.97575</longitude>
+            <latitude>4.932861</latitude>            
+            <minZoom>16</minZoom>
+            <maxZoom>0</maxZoom>
+            
+            <name>Google</name>
+            <comment>Google Inc. is an American public corporation, earning revenue from advertising related to its Internet search, e-mail, online mapping, office productivity, social networking, and video sharing services as well as selling advertising-free versions of the same technologies. Google has also developed an open source web browser and a mobile operating system. The Google headquarters, the Googleplex, is located in Mountain View, California. As of March 31, 2009, the company has 19,786 full-time employees. The company is running millions of servers worldwide, which process hundreds of millions of search requests each day and about 1 petabyte of user-generated data every hour.[5]</comment>
+            <url>http://www.google.com</url>
+            <img>http://www.google.ru/images/nav_logo7.png</img>
+            <address>Googleplex, Mountain View, California, United States</address>
+        </user>
+        
+        <user>
+            <id>3</id>
+            <longitude>17.060723</longitude>
+            <latitude>-96.71756</latitude>            
+            <minZoom>16</minZoom>
+            <maxZoom>0</maxZoom>
+            
+            <name>Rambler</name>
+            <comment>Rambler may refer to:
+Rambler (automobile) and Nash Rambler, American automobile brands made by Thomas B. Jeffery Company (1900-1914), Nash Motors (1950-1957) and AMC (1958-1969)
+Rambler (bicycle), a turn-of-the-century American bicycle
+Rambler (portal), a Russian search engine and Web portal similar to Yahoo!
+Rambler, a style of house that extends sideways or in depth, therefore "rambles" (also known as ranch-style houses or California ramblers)
+The Ramblers, a British charity for recreational walkers
+            </comment>
+            <url>http://www.rambler.ru</url>
+            <img>http://i.rl0.ru/search/logo_www.gif</img>
+            <address>Leninskaya sloboda, 26 Moscow, Russia </address>
+        </user>
+        
+        <user>
+            <id>4</id>
+            <longitude>2.330814</longitude>
+            <latitude>48.868853</latitude>            
+            <minZoom>16</minZoom>
+            <maxZoom>0</maxZoom>
+            
+            <name>Rambler</name>
+            <comment>Yahoo! Inc. (NASDAQ: YHOO) is an American public corporation headquartered in Sunnyvale, California, (in Silicon Valley), that provides Internet services worldwide. The company is perhaps best known for its web portal, search engine (Yahoo! Search), Yahoo! Directory, Yahoo! Mail, Yahoo! News, advertising, online mapping (Yahoo! Maps), video sharing (Yahoo! Video), and social media websites and services.</comment>
+            <url>http://www.yahoo.ru</url>
+            <img>http://l.yimg.com/a/i/ww/beta/y3.gif</img>
+            <address>701 First Avenue Sunnyvale, California,  United States</address>
+        </user>
+    </userlist>
+</map>

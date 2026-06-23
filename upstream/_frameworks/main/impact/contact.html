@@ -1,0 +1,212 @@
+{header}
+<script type="text/javascript" src="{url_tmpl_main}js/contact.js{cache_version_param}"></script>
+<script>
+    var responseRecaptcha='', isRecaptcha=false, captcha;
+    var contact = new CContact();
+    contact.langParts = {
+        message_sent : '{j_message_sent}',
+        send : '{j_send}',
+        incorrect_email : '{j_incorrect_email}'
+    };
+    <!-- begin_re_captcha_js -->
+    isRecaptcha=true;
+    var recaptchaWd,verifyCallback = function(response) {
+            contact.setDisabledSubmit();
+            captcha = grecaptcha.getResponse(recaptchaWd);
+            contact.hideError('contact_captcha');
+        };
+    var onloadCallback = function() {
+        recaptchaWd = grecaptcha.render('recaptcha', {
+            'sitekey' : '{re_captcha_sitekey}',
+            'callback' : verifyCallback,
+            'theme' : '{re_captcha_theme}'
+        });
+    };
+    <!-- end_re_captcha_js -->
+</script>
+<div class="col_center">
+    <div class="head">{page_title}</div>
+    <div class="cont bl_contact bl_contact_v2">
+
+        <section class="bl_contact_section bl_contact_form_section">
+            <h3 class="bl_contact_section_title">Send us a message</h3>
+            <div class="bl_frm">
+                <!-- begin_contact_email -->
+                <label>{l_email}</label>
+                <input id="contact_email" class="inp placeholder contact_info" type="email" name="email" placeholder="{l_placeholder_email}" />
+                <div id="contact_email_error" class="contact_error to_hide"></div>
+                <!-- end_contact_email -->
+
+                <!-- begin_contact_username -->
+                <label>{l_username}</label>
+                <input id="contact_username" class="inp contact_info" type="text" name="username"/>
+                <!-- end_contact_username -->
+
+                <label>{l_message}</label>
+                <textarea id="contact_msg" name="comment" class="contact_info" rows="6"></textarea>
+
+                <!-- begin_contact_captcha -->
+                <!-- begin_default_captcha -->
+                <label>{l_please_enter_the_code}</label>
+                <div class="capcha">
+                    <img id="captcha" src="{url_main}_server/securimage/securimage_show_custom.php?sid={sid}" alt="" />
+                </div>
+                <input class="inp capcha contact_info" name="captcha" id="captcha_input" type="text" />
+                <div class="cl"></div>
+                <a class="contact_captcha_reload" href="#" onclick="document.getElementById('captcha').src = '_server/securimage/securimage_show_custom.php?sid=' + Math.random(); return false">{l_reload}</a>
+                <div id="contact_captcha_error" class="contact_error to_hide" style="padding:5px 0px;">{l_incorrect_captcha}</div>
+                <div class="cl"></div>
+                <!-- end_default_captcha -->
+                <!-- begin_re_captcha -->
+                <div id="recaptcha" class="contact_recaptcha"></div>
+                <!-- end_re_captcha -->
+                <!-- end_contact_captcha -->
+                <button onclick="contact.send();" id="contact_send" class="btn small turquoise" disabled>{l_send}</button>
+            </div>
+        </section>
+
+        <section class="bl_contact_section bl_contact_info_section">
+            <h3 class="bl_contact_section_title">Get in touch</h3>
+            <!-- 2026-06-09 (Q17 + Q18 per Irene) — direct email + response-time note.
+                 Sits above the admin-editable {page_content} so members always see
+                 the contact essentials regardless of what's in the admin page. -->
+            <div class="mgs_contact_essentials">
+                <p class="mgs_contact_email_line">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="vertical-align:-4px;margin-right:6px;color:#1e3a8a;">
+                        <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Email us at <a href="mailto:info@meetgreeksingles.com" style="color:#1e3a8a;font-weight:600;text-decoration:none;">info@meetgreeksingles.com</a>
+                </p>
+                <p class="mgs_contact_response_line">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="vertical-align:-3px;margin-right:5px;color:#b88a3e;">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+                        <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    We aim to respond within 48 hours.
+                </p>
+            </div>
+            <div class="bl_info">
+               {page_content}
+            </div>
+            <!-- begin_help_on -->
+            <div class="bl_contact_faq_link">
+                <p>Looking for a quick answer?</p>
+                <a href="{url_main}help.php" class="link">Browse our help &amp; FAQ</a>
+            </div>
+            <!-- end_help_on -->
+        </section>
+
+        <div class="cl"></div>
+    </div>
+</div>
+<style>
+    /* Refinement: contact page sections + mobile stacking. */
+    .bl_contact_v2 .bl_contact_section {
+        display: block;
+        margin-bottom: 32px;
+        padding: 0 8px;
+    }
+    .bl_contact_v2 .bl_contact_section_title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e5e7eb;
+        color: #14487f;
+    }
+
+    /* 2026-06-09 (Q17 + Q18 per Irene) — direct email + response time */
+    .mgs_contact_essentials {
+        background: #f7f3ec;
+        border: 1px solid #e8e1d2;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin: 0 0 18px;
+    }
+    .mgs_contact_essentials p {
+        margin: 0;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 15px;
+        line-height: 1.5;
+        color: #1f2937;
+    }
+    .mgs_contact_essentials .mgs_contact_email_line { font-weight: 500; }
+    .mgs_contact_essentials .mgs_contact_response_line {
+        margin-top: 6px;
+        font-size: 13.5px;
+        color: #5b6471;
+    }
+
+    /* 2026-06-09 (Q27 per Irene) — Send button: royal blue + gold outline + gold font.
+       Override legacy button.btn.small { height:33px; line-height:31px } which
+       squishes uppercase text to the bottom of the pill. */
+    #contact_send,
+    button#contact_send.btn.small.turquoise {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        width: auto !important;
+        min-width: 148px !important;
+        height: 48px !important;
+        min-height: 48px !important;
+        line-height: 1 !important;
+        padding: 0 32px !important;
+        margin-top: 8px !important;
+        background: #1e3a8a !important;
+        color: #e6c069 !important;
+        border: 2px solid #b88a3e !important;
+        border-radius: 999px !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 14px !important;
+        letter-spacing: 1.4px !important;
+        text-transform: uppercase !important;
+        vertical-align: middle !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 14px rgba(30, 58, 138, 0.22) !important;
+        transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s !important;
+    }
+    #contact_send:hover:not(:disabled) {
+        background: #1e4498 !important;
+        border-color: #d4a445 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(30, 58, 138, 0.28) !important;
+    }
+    #contact_send:disabled {
+        background: #6b7488 !important;
+        color: rgba(230, 192, 105, 0.55) !important;
+        border-color: rgba(184, 138, 62, 0.45) !important;
+        box-shadow: none !important;
+        cursor: not-allowed !important;
+        transform: none !important;
+    }
+    .bl_contact_v2 .bl_contact_faq_link {
+        margin-top: 16px;
+        padding: 12px 0;
+    }
+    .bl_contact_v2 .bl_contact_faq_link p {
+        margin: 0 0 4px;
+        color: #4b5563;
+    }
+    @media (min-width: 768px) {
+        .bl_contact_v2 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+        .bl_contact_v2 .bl_contact_form_section {
+            flex: 1 1 55%;
+            min-width: 320px;
+        }
+        .bl_contact_v2 .bl_contact_info_section {
+            flex: 1 1 35%;
+            min-width: 240px;
+        }
+    }
+</style>
+<!-- begin_re_captcha_script -->
+<script src="//www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl={re_captcha_lang}" async defer></script>
+<!-- end_re_captcha_script -->
+{footer}

@@ -1,0 +1,73 @@
+# Environment / secrets
+.env
+*.env
+.env.*
+*.pem
+*.key
+*.crt
+
+# Chameleon / PHP sensitive config
+_include/config/db.php
+**/_include/config/db.php
+**/db.php
+**/config.php
+**/settings.php
+
+# Database dumps
+*.sql
+*.sql.gz
+*.dump
+*.bak
+
+# Backups / archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+_backup/
+backup/
+backups/
+old/
+_old/
+
+# Logs
+*.log
+logs/
+
+# Cache / temp files
+cache/
+_files/cache/
+tmp/
+temp/
+uploads/cache/
+
+# User uploaded media / heavy files
+_uploads/
+uploads/
+_userfiles/
+_files/photo/
+_files/video/
+_files/user/
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# Dependencies
+node_modules/
+vendor/
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ip.db
+upstream/_include/current/misc/ip.db
+
+*.db
+
+*.db
+
+upstream/_include/current/misc/ip.db

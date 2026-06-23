@@ -1,0 +1,237 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+        var blockSubmission = false;
+        function removeSubmissionBlock() {
+        blockSubmission = false;
+        }
+        function isSubmissionAllowed() {
+        if(blockSubmission){
+           return false;
+        }
+        return;
+        }
+        document.onclick = isSubmissionAllowed;
+        document.onkeydown = isSubmissionAllowed;
+
+        function onValidateadvsearch() {
+        var form = document.forms['advsearch'];
+        if (!(validateRequiredSelect(form['state'],'{l_state_province}','-1'))) {
+          removeSubmissionBlock();
+          return false;
+        }
+
+        if (!(validateRequiredSelect(form['city'],'{l_city}','-1'))) {
+          removeSubmissionBlock();
+          return false;
+        }
+        return true;
+        }
+        function validateadvsearch() {
+        blockSubmission = true;
+         if (typeof beforeadvsearchValidation != 'undefined') {
+           beforeadvsearchValidation();
+        }
+        var validated = onValidateadvsearch();
+        if (validated && (typeof uponSuccessfuladvsearchValidation != 'undefined')) {
+          validated = uponSuccessfuladvsearchValidation();
+        }
+        else if (!validated && (typeof uponUnsuccessfuladvsearchValidation != 'undefined')) {
+          uponUnsuccessfuladvsearchValidation();
+        }
+        if (!validated) {
+          removeSubmissionBlock();
+        }
+        return validated;
+        }
+        function submitadvsearch() {
+        if (validateadvsearch()) document.advsearch.submit();
+        }
+</script>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form name="advsearch" method="GET" action="{url_main}administration/users_results.php" onSubmit="return validateadvsearch();">
+							<fieldset class="form-group">
+								<label>{l_name}:</label>
+								<input class="form-control" type="text" name="name" maxlength="200"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_email}:</label>
+								<input class="form-control" type="text" name="mail" maxlength="200"/>
+							</fieldset>
+
+							<fieldset class="form-group form-group-border skin skin-flat">
+								<div class="bl_label">
+									<label for="radio_gold">{l_gold}:</label>
+									<input id="radio_gold" class="i_radio" type="radio" name="gold" value="1">
+								</div>
+								<div class="bl_label">
+									<label for="radio_gold_f">{l_free}:</label>
+									<input id="radio_gold_f" class="i_radio" type="radio" name="gold" value="0">
+								</div>
+        					</fieldset>
+
+
+							<fieldset class="form-group form-group-border">
+								<fieldset class="form-group">
+									<span class="label_frm">{l_date_register}:</span>
+									<input class="form-control w-20 in_bl" type="date" name="r_from" value="0000-00-00" maxlength="10">
+									<span class="label_frm">{l_to}:</span>
+									<input class="form-control w-20 in_bl" type="date" name="r_to" value="{r_to}" maxlength="10">
+								</fieldset>
+
+								<fieldset class="form-group mb-0">
+									<span class="label_frm">{l_from}:</span>
+									<select class="form-control w-20 in_bl" name="p_age_from">{p_age_from_options}</select>
+									<span class="label_frm">{l_to}:</span>
+									<select class="form-control w-20 in_bl" name="p_age_to">{p_age_to_options}</select> {l_years_old}
+								</fieldset>
+							</fieldset>
+
+							<!-- begin_p_orientations -->
+							<fieldset class="form-group form-group-border">
+								<div class="label_frm">{field_title}:</div>
+								<!-- begin_p_orientation -->
+								<div class="bl_label custom-switch">
+									<input id="p_orientation_{id}" class="custom-control-input i_checkbox" name="p_orientation[]" type="checkbox" value="{id}" {checked}>
+									<label class="custom-control-label" for="p_orientation_{id}">{title}</label>
+								</div>
+								<!-- end_p_orientation -->
+							</fieldset>
+							<!-- end_p_orientations -->
+
+							<!-- begin_p_relations -->
+							<fieldset class="form-group form-group-border">
+								<div class="label_frm">{field_title}:</div>
+								<!-- begin_p_relation -->
+								<div class="bl_label custom-switch">
+									<input id="p_relation_{id}" class="custom-control-input i_checkbox" name="p_relation[]" type="checkbox" value="{id}" {checked}>
+									<label class="custom-control-label" for="p_relation_{id}">{title}</label>
+								</div>
+   								<!-- end_p_relation -->
+							</fieldset>
+							<!-- end_p_relations -->
+
+							<!-- begin_i_am_here_tos -->
+							<fieldset class="form-group form-group-border">
+								<div class="label_frm">{field_title}:</div>
+								<!-- begin_i_am_here_to -->
+								<div class="bl_label custom-switch">
+									<input id="i_am_here_to_{id}" class="custom-control-input i_checkbox" name="i_am_here_to[]" type="checkbox" value="{id}" {checked}>
+									<label class="custom-control-label" for="i_am_here_to_{id}">{title}</label>
+								</div>
+								<!-- end_i_am_here_to -->
+							</fieldset>
+							<!-- end_i_am_here_tos -->
+
+							<!-- begin_lms_user_types -->
+							<fieldset class="form-group form-group-border">
+								<div class="label_frm">{field_title}:</div>
+								<!-- begin_lms_user_type -->
+								<div class="bl_label custom-switch">
+									<input id="lms_user_type_{id}" class="custom-control-input i_checkbox" name="lms_user_type[]" type="checkbox" value="{id}" {checked}>
+									<label class="custom-control-label" for="lms_user_type_{id}">{title}</label>
+								</div>
+								<!-- end_lms_user_type -->
+							</fieldset>
+							<!-- end_lms_user_types -->
+
+							<script language="JavaScript" type="text/javascript">
+							function locationredirect() {
+								try {blockSubmission = true;} catch(e) { }
+								locationReplaceForm(document.advsearch, '{url_main}administration/users_search.php');
+							}
+							function resetLocation(){
+								document.advsearch.city.disabled = 'true';
+								document.advsearch.state.disabled = 'true';
+								document.advsearch.country.disabled = 'true';
+								locationReplaceForm(document.advsearch, '{url_main}administration/users_search.php');
+							}
+							</script>
+							<fieldset class="form-group form-group-border">
+								<div class="label_frm">{location}:</div>
+								<fieldset class="form-group">
+								<select class="select2 form-control" name="country" onChange="locationredirect(); submitForm(document.advsearch, '{url_main}administration/users_search.php')">
+									<option value="" selected>{l_select_all}</option>
+									{country_options}
+								</select>
+								</fieldset>
+
+								<fieldset class="form-group">
+								<select name="state" onChange="locationredirect()" class="select2 form-control">
+									<option value="0">{l_select_all}</option>
+									{state_options}
+								</select>
+								</fieldset>
+
+								<fieldset class="form-group mb-0">
+								<select name="city" class="select2 form-control">
+									<option value="0">{l_select_all}</option>
+									{city_options}
+								</select>
+								</fieldset>
+							</fieldset>
+
+							<fieldset class="form-group">
+								<label>{l_keyword}:</label>
+								<input class="form-control" type="text" name="keyword" maxlength="200"/>
+							</fieldset>
+
+							<fieldset class="form-group custom-switch">
+								<input class="custom-control-input i_checkbox" type="checkbox" id="use_as_online" name="use_as_online" value="1">
+								<label class="custom-control-label" for="use_as_online">{l_use_as_online}</label>
+							</fieldset>
+
+
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_search}</button>
+								</div>
+							</fieldset>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{footer}

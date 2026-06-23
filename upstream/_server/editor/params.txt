@@ -1,0 +1,11 @@
+minLatitude = 307474420, maxLatitude = 307551133, minLongitude = -1085369449, maxLongitude = -1085307973, scale = 0 array (
+  'minLongitude' => '%2D108%2E536944870125',
+  'maxLongitude' => '%2D108%2E530797247063',
+  'minLatitude' => '30%2E7551133480634',
+  'maxLatitude' => '30%2E7474420516787',
+  'requestId' => '91',
+  'scale' => '0',
+  'onLoad' => '[type Function]',
+  'onHTTPStatus' => '[type Function]',
+  'owner' => '[object Object]',
+)

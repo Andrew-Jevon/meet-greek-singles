@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tanslate>
+    <EN>
+        <!-- ================================================================ General -->
+        <ok>OK</ok>
+        <yes>Yes</yes>
+        <no>No</no>
+
+        <!--- =============================================================== Wiget's -->
+
+        <!--- Bg Color !-->
+        <widget.bgcolor.selectColor>Choose background color</widget.bgcolor.selectColor>
+
+        <!--- Clock  !-->
+        <widget.clock.removeTheClock>Remove the clock?</widget.clock.removeTheClock>
+        <widget.clock.selectColor>Select the clock's color:</widget.clock.selectColor>
+        <widget.clock.black>Black</widget.clock.black>
+        <widget.clock.white>White</widget.clock.white>
+
+        <!--- Map !-->
+        <widget.map.balloon.user.more>More...</widget.map.balloon.user.more>
+        <widget.map.activate>Activate the map?</widget.map.activate>
+        <widget.map.deactivate>Deactivate the map?</widget.map.deactivate>
+    </EN>
+</tanslate>

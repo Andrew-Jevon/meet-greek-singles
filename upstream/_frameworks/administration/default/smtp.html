@@ -1,0 +1,32 @@
+{header}
+<script>
+function checkPassword() {
+    form = document.getElementById('form_smtp');
+    if (!(validateTwoFields(form['option[password]'], '{l_field_password}', form['option[password2]'], '{l_field_password2}'))) {
+        return false;
+    }
+    return true;
+}
+</script>
+<div class="block_narrow">
+{menu_page}
+</div>
+<div class="block_main">
+    <h2>{l_title_current}</h2>
+    <div class="bl_form">
+        <form action="{url_page}" method="POST" id="form_smtp" onsubmit="return checkPassword();">
+			<input type="hidden" name="cmd" value="update">
+			{message_main}
+
+			{config_fields}
+
+			<div class="wrap_button fl_right">
+                <button class="button submit" type="submit">{l_save}</button>
+                <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+			</div>
+        </form>
+    </div>
+
+</div>
+<div class="empty"></div>
+{footer}

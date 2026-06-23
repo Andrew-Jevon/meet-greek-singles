@@ -1,0 +1,60 @@
+{header}
+<div class="block_narrow">
+	{langs}
+</div>
+<div class="block_main">
+    <h2>Profile field visibility</h2>
+    <p style="margin: 0 0 16px; color: #666; font-size: 13px;">
+        Decide who sees each profile field on a member's page.
+        <strong>Public</strong> = visible to anyone (incl. logged-out visitors).
+        <strong>Member</strong> = visible to logged-in members only.
+        <strong>Owner</strong> = only the field's owner sees their own value.
+    </p>
+
+    <div class="bl_form">
+        <!-- begin_saved_msg -->
+        <p style="background:#dff0d8; padding:10px 14px; border-radius:6px; color:#3c763d;">
+            Saved {saved_count} field(s).
+        </p>
+        <!-- end_saved_msg -->
+
+        <form method="POST" action="{url_page}">
+            <input type="hidden" name="cmd" value="save" />
+
+            <table border="0" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse; margin-bottom: 16px;">
+                <thead>
+                    <tr style="background:#f2f2f2; text-align:left;">
+                        <th style="padding:8px 10px; border-bottom:1px solid #ddd;">Field</th>
+                        <th style="padding:8px 10px; border-bottom:1px solid #ddd; width: 90px;">Type</th>
+                        <th style="padding:8px 10px; border-bottom:1px solid #ddd; width: 180px;">Visibility</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- begin_field_row -->
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:10px;">
+                            <strong>{field_title}</strong><br>
+                            <small style="color:#999;">{field_key}</small>
+                        </td>
+                        <td style="padding:10px; color:#666; font-size:12px;">{field_type}</td>
+                        <td style="padding:10px;">
+                            <select name="scope[{field_key}]" style="width:100%;">
+                                <option value="public" {sel_public}>Public</option>
+                                <option value="member" {sel_member}>Member</option>
+                                <option value="owner"  {sel_owner}>Owner only</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <!-- end_field_row -->
+                </tbody>
+            </table>
+
+            <div class="wrap_button fl_right">
+                <button class="button submit" type="submit">Save changes</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="empty"></div>
+</div>
+{footer}

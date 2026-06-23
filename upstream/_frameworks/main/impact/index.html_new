@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meet Greek Singles | Coming Soon</title>
+  <meta name="description" content="Meet Greek Singles is coming soon. A refined space for meaningful Greek connections rooted in shared values, culture, and authenticity." />
+  <style>
+    :root {
+      --navy: #183b74;
+      --gold: #d4ad47;
+      --gold-soft: rgba(212, 173, 71, 0.18);
+      --white: #ffffff;
+      --text: #f6f7fb;
+      --muted: rgba(255,255,255,0.92);
+      --overlay: rgba(12, 28, 57, 0.48);
+      --overlay-strong: rgba(12, 28, 57, 0.62);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background: #0c1c39;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0)),
+        linear-gradient(to bottom, var(--overlay), var(--overlay-strong)),
+        url('/_files/background.jpg') center center / cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 18%, rgba(255,255,255,0.18), transparent 30%),
+                  radial-gradient(circle at 80% 25%, rgba(255,255,255,0.12), transparent 26%),
+                  radial-gradient(circle at 50% 90%, rgba(212,173,71,0.10), transparent 24%);
+      pointer-events: none;
+    }
+
+    .page {
+      width: min(100%, 920px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background: rgba(15, 33, 67, 0.38);
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 28px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+      text-align: center;
+      padding: 38px 28px 34px;
+    }
+
+    .logo-wrap {
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      width: min(100%, 430px);
+      height: auto;
+      display: inline-block;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.24));
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #fff7df;
+      background: var(--gold-soft);
+      border: 1px solid rgba(212,173,71,0.33);
+      border-radius: 999px;
+      padding: 9px 16px;
+      margin: 8px 0 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.35rem, 5.3vw, 4.7rem);
+      line-height: 1.04;
+      font-weight: 700;
+      color: var(--white);
+      text-shadow: 0 10px 26px rgba(0,0,0,0.28);
+    }
+
+    .subtitle {
+      margin: 18px auto 0;
+      max-width: 780px;
+      font-size: clamp(1.1rem, 2.1vw, 1.55rem);
+      line-height: 1.55;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .divider {
+      width: 88px;
+      height: 3px;
+      margin: 28px auto;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(212,173,71,0.15), var(--gold), rgba(212,173,71,0.15));
+    }
+
+    .message {
+      margin: 0 auto;
+      max-width: 760px;
+      font-size: clamp(1.02rem, 1.85vw, 1.28rem);
+      line-height: 1.8;
+      color: rgba(255,255,255,0.96);
+    }
+
+    .message strong {
+      color: #fff2c7;
+      font-weight: 700;
+    }
+
+    .coming-soon {
+      margin-top: 28px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff2c7;
+      font-size: 0.95rem;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        align-items: flex-start;
+        padding: 20px 14px;
+      }
+
+      .card {
+        border-radius: 22px;
+        padding: 26px 18px 24px;
+      }
+
+      .logo {
+        width: min(100%, 300px);
+      }
+
+      .eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        padding: 8px 12px;
+        margin-bottom: 18px;
+      }
+
+      .divider {
+        margin: 22px auto;
+      }
+
+      .message {
+        line-height: 1.65;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card" aria-label="Meet Greek Singles coming soon announcement">
+      <div class="logo-wrap">
+        <img class="logo" src="_files/logo.png" alt="Meet Greek Singles" />
+      </div>
+
+      <div class="eyebrow">Coming Soon</div>
+
+      <h1>Where Greek Hearts Meet</h1>
+
+      <p class="subtitle">
+        A refined space for meaningful connections, rooted in shared values, culture, and authenticity.
+      </p>
+
+      <div class="divider"></div>
+
+      <p class="message">
+        We are currently preparing something special — a place where Greeks from around the world can connect in a genuine and meaningful way.
+        <br><br>
+        <strong>Our official launch is coming soon.</strong>
+      </p>
+
+      <div class="coming-soon">A beautiful new beginning is on its way</div>
+      <p class="footer-note">With warmth from Greece 🇬🇷</p>
+    </section>
+  </main>
+</body>
+</html>

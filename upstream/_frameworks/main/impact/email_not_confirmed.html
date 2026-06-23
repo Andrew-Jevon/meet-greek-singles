@@ -1,0 +1,432 @@
+{header}
+<style>
+    :root {
+        --mgs-navy: #0f3a6a;
+        --mgs-gold: #c89a3a;
+        --mgs-cream: #f7f3ec;
+        --mgs-ink: #1f2937;
+        --mgs-ink-soft: #5b6471;
+        --mgs-success: #1f7a3a;
+        --mgs-error: #b03a2e;
+    }
+
+    /* Page shell */
+    .mgs_confirm_shell {
+        position: relative;
+        min-height: calc(100vh - 80px);
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(15,58,106,0.10) 100%),
+            url('/_files/banner/ChangedBackgroundImage.png?v=2026-06-01') center center / cover no-repeat;
+        padding: 60px 16px 80px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+    /* Hide vendor video header on confirmation page */
+    html body:has(.mgs_confirm_shell) .header,
+    html body:has(.mgs_confirm_shell) .wrap_header_cont + .header {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+    }
+
+    .mgs_confirm_card {
+        position: relative;
+        width: 100%;
+        max-width: 520px;
+        background: #ffffff;
+        border-radius: 22px;
+        box-shadow: 0 24px 64px rgba(15, 58, 106, 0.22);
+        padding: 44px 44px 36px;
+        box-sizing: border-box;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        color: var(--mgs-ink);
+    }
+
+    .mgs_confirm_icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: rgba(15, 58, 106, 0.08);
+        color: var(--mgs-navy);
+    }
+    .mgs_confirm_icon svg { width: 36px; height: 36px; }
+
+    .mgs_confirm_title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 700;
+        font-size: clamp(24px, 3.2vw, 30px);
+        color: var(--mgs-navy);
+        text-align: center;
+        margin: 0 0 10px;
+        line-height: 1.2;
+    }
+    .mgs_confirm_lead {
+        font-size: 15.5px;
+        line-height: 1.55;
+        color: var(--mgs-ink);
+        text-align: center;
+        margin: 0 0 22px;
+    }
+
+    .mgs_confirm_email_box {
+        margin: 0 0 24px;
+        padding: 16px 18px;
+        background: #f7f3ec;
+        border: 1px solid #e8e1d2;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .mgs_confirm_email_box svg { flex-shrink: 0; color: var(--mgs-navy); }
+    .mgs_confirm_email_box .mgs_email_label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--mgs-ink-soft);
+        margin: 0 0 2px;
+    }
+    .mgs_confirm_email_box .mgs_email_value {
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--mgs-navy);
+        word-break: break-all;
+        line-height: 1.3;
+    }
+
+    .mgs_confirm_actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .mgs_btn_primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 52px;
+        background: var(--mgs-navy);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(15, 58, 106, 0.28);
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .mgs_btn_primary:hover {
+        background: #14487f;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(15, 58, 106, 0.32);
+    }
+    .mgs_btn_link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin: 4px auto 0;
+        background: none;
+        border: 0;
+        padding: 8px 10px;
+        color: #2477ba;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .mgs_btn_link:hover { text-decoration: underline; }
+
+    .mgs_change_email_box {
+        display: none;
+        margin: 18px 0 0;
+        padding: 18px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+    }
+    .mgs_change_email_box.is-open { display: block; }
+    .mgs_change_email_box label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--mgs-ink);
+        margin-bottom: 8px;
+    }
+    .mgs_change_email_box input[type="email"],
+    .mgs_change_email_box input[type="text"] {
+        width: 100%;
+        height: 44px;
+        padding: 0 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 15px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        box-sizing: border-box;
+        background: #ffffff;
+    }
+    .mgs_change_email_box input:focus {
+        outline: none;
+        border-color: var(--mgs-navy);
+        box-shadow: 0 0 0 3px rgba(15, 58, 106, 0.12);
+    }
+    .mgs_change_email_box .mgs_change_actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+    }
+    .mgs_change_email_box .mgs_change_actions .mgs_btn_primary { flex: 1; }
+    .mgs_change_email_box .mgs_btn_secondary {
+        height: 52px;
+        padding: 0 22px;
+        background: #ffffff;
+        color: var(--mgs-ink-soft);
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .mgs_change_email_box .mgs_btn_secondary:hover {
+        background: #f3f4f6;
+        color: var(--mgs-ink);
+    }
+
+    .mgs_confirm_status {
+        margin: 0 0 18px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1.5;
+    }
+    .mgs_confirm_status.is-success {
+        background: rgba(31, 122, 58, 0.08);
+        color: var(--mgs-success);
+        border: 1px solid rgba(31, 122, 58, 0.2);
+    }
+    .mgs_confirm_status.is-error {
+        background: rgba(176, 58, 46, 0.08);
+        color: var(--mgs-error);
+        border: 1px solid rgba(176, 58, 46, 0.2);
+    }
+
+    .mgs_confirm_help {
+        margin: 22px 0 0;
+        text-align: center;
+        font-size: 13px;
+        color: var(--mgs-ink-soft);
+        line-height: 1.5;
+    }
+    .mgs_confirm_help strong { color: var(--mgs-ink); }
+
+    /* 2026-06-09 — escape link (log out + back to homepage) */
+    .mgs_confirm_leave {
+        margin: 18px 0 0;
+        text-align: center;
+        font-size: 13px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(232, 225, 210, 0.7);
+    }
+    .mgs_leave_link {
+        display: inline-flex;
+        align-items: center;
+        color: var(--mgs-ink-soft) !important;
+        text-decoration: none !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 999px;
+        transition: color 0.15s, background 0.15s;
+    }
+    .mgs_leave_link:hover {
+        color: var(--mgs-navy) !important;
+        background: rgba(15, 58, 106, 0.06);
+        text-decoration: none !important;
+    }
+
+    .footer { background: transparent !important; }
+
+    @media (max-width: 520px) {
+        .mgs_confirm_shell { padding: 36px 12px 60px; }
+        .mgs_confirm_card { padding: 32px 24px 28px; border-radius: 16px; }
+        .mgs_change_email_box .mgs_change_actions { flex-direction: column; }
+    }
+</style>
+
+<div class="mgs_confirm_shell">
+    <div class="mgs_confirm_card">
+
+        <div class="mgs_confirm_icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- begin_email_sent_title -->
+        <h1 class="mgs_confirm_title">Confirmation Email Sent</h1>
+        <p class="mgs_confirm_lead">
+            We&rsquo;ve sent a fresh confirmation email to your registered email address. Please click the link in that email to activate your account.
+        </p>
+        <div class="mgs_confirm_status is-success" role="status">
+            A new confirmation email has been sent. Please check your inbox &mdash; and your spam folder, just in case.
+        </div>
+        <!-- end_email_sent_title -->
+
+        <!-- begin_default_title -->
+        <h1 class="mgs_confirm_title">Welcome to Meet Greek Singles!</h1>
+        <p class="mgs_confirm_lead">
+            We&rsquo;ve sent a confirmation email to your registered email address. Please click the link in that email to activate your account.
+        </p>
+        <!-- end_default_title -->
+
+        <div class="mgs_confirm_email_box" aria-label="Your registered email">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+                <span class="mgs_email_label">Your registered email</span>
+                <span class="mgs_email_value" id="mgs_user_mail">{user_mail}</span>
+            </div>
+        </div>
+
+        <div id="mgs_inline_error" class="mgs_confirm_status is-error" role="alert" style="display:none">
+            {message}
+        </div>
+
+        <div class="mgs_confirm_actions">
+            <!-- Resend uses the current email — no typing required -->
+            <form id="mgs_resend_form" action="{url_main}email_not_confirmed.php" method="POST" autocomplete="off">
+                <input type="hidden" name="email" value="{user_mail}"/>
+                <button type="submit" class="mgs_btn_primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 4v6h6M20 20v-6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M5.6 9A7 7 0 0 1 19 8l2-2M19 15a7 7 0 0 1-13.4 1l-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                    Resend Confirmation Email
+                </button>
+            </form>
+
+            <button type="button" class="mgs_btn_link" id="mgs_change_email_toggle" aria-controls="mgs_change_email_box" aria-expanded="false">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 21v-3a4 4 0 0 1 4-4h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M16 5l3 3-9 9-3 1 1-3 8-10z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                </svg>
+                Change Email Address
+            </button>
+        </div>
+
+        <div id="mgs_change_email_box" class="mgs_change_email_box" role="region" aria-labelledby="mgs_change_email_heading">
+            <form id="mgs_change_email_form" action="{url_main}email_not_confirmed.php" method="POST" autocomplete="off">
+                <label for="mgs_new_email" id="mgs_change_email_heading">New email address</label>
+                <input id="mgs_new_email" name="email" type="email" inputmode="email" placeholder="you@example.com" value="" maxlength="100" autocomplete="email" required/>
+                <div class="mgs_change_actions">
+                    <button type="submit" class="mgs_btn_primary" id="mgs_submit_change">
+                        Update &amp; Resend
+                    </button>
+                    <button type="button" class="mgs_btn_secondary" id="mgs_cancel_change">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <p class="mgs_confirm_help">
+            Didn&rsquo;t get the email? Check your <strong>spam</strong> or <strong>promotions</strong> folder. If your email address is wrong, click &ldquo;Change Email Address&rdquo; above.
+        </p>
+
+        <!-- 2026-06-09 — escape route. The EmailVerification hook would
+             normally bounce the user back here if they tried to navigate
+             away. This link logs them out first, so they actually reach
+             the homepage as a guest. -->
+        <p class="mgs_confirm_leave">
+            <a href="/logout.php" class="mgs_leave_link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="vertical-align:-2px;margin-right:4px;">
+                    <path d="M15 12H4M4 12l5-5M4 12l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Back to homepage (log me out)
+            </a>
+        </p>
+    </div>
+</div>
+
+<script>
+(function($){
+    $(function(){
+        // 2026-06-09 — Rewire the navbar logo (and any "home" / nav links) to
+        // /logout.php on this page. Otherwise clicking the logo navigates to
+        // / which the EmailVerification hook silently bounces straight back
+        // here, making the page feel like a trap.
+        $('a.mgs_brand, a.mgs_nav_item, a[href="./"], a[href="/"]').each(function(){
+            var $a = $(this);
+            var href = $a.attr('href') || '';
+            // Only rewrite "home"-style links, not the language switcher etc.
+            if (href === '' || href === '/' || href === './' || href === '/index.php' || href.indexOf('mgs_brand') !== -1 || $a.hasClass('mgs_brand') || $a.hasClass('mgs_nav_item')) {
+                $a.attr('href', '/logout.php');
+                $a.attr('title', 'Log out and return to homepage');
+            }
+        });
+
+        var $toggle  = $('#mgs_change_email_toggle');
+        var $box     = $('#mgs_change_email_box');
+        var $input   = $('#mgs_new_email');
+        var $cancel  = $('#mgs_cancel_change');
+        var $error   = $('#mgs_inline_error');
+        var msg      = $.trim($error.text());
+        var currentMail = $.trim($('#mgs_user_mail').text());
+
+        // Show inline error block only when the backend returned a real message.
+        if (msg.length) $error.show();
+
+        $toggle.on('click', function(){
+            var open = $box.hasClass('is-open');
+            if (open) {
+                $box.removeClass('is-open');
+                $toggle.attr('aria-expanded', 'false');
+            } else {
+                $box.addClass('is-open');
+                $toggle.attr('aria-expanded', 'true');
+                if (!$input.val()) $input.val(currentMail);
+                setTimeout(function(){ $input.trigger('focus').select(); }, 60);
+            }
+        });
+
+        $cancel.on('click', function(){
+            $box.removeClass('is-open');
+            $toggle.attr('aria-expanded', 'false');
+            $input.val('');
+        });
+
+        // Light client-side validation before submitting Change Email so the
+        // browser doesn't bounce to the backend for an obvious typo.
+        $('#mgs_change_email_form').on('submit', function(e){
+            var v = $.trim($input.val());
+            var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+            if (!ok) {
+                e.preventDefault();
+                $input.trigger('focus');
+                $error.text('Please enter a valid email address.').show();
+                return false;
+            }
+        });
+    });
+})(jQuery);
+</script>
+
+{footer}

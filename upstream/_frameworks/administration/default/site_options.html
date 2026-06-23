@@ -1,0 +1,29 @@
+{header}
+<div class="block_narrow">
+{menu_page}
+</div>
+<div class="block_main">
+
+    {l_changes_save}
+
+    <div class="bl_form">
+        <form action="{url_page}" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="cmd" value="update">
+
+            {config_fields}
+
+            <div class="wrap_button fl_right">
+                <button class="button submit" type="submit">{l_save}</button>
+                <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+            </div>
+        </form>
+    </div>
+
+    <div class="empty"></div>
+</div>
+<!-- begin_upload_error -->
+<script language="javascript" type="text/javascript">
+    alert('{error}');
+</script>
+<!-- end_upload_error -->
+{footer}

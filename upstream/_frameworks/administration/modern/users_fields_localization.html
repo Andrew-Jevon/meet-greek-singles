@@ -1,0 +1,183 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_fields.php">{l_menu_profile_fields}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<!-- begin_alert_message -->
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message}</div>
+	<!-- end_alert_message -->
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_language_edit_instruction}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}" method="POST">
+							<fieldset class="form-group">
+								<div class="wrap_button fl_left">
+									<button id="back_to_editor" class="btn btn-info">{l_back_to_editor}</button>
+								</div>
+							</fieldset>
+							<!-- begin_fields -->
+							<h5 class="mt-3">{table_title}</h5>
+							<hr>
+							<!-- end_fields -->
+							<!-- begin_language -->
+							<fieldset class="form-group">
+								<label>{l_translation}:</label>
+								<select id="language" class="form-control" name="language">
+									{select_options_language}
+								</select>
+							</fieldset>
+							<!-- end_language -->
+
+							<!-- begin_select_block_localization -->
+							<div class="row">
+								<!-- begin_select_country -->
+								<div class="<!-- begin_select_column_country_1 -->col-md-12<!-- end_select_column_country_1 --><!-- begin_select_column_country_2 -->col-md-6<!-- end_select_column_country_2 -->">
+									<fieldset class="form-group">
+										<label>{l_country}:</label>
+										<select class="select_localization form-control" id="select_country" name="country_id">
+											{geo_countries}
+										</select>
+									</fieldset>
+								</div>
+								<!-- end_select_country -->
+								<!-- begin_select_state -->
+								<div class="<!-- begin_select_column_state_1 -->col-md-12<!-- end_select_column_state_1 --><!-- begin_select_column_state_2 -->col-md-6<!-- end_select_column_state_2 -->">
+									<fieldset class="form-group">
+										<label>{l_state}:</label>
+										<select class="select_localization form-control" id="select_state" name="state_id">
+										{geo_states}
+										</select>
+									</fieldset>
+								</div>
+								<!-- end_select_state -->
+							</div>
+							<hr class="mb-3">
+							<!-- end_select_block_localization -->
+
+							<!-- begin_item -->
+							<fieldset id="block_{id}" class="form-group">
+								<label for="{id}">{title}</label>
+								<div class="location_loader_bl">
+									<img id="preloader_{id}" src="{url_tmpl_administration}images/loader.gif">
+								</div>
+								<input id="{id}" data-key="{key}" data-current="{title_lang}" class="location form-control" type="text" name="name" value="{title_lang}">
+							</fieldset>
+							<!-- end_item -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+$(function() {
+    $('.location').keydown(function(e){
+        if (isKeyPressed(e, 13)) {
+            updateItem($(this).attr('id'));
+            return false;
+        };
+    }).blur(function(e){
+        updateItem($(this).attr('id'));
+    });
+
+    $('#language').change(function(){
+        window.location.href='{url_page}?mode={mode}&lang=' + $(this).val() + getParam();
+    });
+    <!-- begin_select_localization_js -->
+    $('.select_localization').change(function(){
+        window.location.href='{url_page}?mode={mode_js}&lang=' + $('#language').val() + getParam();
+    });
+    <!-- end_select_localization_js -->
+
+    $('#back_to_editor').click(function(){
+        var param = getParam('0');
+        if (param != '') {
+            param = '?' + param;
+        }
+        if ('{mode}' == 'fields' || '{mode}' == 'question') {
+            param += '#{table}';
+
+        }
+		window.location.href='users_fields{href}.php' + param;
+
+		return false;
+    })
+
+    function getParam(par) {
+        var par = par || '1',
+            select_country = $('#select_country'),
+            select_state = $('#select_state'),
+            param = '';
+        if (select_country.length) {
+            param = 'country_id='+select_country.val();
+        }
+        if (select_country.length && select_state.length) {
+            param = 'country_id='+select_country.val()+'&state_id='+select_state.val();
+        }
+        if ('{mode}' == 'fields' || '{mode}' == 'question') {
+            param = 'table={table}&fields={fields}';
+        }
+        if (par == '1') {
+            param = '&' + param;
+        }
+
+        return param;
+    }
+});
+
+
+function updateItem(id_item) {
+    var el = $('#'+id_item),
+        val = el.val(),
+        key = el.data('key');
+    if (val != el.data('current')) {
+        $('#preloader_'+id_item).show();
+        $.post('{url_page}', {ajax: 1, cmd: 'update', key: key, title: val, lang: '{lang}'}, function(data){
+            $('#preloader_'+id_item).hide();
+            if (data == 'updated') {
+                el.data('current', val);
+            } else {
+                alert(data);
+            }
+        });
+    }
+}
+</script>
+
+{footer}

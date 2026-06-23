@@ -1,0 +1,1024 @@
+{header}
+<script type="text/javascript" src="{url_tmpl_main}js/join.js{cache_version_param}"></script>
+<script>
+    var joinLangParts = {
+        incorrect_captcha : '{j_incorrect_captcha}',
+        done : '{j_done}',
+        errorFileSizeLimit : '{max_photo_file_size_limit}',
+        acceptFileTypes : '{j_accept_file_types}',
+        errorFileUploadFailed : '{j_photo_file_upload_failed}',
+        noConfirmationAccount : '{j_no_confirmation_account}',
+        existsEmail : '{j_exists_email}',
+        unlike : '{j_unlike}',
+        like : '{j_like}',
+        slogan_1 : '{slogan_1}',
+        slogan_2 : '{slogan_2}',
+        slogan_3 : 'A few finishing touches to your story',
+    };
+    var isJoinWithPhotoOnly='{join_with_photo_only}'*1,
+        fileSizeLimit='{photo_file_size_limit}'*1,
+        numberPhotoLikes='{number_photo_likes}'*1,
+        maxUsersPagesJoin='{usersinfo_pages_per_join}'*1;
+    var captcha='',isRecaptcha=false;
+    <!-- begin_re_captcha_js -->
+    isRecaptcha=true;
+    var onloadCallback = function() {
+        recaptchaWd = grecaptcha.render('recaptcha', {
+            'sitekey' : '{re_captcha_sitekey}',
+            'callback' : verifyCallback,
+            'theme' : '{re_captcha_theme}'
+        });
+    };
+    <!-- end_re_captcha_js -->
+    fileNameUpload = '{social_photo_uploaded_name}';
+</script>
+
+<style>
+    :root {
+        --mgs-navy: #0f3a6a;
+        --mgs-gold: #c89a3a;
+        --mgs-ink: #1f2937;
+        --mgs-ink-soft: #5b6471;
+    }
+
+    /* Background + layout shell */
+    html body .wrap_header_cont,
+    html body .wrap_header_cont.absolute {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: url(/_files/banner/ChangedBackgroundImage.png?v=2026-06-01) center center / cover no-repeat !important;
+        z-index: 1 !important;
+    }
+    html body .wrap_header_cont > .bl {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .mgs_join2_legacy_header { display: none !important; }
+
+    /* Footer-injected homepage video block — never show on join2 */
+    html body:has(.mgs_join2_shell) .wrap_header_cont + .header,
+    html body:has(.mgs_join2_shell) .header {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+        background: none !important;
+    }
+    html body:has(.mgs_join2_shell) .header video,
+    html body:has(.mgs_join2_shell) .header .video-wrapper {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .mgs_join2_shell {
+        position: relative;
+        z-index: 2;
+        padding: 28px 24px 48px;
+        box-sizing: border-box;
+    }
+
+    /* Unified header — progress + title in one clean card */
+    .mgs_join2_header {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 16px 48px rgba(15, 58, 106, 0.14);
+        margin: 0 auto 24px;
+        overflow: hidden;
+    }
+
+    /* 2026-06-05 (Milestone B) — overall registration progress indicator */
+    .mgs_step_progress {
+        position: relative;
+        z-index: 1;
+        max-width: none;
+        margin: 0;
+        padding: 22px 32px 16px;
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        border-bottom: 1px solid #eef2f6;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+    }
+    .mgs_join2_header .mgs_step_progress {
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .mgs_step_progress ol {
+        list-style: none; margin: 0; padding: 0;
+        display: flex; justify-content: space-between; align-items: flex-start;
+        gap: 12px;
+    }
+    .mgs_step_progress li {
+        flex: 1; position: relative; text-align: center;
+        color: #94a3b8; font-size: 12.5px; font-weight: 600; line-height: 1.3;
+    }
+    .mgs_step_progress li .mgs_step_num {
+        display: flex; align-items: center; justify-content: center;
+        width: 32px; height: 32px; margin: 0 auto 6px;
+        border-radius: 50%; background: #e5e7eb; color: #94a3b8;
+        font-size: 13px; font-weight: 700;
+        transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .mgs_step_progress li.is-done .mgs_step_num { background: rgba(200, 154, 58, 0.85); color: #fff; }
+    .mgs_step_progress li.is-active .mgs_step_num {
+        background: var(--mgs-navy); color: #fff;
+        transform: scale(1.08); box-shadow: 0 4px 12px rgba(15, 58, 106, 0.32);
+    }
+    .mgs_step_progress li.is-active { color: var(--mgs-navy); }
+    .mgs_step_progress li.is-done   { color: #5b6471; }
+    .mgs_step_progress li::after {
+        content: ''; position: absolute; top: 16px; right: -50%;
+        width: 100%; height: 2px; background: #e5e7eb; z-index: -1;
+    }
+    .mgs_step_progress li:last-child::after { display: none; }
+    .mgs_step_progress li.is-done::after { background: rgba(200, 154, 58, 0.55); }
+    .mgs_step_text {
+        text-align: center; margin: 10px 0 0;
+        font-size: 11px; font-weight: 700; color: #94a3b8;
+        letter-spacing: 1px; text-transform: uppercase;
+    }
+    @media (max-width: 520px) {
+        .mgs_step_progress { padding: 16px 18px 12px; }
+        .mgs_step_progress li { font-size: 11px; }
+        .mgs_step_progress li .mgs_step_num { width: 26px; height: 26px; font-size: 12px; }
+        .mgs_step_progress li::after { top: 13px; }
+    }
+    .mgs_join2_shell::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.04) 50%,
+            rgba(15, 58, 106, 0.05) 100%);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .mgs_join2_inner { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; }
+
+    /* Intro copy — inside unified header card */
+    .mgs_join2_intro {
+        text-align: center;
+        padding: 28px 32px 32px;
+        max-width: 640px;
+        margin: 0 auto;
+    }
+    .mgs_join2_intro h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(28px, 3.8vw, 38px);
+        color: var(--mgs-navy);
+        margin: 0 0 10px;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+    }
+    .mgs_join2_hero_sub {
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        color: var(--mgs-ink-soft);
+        margin: 0 auto 18px;
+        max-width: 520px;
+    }
+    .mgs_join2_trust_note {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: #f4f7fa;
+        border: 1px solid #e2e8f0;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #475569;
+        line-height: 1.35;
+    }
+    .mgs_join2_trust_note svg {
+        flex-shrink: 0;
+        color: var(--mgs-navy);
+    }
+
+    /* White card — two-column split like mockup */
+    .mgs_join2_card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 24px 64px rgba(15, 58, 106, 0.2);
+        padding: 0;
+        overflow: hidden;
+    }
+    html body .content.mgs_join2_content {
+        background: transparent !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+    }
+    html body .mgs_join2_shell .content .cont_vc {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    #full_step_1, #full_step_2 { display: none !important; }
+
+    /* Beat legacy card.css table/table-cell + float layout (overlap fix) */
+    html body .mgs_join2_shell #full_step_3.bl_card_profile {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        vertical-align: initial !important;
+    }
+
+    html body .mgs_join2_shell .card_profile {
+        display: grid !important;
+        grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) !important;
+        grid-template-rows: auto !important;
+        align-items: stretch !important;
+        gap: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+    }
+
+    /* Left — photos (light panel per mockup) */
+    html body .mgs_join2_shell .card_profile .part_photo {
+        display: block !important;
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        text-align: center;
+        float: none !important;
+        width: auto !important;
+        vertical-align: initial !important;
+        position: relative !important;
+        z-index: 1 !important;
+        background: linear-gradient(180deg, #eef4f8 0%, #e8f0f6 100%);
+        padding: 32px 28px 36px;
+        border-right: 1px solid rgba(15, 58, 106, 0.08);
+        box-sizing: border-box;
+    }
+    .mgs_photos_title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 600;
+        font-size: 24px;
+        color: var(--mgs-navy);
+        margin: 0 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    .mgs_photos_spark { color: var(--mgs-gold); font-size: 20px; }
+    .mgs_photos_lead {
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        color: #4b5563;
+        margin: 0 auto 22px;
+        max-width: 280px;
+        text-align: center;
+    }
+    .mgs_photos_lead strong { color: var(--mgs-navy); font-weight: 700; }
+    /* Privacy line lives in left photo tips — hide duplicate on form side */
+    .mgs_privacy_reminder { display: none !important; }
+
+    .card_profile .part_photo .upload_file { margin: 0 auto 20px; }
+    .card_profile .part_photo .upload {
+        position: relative;
+        width: 168px !important;
+        height: 168px !important;
+        margin: 0 auto !important;
+        border-radius: 50% !important;
+        background: var(--mgs-navy) !important;
+        overflow: hidden;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 4px solid rgba(200, 154, 58, 0.35);
+    }
+    .card_profile .part_photo .upload img.pic {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+    }
+    .card_profile .part_photo .upload:not(:has(img.pic[src*="blank"])) .mgs_photo_placeholder { display: none; }
+    .mgs_photo_placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.9);
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        padding: 20px;
+        pointer-events: none;
+    }
+    .mgs_photo_placeholder svg { margin-bottom: 8px; opacity: 0.95; }
+    .mgs_photo_cam {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #2dd4bf;
+        border: 3px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .card_profile .part_photo .photo_add,
+    .card_profile .part_photo .bl.photo_add {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0 !important;
+        cursor: pointer !important;
+        z-index: 3;
+        margin: 0 !important;
+        font-size: 0 !important;
+    }
+    .card_profile .part_photo input.file {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0 !important;
+        cursor: pointer !important;
+        z-index: 4;
+    }
+
+    .mgs_photo_tips {
+        list-style: none;
+        margin: 0 0 20px;
+        padding: 0;
+        text-align: left;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: #4b5563;
+    }
+    .mgs_photo_tips li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(15, 58, 106, 0.07);
+        border-radius: 10px;
+    }
+    .mgs_photo_tips li:last-child { margin-bottom: 0; }
+    .mgs_photo_tips li svg {
+        flex-shrink: 0;
+        margin-top: 1px;
+        color: var(--mgs-navy);
+        width: 20px;
+        height: 20px;
+    }
+    .mgs_photo_tips strong { color: var(--mgs-ink); font-weight: 700; }
+
+    /* Profile preview — name, age, location */
+    .mgs_profile_preview {
+        margin-top: 4px;
+        padding: 14px 16px;
+        background: #fff;
+        border: 1px solid rgba(15, 58, 106, 0.1);
+        border-radius: 14px;
+        box-shadow: 0 4px 14px rgba(15, 58, 106, 0.06);
+        text-align: left;
+    }
+    .mgs_profile_preview_label {
+        margin: 0 0 12px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #94a3b8;
+    }
+    .mgs_profile_preview_body {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+    .mgs_profile_avatar {
+        flex-shrink: 0;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #0f3a6a 0%, #1a5088 100%);
+        border: 2px solid rgba(200, 154, 58, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #fff;
+        line-height: 1;
+    }
+    .mgs_profile_preview_text { min-width: 0; flex: 1; }
+    .card_profile .part_photo .name,
+    .mgs_profile_preview .name {
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        color: var(--mgs-navy) !important;
+        margin: 0 0 4px !important;
+        max-width: none !important;
+        white-space: normal !important;
+        text-overflow: unset !important;
+        overflow: visible !important;
+        line-height: 1.25 !important;
+    }
+    .card_profile .part_photo .name_info,
+    .mgs_profile_preview .name_info {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: #64748b !important;
+        line-height: 1.35 !important;
+        margin: 0 !important;
+    }
+    .mgs_profile_sep {
+        color: #cbd5e1;
+        font-weight: 700;
+        line-height: 1;
+    }
+    .mgs_profile_sep.is-hidden { display: none !important; }
+
+    /* Right — form */
+    html body .mgs_join2_shell .card_profile .card_profile_info,
+    html body .mgs_join2_shell .card_profile_info.card_join,
+    html body .mgs_join2_shell #frm_card_join {
+        display: block !important;
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        min-width: 0 !important;
+        float: none !important;
+        width: auto !important;
+        max-width: none !important;
+        vertical-align: initial !important;
+        padding: 32px 36px 36px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        position: relative !important;
+        z-index: 2 !important;
+        background: #fff !important;
+    }
+    html body .mgs_join2_shell .card_join .bl,
+    html body .mgs_join2_shell #frm_card_join .bl {
+        float: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        clear: both !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    html body .mgs_join2_shell .card_join .bl .capcha,
+    html body .mgs_join2_shell #frm_card_join .bl .capcha {
+        float: none !important;
+    }
+    html body .mgs_join2_shell .card_join .bl input.inp.capcha,
+    html body .mgs_join2_shell #frm_card_join .bl input.inp.capcha {
+        float: none !important;
+        width: 100% !important;
+    }
+    #frm_card_join .bl_basic {
+        margin-bottom: 22px;
+    }
+    #frm_card_join .bl_basic .title {
+        font-family: 'Playfair Display', Georgia, serif !important;
+        font-size: 22px !important;
+        font-weight: 600 !important;
+        color: var(--mgs-navy) !important;
+        margin-bottom: 6px !important;
+        padding: 0 !important;
+        background: none !important;
+        border: none !important;
+    }
+    #frm_card_join .bl_basic:has(#about_me) .title { font-size: 0 !important; }
+    #frm_card_join .bl_basic:has(#about_me) .title::after {
+        content: "About Me";
+        font-size: 22px;
+        display: block;
+    }
+    #frm_card_join .bl_basic:has(#interested_in) .title { font-size: 0 !important; }
+    #frm_card_join .bl_basic:has(#interested_in) .title::after {
+        content: "Tell Us About Your Ideal Match";
+        font-size: 20px;
+        display: block;
+        line-height: 1.25;
+    }
+    .mgs_field_hint {
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 13.5px;
+        color: var(--mgs-ink-soft);
+        margin: 0 0 10px;
+        line-height: 1.45;
+    }
+    #frm_card_join textarea.fl_basic {
+        width: 100% !important;
+        min-height: 120px !important;
+        padding: 14px !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 8px !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+        resize: vertical;
+        box-sizing: border-box;
+    }
+    #frm_card_join textarea#about_me::placeholder { color: #9ca3af; }
+    #frm_card_join textarea#interested_in::placeholder {
+        color: #9ca3af;
+        font-size: 14px;
+    }
+    .mgs_char_count {
+        text-align: right;
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 4px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+    }
+
+    /* Captcha */
+    #frm_card_join > .bl:has(.capcha),
+    #frm_card_join > .bl:has(.recaptcha_bl) {
+        margin-top: 8px;
+    }
+    #frm_card_join .capcha_img {
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 8px;
+        overflow: hidden;
+        display: inline-block;
+    }
+    #frm_card_join .capcha_img img { display: block; max-height: 56px; }
+    #frm_card_join .bl_inp_pos .inp.capcha {
+        width: 100% !important;
+        height: 44px !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 8px !important;
+        padding: 0 14px !important;
+        font-size: 15px !important;
+    }
+    .mgs_captcha_refresh {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 13px;
+        color: #2477ba;
+        cursor: pointer;
+        background: none;
+        border: 0;
+        padding: 0;
+    }
+    .mgs_captcha_refresh:hover { text-decoration: underline; }
+
+    /* 2026-06-09 (Q27 per Irene) — site-wide button style:
+       royal blue + metallic gold outline + consistent gold font. */
+    #join_done.btn_join_submit,
+    #join_done {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        height: 52px !important;
+        margin-top: 22px !important;
+        background: #1e3a8a !important;             /* royal blue */
+        color: #e6c069 !important;                   /* metallic gold font */
+        border: 2px solid #b88a3e !important;       /* darker gold outline */
+        border-radius: 999px !important;
+        font-family: 'Source Sans 3', system-ui, sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.4px !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+        box-shadow: 0 6px 18px rgba(30, 58, 138, 0.30) !important;
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s, border-color 0.2s !important;
+    }
+    #join_done:hover {
+        background: #1e4498 !important;
+        border-color: #d4a445 !important;
+        transform: translateY(-1px);
+    }
+
+    .mgs_join2_login_link {
+        text-align: center;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 14px;
+        color: var(--mgs-ink-soft);
+        margin-top: 16px;
+    }
+    .mgs_join2_login_link a {
+        color: #2477ba;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .mgs_join2_login_link a:hover { text-decoration: underline; }
+
+    /* 2026-06-05 — #step_loader is the vendor's step-2 → step-3 transition
+       spinner. We render step 3 directly, so the vendor JS that hides it on
+       step-3 arrival never fires, leaving the spinner stuck overlapping the
+       submit button. Hide by default; vendor JS will still show it during
+       actual photo-upload transitions if it needs to. */
+    #step_loader { z-index: 99999; display: none !important; }
+
+    @media (max-width: 900px) {
+        .mgs_join2_intro { padding: 22px 20px 26px; }
+        .mgs_join2_trust_note { font-size: 12.5px; padding: 7px 14px; }
+        html body .mgs_join2_shell .card_profile {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+        }
+        html body .mgs_join2_shell .card_profile .part_photo {
+            grid-column: auto !important;
+            grid-row: auto !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            border-right: none;
+            border-bottom: 1px solid rgba(15, 58, 106, 0.08);
+            border-radius: 22px 22px 0 0;
+        }
+        html body .mgs_join2_shell .card_profile_info.card_join,
+        html body .mgs_join2_shell #frm_card_join {
+            grid-column: auto !important;
+            grid-row: auto !important;
+            padding: 28px 22px 32px !important;
+        }
+    }
+</style>
+
+<!-- Legacy Chameleon header (hidden; global MGS navbar from _header.html is used) -->
+<div class="header mgs_join2_legacy_header">
+    <div id="join_step" class="step">
+        <ul><li class="selected"></li><li style="display:none;"></li><li style="display:none;"></li></ul>
+        <script>setStepJoin();</script>
+    </div>
+    <div class="slogan"><span id="join_slogan"></span></div>
+    <script>setSlogan();</script>
+    <div class="logo">
+        <a href="{url_main}{url_page_index}"><img src="{header_url_logo}" style="max-height:45px;max-width:238px;" alt="" /></a>
+    </div>
+</div>
+
+<div class="mgs_join2_shell">
+    <div class="mgs_join2_inner">
+
+        <div class="mgs_join2_header">
+            <nav class="mgs_step_progress" aria-label="Registration progress">
+                <ol>
+                    <li class="is-done"><span class="mgs_step_num">1</span><span class="mgs_step_label">Account</span></li>
+                    <li class="is-active"><span class="mgs_step_num">2</span><span class="mgs_step_label">Profile</span></li>
+                    <li><span class="mgs_step_num">3</span><span class="mgs_step_label">Compatibility</span></li>
+                    <li><span class="mgs_step_num">4</span><span class="mgs_step_label">Welcome</span></li>
+                </ol>
+                <p class="mgs_step_text">Step 2 of 4</p>
+            </nav>
+
+            <div class="mgs_join2_intro">
+                <h1>Complete Your Profile</h1>
+                <p class="mgs_join2_hero_sub">Add a photo and tell us a little about yourself so other members can get to know you.</p>
+                <p class="mgs_join2_trust_note" role="note">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 3 5 6v6c0 4.5 3 8.5 7 9.5 4-1 7-5 7-9.5V6l-7-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    </svg>
+                    Your information is always confidential
+                </p>
+            </div>
+        </div>
+
+        <div class="mgs_join2_card">
+            <div class="content mgs_join2_content">
+                <div class="cont_vc">
+
+<div id="full_step_1" class="bl_card_question" style="display:none;">
+    <div class="card_question_cont"></div>
+</div>
+<div id="full_step_2" class="bl_card_question" style="display:none">
+    <div class="bl_card_type"><div id="list_photos_card" class="list_photos_card"><div class="cl"></div></div></div>
+</div>
+
+<div id="full_step_3" class="bl_card_profile" <!-- begin_final_step_hide -->style="display:none"<!-- end_final_step_hide -->>
+    <div class="card_profile">
+        <div class="part_photo">
+            <h2 class="mgs_photos_title"><span class="mgs_photos_spark" aria-hidden="true">&#10024;</span> Add Your Photos</h2>
+            <p class="mgs_photos_lead">Profiles with photos receive <strong>significantly more attention</strong> and messages from other members. Add at least one clear, recent photo of yourself.</p>
+            <div class="upload_file">
+                <form id="photo_upload" data-id="" method="post" enctype="multipart/form-data" action="{url_page}">
+                    <div class="upload">
+                        <!-- begin_photo_upload_social -->
+                        <style>
+                            .card_profile .part_photo .upload img.pic { display: block; }
+                            .card_profile .part_photo .upload_pic { display: none; }
+                        </style>
+                        <!-- end_photo_upload_social -->
+                        <div class="mgs_photo_placeholder" id="mgs_photo_placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 20c0-4 3.5-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Add a Photo
+                        </div>
+                        <span class="mgs_photo_cam" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.5"/>
+                                <circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </span>
+                        <img id="photo_img" class="pic" src="{social_photo_uploaded_url}" alt="" />
+                        <!-- begin_photo_upload -->
+                        <div id="photo_loader" class="bl photo_loader to_hide">
+                            <div class="css_loader photo_upload_loader">
+                                <div class="spinner spinnerw center">
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                    <div class="spinner-blade"></div><div class="spinner-blade"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bl photo_add">{l_add_a_photo}</div>
+                        <input id="photo_upload_file" name="photo_upload_file" class="file" accept="image/jpeg,image/png,image/gif" onChange="changeUploadPhoto($(this));" type="file"/>
+                        <!-- end_photo_upload -->
+                    </div>
+                    <div class="upload_pic">
+                        <input id="photo_upload_file_bind" name="photo_upload_file_bind" accept="image/jpeg,image/png,image/gif" class="file" onChange="changeUploadPhoto($(this));" type="file"/>
+                    </div>
+                    <input id="photo_upload_reset" style="display:none;" type="reset" value=""/>
+                    <input id="photo_upload_submit" style="display:none;" type="submit"/>
+                </form>
+            </div>
+            <div id="photo_upload_error" class="error" title=""></div>
+            <ul class="mgs_photo_tips">
+                <li>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Use a <strong>real photo</strong> of yourself that is clear and current.</span>
+                </li>
+                <li>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Add <strong>more than one</strong> photo so members can get to know the real you.</span>
+                </li>
+                <li>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>A warm smile and natural lighting <strong>make a real difference</strong>.</span>
+                </li>
+                <li>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v6c0 4.5 3 8.5 7 9.5 4-1 7-5 7-9.5V6l-7-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                    <span>Your information is always confidential.</span>
+                </li>
+            </ul>
+            <div class="mgs_profile_preview" aria-label="Your profile preview">
+                <p class="mgs_profile_preview_label">How you&rsquo;ll appear</p>
+                <div class="mgs_profile_preview_body">
+                    <div class="mgs_profile_avatar" id="mgs_profile_initial" aria-hidden="true">?</div>
+                    <div class="mgs_profile_preview_text">
+                        <div class="name">{user_name}</div>
+                        <div class="name_info">
+                            <span class="mgs_profile_age">{user_age}</span>
+                            <span class="mgs_profile_sep" aria-hidden="true">·</span>
+                            <span class="mgs_profile_city">{user_city}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="frm_card_join" class="card_profile_info card_join">
+            <!-- begin_basic -->
+            <div class="bl bl_basic">
+            <div class="title">{field}</div>
+            <p class="mgs_field_hint mgs_hint-about">Share a little about who you are &mdash; your story, what you enjoy, the values that shape your everyday life, and what brings you joy. Members respond most to profiles that feel warm and genuine, so write in your own voice. There is no perfect length; a few honest sentences are enough.</p>
+            <div id="{name}_error" class="error to_hide">{l_required_field}</div>
+            <!-- begin_textarea -->
+            <textarea id="{name}" class="placeholder_always fl_basic" name="{name}" placeholder="Write your bio here..." maxlength="{maxlen}"></textarea>
+            <div class="mgs_char_count" data-for="{name}" aria-live="polite">0 / {maxlen}</div>
+            <!-- end_textarea -->
+            <!-- begin_text -->
+            <input id="{name}" class="placeholder_always fl_basic basic_field" name="{name}" type="text" placeholder="{value}" maxlength="{maxlen}" value=""/>
+            <!-- end_text -->
+            </div>
+            <!-- end_basic -->
+            <!-- begin_default_captcha -->
+            <div class="bl">
+                <div title="{a_refresh}" class="capcha capcha_img" onclick="refreshCaptcha();">
+                    <img id="img_join_captcha" src="{url_main}_server/securimage/securimage_show_custom.php?sid={sid}" alt="" />
+                </div>
+                <button type="button" class="mgs_captcha_refresh" onclick="refreshCaptcha(); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5.6 9A7 7 0 0 1 19 8l2-2M19 15a7 7 0 0 1-13.4 1l-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    Refresh
+                </button>
+                <div class="bl_inp_pos">
+                    <input id="captcha" name="captcha" class="inp capcha placeholder" type="text" placeholder="{a_enter_the_symbols_you_see}" value="" />
+                    <div id="captcha_error" class="error to_hide">{l_incorrect_captcha}</div>
+                </div>
+                <div class="cl"></div>
+            </div>
+            <!-- end_default_captcha -->
+            <!-- begin_re_captcha -->
+            <div class="bl">
+                <div class="recaptcha_bl">
+                    <div id="recaptcha" class="recaptcha"></div>
+                    <div id="captcha_error" class="error to_hide">{l_incorrect_captcha}</div>
+                </div>
+                <div class="cl"></div>
+            </div>
+            <!-- end_re_captcha -->
+            <div class="mgs_privacy_reminder" role="note">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+                <span>
+                    <strong>You are in control of your privacy.</strong> Your email address is never shown to other members, and you can adjust what is visible on your profile at any time from your settings.
+                </span>
+            </div>
+            <button id="join_done" class="btn turquoise small btn_join_submit" type="button">
+                Create My Free Account <span aria-hidden="true">&rsaquo;</span>
+            </button>
+            <p class="mgs_join2_login_link">Already have an account? <a href="/login">Log in</a></p>
+        </div>
+    </div>
+</div>
+
+<div id="step_loader" class="css_loader full_step_2_loader">
+    <div class="spinner spinnerw center">
+        <div class="spinner-blade"></div><div class="spinner-blade"></div>
+        <div class="spinner-blade"></div><div class="spinner-blade"></div>
+        <div class="spinner-blade"></div><div class="spinner-blade"></div>
+        <div class="spinner-blade"></div><div class="spinner-blade"></div>
+        <div class="spinner-blade"></div><div class="spinner-blade"></div>
+        <div class="spinner-blade"></div><div class="spinner-blade"></div>
+    </div>
+</div>
+<!-- begin_re_captcha_script -->
+<script src="//www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl={re_captcha_lang}" async defer></script>
+<!-- end_re_captcha_script -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function($){
+    function updateCharCount($ta) {
+        var max = parseInt($ta.attr('maxlength'), 10) || 500;
+        var len = ($ta.val() || '').length;
+        var $c = $('.mgs_char_count[data-for="' + $ta.attr('name') + '"]');
+        if ($c.length) $c.text(len + ' / ' + max);
+    }
+    function hidePlaceholderIfPhoto() {
+        var $img = $('#photo_img');
+        if (!$img.length) return;
+        var src = $img.attr('src') || '';
+        if (src && src.indexOf('blank') === -1 && src.indexOf('nophoto') === -1) {
+            $('#mgs_photo_placeholder').hide();
+        }
+    }
+    function hasPhotoUploaded() {
+        var $img = $('#photo_img');
+        if (!$img.length) return false;
+        var src = ($img.attr('src') || '').toLowerCase();
+        if (!src) return false;
+        // Vendor default placeholders use 'blank' / 'nophoto' / 'noimage' in URL
+        return src.indexOf('blank') === -1
+            && src.indexOf('nophoto') === -1
+            && src.indexOf('noimage') === -1;
+    }
+    function initProfilePreview() {
+        var $name = $('.mgs_profile_preview .name');
+        var name = $.trim($name.text());
+        var initial = name ? name.charAt(0).toUpperCase() : '?';
+        $('#mgs_profile_initial').text(initial);
+        var city = $.trim($('.mgs_profile_city').text());
+        if (!city) {
+            $('.mgs_profile_sep').addClass('is-hidden');
+        }
+        var age = $.trim($('.mgs_profile_age').text()).replace(/,\s*$/, '');
+        if (age) {
+            $('.mgs_profile_age').text(age);
+        }
+    }
+
+    $(function(){
+        // 2026-06-05 — Defensively hide the step-2 transition loader. Because
+        // we render #full_step_3 directly (skipping the vendor's step 1/2 UI),
+        // the vendor JS that hides #step_loader on step-3 arrival doesn't
+        // fire, and the spinner sits stuck over the submit button. Strip any
+        // inline `display: block` the vendor script may have applied.
+        $('#step_loader').css('display', 'none').hide();
+
+        // 2026-06-09 (Q30 per Irene) — at least one profile photo is required
+        // to complete registration. Intercept the submit click in capture
+        // phase BEFORE the vendor join.js handler fires, and abort if no
+        // photo has been uploaded yet.
+        var joinBtn = document.getElementById('join_done');
+        if (joinBtn) {
+            joinBtn.addEventListener('click', function(e) {
+                if (!hasPhotoUploaded()) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    var $err = $('#mgs_photo_required_err');
+                    if (!$err.length) {
+                        $err = $('<div id="mgs_photo_required_err" class="error" style="background:#fff3f2;border:1px solid #f4c5bf;color:#b03a2e;padding:12px 14px;border-radius:10px;margin:14px 0;font-size:14px;font-weight:600;text-align:center;">Please upload at least one profile photo to continue. Members with a photo receive significantly more attention.</div>');
+                        $('.mgs_privacy_reminder').before($err);
+                    }
+                    $err.show();
+                    // Smooth scroll to the photo area so the user sees what's missing
+                    var $photo = $('.part_photo');
+                    if ($photo.length && $photo[0].scrollIntoView) {
+                        $photo[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+                    }
+                    return false;
+                }
+                $('#mgs_photo_required_err').hide();
+            }, true); // capture phase = runs before vendor handler
+        }
+
+        $('#about_me').attr('placeholder', 'Write your bio here...');
+        $('#interested_in').attr('placeholder', 'Describe what you are looking for in a partner...');
+        $('textarea.fl_basic').each(function(){ updateCharCount($(this)); });
+        $(document).on('input', 'textarea.fl_basic', function(){ updateCharCount($(this)); });
+        hidePlaceholderIfPhoto();
+        initProfilePreview();
+        $(document).on('change', '#photo_upload_file, #photo_upload_file_bind', function(){
+            setTimeout(hidePlaceholderIfPhoto, 500);
+        });
+        /* Only show "about" hint on about_me field */
+        $('.bl_basic').each(function(){
+            var $b = $(this);
+            if ($b.find('#about_me').length) {
+                $b.find('.mgs_hint-about').show();
+            } else {
+                $b.find('.mgs_hint-about').hide();
+            }
+            if ($b.find('#interested_in').length) {
+                if (!$b.find('.mgs_hint-match').length) {
+                    $b.find('.title').after('<p class="mgs_field_hint mgs_hint-match">Describe the qualities that matter to you in a partner &mdash; the values, interests, and the kind of relationship you hope to build. Speak from the heart rather than listing requirements; the most meaningful connections begin when both people understand what each is truly looking for.</p>');
+                }
+            }
+        });
+        $('#full_step_3').show();
+    });
+})(jQuery);
+</script>
+
+{footer}

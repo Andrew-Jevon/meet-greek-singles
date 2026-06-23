@@ -1,0 +1,65 @@
+{header}
+<div class="block_narrow">
+    <ul class="lmenu_lgreen">
+        <li><a href="{url_main}administration/users_results.php">{l_menu_users}</a></li>
+        <li><a href="{url_main}administration/users_approval.php?view=activate">{l_menu_users_activate}</a></li>
+        <li><a href="{url_main}administration/users_approval.php">{l_menu_users_approval}</a></li>
+        <li><a href="{url_main}administration/users_search.php">{l_menu_search}</a></li>
+        <li><a href="{url_main}administration/users_photo.php">{l_menu_photos}</a></li>
+        <li class="active"><a href="{url_main}administration/users_video.php">{l_menu_videos}</a></li>
+        <li><a href="{url_main}administration/users_text.php">{l_menu_texts}</a></li>
+        <li><a href="{url_main}administration/users_filter.php">{l_menu_filter}</a></li>
+    </ul>
+</div>
+<style>
+    .video_native, .mod_bl_description, .mod_bl_name,
+	.mod_comment_approve textarea{
+        width: 270px;
+    }
+	.mod_comment_approve{
+		margin-top: 5px;
+	}
+	.video_native{
+		height: auto!important;
+	}
+</style>
+<div class="block_main">
+    <h2>{l_title_current}</h2>
+<!--begin_videos-->
+    <div class="bl_form">
+    <form action="{url_main}administration/users_video.php" method="POST" name="Admin">
+      <div style="padding: 0px; overflow: hidden; width: 100%;">
+        <!-- begin_video -->
+        <div class="approve_photo" style="float:left; padding: 0 0px 10px 0; width: 280px;">
+            <div class="mod_bl_name">
+                {l_user}: <b><a href="{url_main}administration/users_edit.php?id={user_id}">{user_name}</a></b>
+            </div>
+            <div class="mod_bl_name">
+                <b>{private}</b>
+            </div>
+		<div class="mod_bl_description" title="{subject}">{subject}&nbsp;</div>
+        {video_html_code}
+		<div class="mod_comment_approve">
+			<textarea placeholder="{a_comment_approve}" name="comment[{video_id}]"></textarea>
+		</div>
+        <div style = "padding: 0px 0px">
+            <label class="approve_list"><input type="radio" class="check" name="do[{video_id}]" checked value="add"> {l_add}</label>
+            <label class="approve_list"><input type="radio" class="check" name="do[{video_id}]" value="del"> {l_delete}</label>
+        </div>
+        </div>
+        <!-- end_video -->
+        </div>
+        <div style="height: 20px;"></div>
+        <div class="wrap_button fl_right">
+            <button class="button submit" type="submit">{l_save}</button>
+            <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+        </div>
+	</form>
+    </div>
+<!--end_videos-->
+<!--begin_msg-->
+<div class = "msg">{l_no_video}</div>
+<!--end_msg-->
+    <div class="empty"></div>
+</div>
+{footer}

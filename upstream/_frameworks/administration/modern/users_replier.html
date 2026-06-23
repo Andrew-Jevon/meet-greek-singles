@@ -1,0 +1,216 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/fakes_reply_mails.php">{l_menu_fakes_reply}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+$(document).ready(function () {
+    $(".bl_form form").submit(function(e){
+        var id=$(this).attr('id');
+        var n=trim($("#username_"+id).val());
+        if(n==''){
+            alertCustom('{l_field_is_required}');
+            $("#username_"+id).focus();
+            return false;
+        }
+        if(id=="add"){
+            var p=trim($("#password_"+id).val());
+            if(p==''){
+                alertCustom('{l_field_is_required}');
+                $("#password_"+id).focus();
+                return false;
+            }
+        }
+        return true;
+    });
+})
+</script>
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+	<div class="alert alert-danger alert-dismissible  mb-2-1" role="alert">{l_changes_delete}</div>
+	<div class="alert alert-danger alert-dismissible  mb-2-1" role="alert">{message}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+
+						<!-- begin_mail_list_pages -->
+						<div class="total_pages mb-1">
+							<p class="num_total">{num_total} {l_count_users}</p>
+
+							<ul class="pagination justify-content-center">
+								<!-- begin_mail_list_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_mail_list_first_page -->
+								<!-- begin_mail_list_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mail_list_prev_page -->
+								<!-- begin_mail_list_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mail_list_prev_page_off -->
+								<!-- begin_mail_list_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_mail_list_prev_pages -->
+								<!-- begin_mail_list_page -->
+								<!-- begin_mail_list_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_mail_list_link_page -->
+								<!-- begin_mail_list_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_mail_list_this_page -->
+								<!-- end_mail_list_page -->
+								<!-- begin_mail_list_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_mail_list_next_pages -->
+								<!-- begin_mail_list_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mail_list_next_page -->
+								<!-- begin_mail_list_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mail_list_next_page_off -->
+								<!-- begin_mail_list_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_mail_list_last_page -->
+							</ul>
+						</div>
+						<!-- end_mail_list_pages -->
+
+						<!-- begin_mail_list -->
+						<!-- begin_mail_list_item -->
+						<div class="form-body  bl_form">
+							<form id="{id}" action="{url_page}" method="post">
+								<div class="row">
+									<input type="hidden" value="{id}" name="id" >
+									<input type="hidden" value="update" name="cmd" >
+									<div class="col-md-4">
+										<div class="form-group">
+											<input class="form-control" placeholder="{a_username}" id="username_{id}" type="text" name="username" value="{username}">
+										</div>
+									</div>
+									<div class="col-md-5">
+										<div class="form-group">
+											<input class="form-control" id="password_{id}" type="password" name="password" value="" placeholder="{a_input_the_new_password_here}">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<div class="wrap_button">
+												<button class="btn btn-primary mr-1 mb-1" type="submit">{l_save}</button>
+												<button class="btn btn-secondary mb-1" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete&id={id}')}); return false;">{l_delete}</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- end_mail_list_item -->
+						<!-- end_mail_list -->
+
+						<!-- begin_mail_list_noitems -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_replier}
+                        </div>
+						<!-- end_mail_list_noitems -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_create_replier}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body bl_form">
+						<form id="add" action="{url_page}" method="post">
+							<input type="hidden" value="add" name="cmd" >
+
+							<fieldset class="form-group">
+								<label>{l_username}:</label>
+								<input id="username_add" class="form-control" type="text" name="username" value="">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_password}:</label>
+								<input id="password_add" class="form-control" type="password" name="password" value="">
+							</fieldset>
+							<fieldset class="form-group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_add}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

@@ -1,0 +1,375 @@
+{header}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+    /* ─────────────────────────────────────────────────────────────────────
+       Refinement 2026-04-25 — Subscription page redesign.
+       Direction: lighter, calmer, emotionally inviting (not sales-driven).
+       Palette: ivory + soft blue + restrained gold accent.
+       Typography: Playfair Display 600-700 (no 900s) + Source Sans 3 light.
+       ───────────────────────────────────────────────────────────────────── */
+
+    .column_main .col_center { padding: 0; max-width: none; }
+    .col_center .nav { display: none; }
+
+    :root {
+        --c-bg:        #f7f3ec;   /* ivory cream — page base */
+        --c-bg-alt:    #ffffff;   /* card surface */
+        --c-ink:       #1f2937;   /* primary text */
+        --c-ink-soft:  #5b6471;   /* secondary text */
+        --c-line:      #e8e1d2;   /* hairlines */
+        --c-blue:      #2c4a76;   /* trust accent */
+        --c-blue-soft: #eaf0f8;
+        --c-gold:      #b88a3e;   /* warm restrained gold */
+        --c-gold-soft: #f5ecd8;
+    }
+
+    .upg_page * { box-sizing: border-box; }
+    .upg_page {
+        background: var(--c-bg);
+        color: var(--c-ink);
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        padding: 0;
+    }
+    .upg_page p { margin: 0 0 12px; }
+    .upg_page h1, .upg_page h2, .upg_page h3 {
+        font-family: 'Playfair Display', Georgia, serif;
+        color: var(--c-ink);
+        font-weight: 600;
+        margin: 0 0 12px;
+        line-height: 1.25;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────────────── */
+    .upg_hero {
+        position: relative;
+        padding: 96px 24px 80px;
+        text-align: center;
+        background:
+            linear-gradient(180deg, rgba(247,243,236,0.55) 0%, rgba(247,243,236,0.92) 70%, var(--c-bg) 100%),
+            url('https://meetgreeksingles.com/_frameworks/main/impact/images/upgrade/1%20(6).jpeg') center 30% / cover no-repeat;
+    }
+    .upg_hero_eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--c-gold);
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+    .upg_hero h1 {
+        font-size: clamp(28px, 4vw, 44px);
+        font-weight: 600;
+        max-width: 640px;
+        margin: 0 auto 14px;
+        color: var(--c-ink);
+    }
+    .upg_hero p {
+        max-width: 560px;
+        margin: 0 auto;
+        font-size: 17px;
+        color: var(--c-ink-soft);
+        font-weight: 300;
+    }
+
+    /* ── PRICING CARD ────────────────────────────────────────────────── */
+    .upg_pricing_section {
+        padding: 0 24px 64px;
+    }
+    .upg_pricing {
+        max-width: 420px;
+        margin: -32px auto 0;
+        background: var(--c-bg-alt);
+        border: 1px solid var(--c-line);
+        border-radius: 16px;
+        padding: 32px 32px 28px;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(28, 40, 64, 0.06);
+        position: relative;
+        z-index: 2;
+    }
+    .upg_pricing_label {
+        font-size: 12px;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--c-blue);
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+    .upg_price_row {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 4px;
+        margin-bottom: 4px;
+    }
+    .upg_price {
+        font-family: 'Playfair Display', serif;
+        font-size: 56px;
+        font-weight: 700;
+        color: var(--c-ink);
+        line-height: 1;
+    }
+    .upg_price sup { font-size: 24px; vertical-align: super; line-height: 0; color: var(--c-ink-soft); font-weight: 500; }
+    .upg_per { color: var(--c-ink-soft); font-size: 15px; margin-bottom: 6px; }
+    .upg_per_monthly {
+        color: var(--c-gold);
+        font-size: 13px;
+        margin-bottom: 22px;
+        font-weight: 500;
+    }
+    .upg_cta {
+        display: inline-block;
+        width: 100%;
+        padding: 14px 24px;
+        background: var(--c-blue);
+        color: #fff;
+        font-family: 'Source Sans 3', sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.4px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .upg_cta:hover {
+        background: #1f3a60;
+        transform: translateY(-1px);
+        text-decoration: none;
+        color: #fff;
+    }
+    .upg_fine {
+        margin-top: 14px;
+        color: var(--c-ink-soft);
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    /* ── INCLUDED LIST ───────────────────────────────────────────────── */
+    .upg_included {
+        max-width: 640px;
+        margin: 56px auto 0;
+        padding: 0 24px;
+    }
+    .upg_included h2 {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 28px;
+        color: var(--c-ink);
+    }
+    .upg_included ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 32px;
+        row-gap: 18px;
+    }
+    .upg_included li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 15.5px;
+        color: var(--c-ink);
+        line-height: 1.55;
+    }
+    .upg_check {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--c-gold-soft);
+        color: var(--c-gold);
+        font-weight: 700;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+    }
+
+    /* ── COMMUNITY NOTE ──────────────────────────────────────────────── */
+    .upg_note {
+        max-width: 600px;
+        margin: 80px auto 0;
+        padding: 0 24px;
+        text-align: center;
+    }
+    .upg_note h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--c-ink);
+        margin-bottom: 10px;
+    }
+    .upg_note p {
+        color: var(--c-ink-soft);
+        font-size: 15px;
+        font-weight: 300;
+        font-style: italic;
+        max-width: 520px;
+        margin: 0 auto;
+    }
+
+    /* ── TRUST LINE ──────────────────────────────────────────────────── */
+    .upg_trust {
+        max-width: 720px;
+        margin: 64px auto 24px;
+        padding: 22px 24px;
+        text-align: center;
+        border-top: 1px solid var(--c-line);
+        color: var(--c-ink-soft);
+        font-size: 13px;
+        letter-spacing: 0.3px;
+    }
+    .upg_trust span { margin: 0 14px; white-space: nowrap; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────────── */
+    @media (max-width: 700px) {
+        .upg_hero { padding: 64px 20px 52px; }
+        .upg_pricing { margin-top: -24px; padding: 26px 22px 22px; }
+        .upg_included ul { grid-template-columns: 1fr; }
+        .upg_trust span { display: block; margin: 6px 0; }
+    }
+
+    /* ── HIDE LEGACY BACKEND MARKUP (kept for payment flow only) ─── */
+    .upgrade_package { display: none !important; }
+    .footer { margin-top: 24px; }
+</style>
+
+<div class="col_center upg_page">
+
+    <!-- HERO -->
+    <section class="upg_hero">
+        <!-- 2026-06-09 (Q4 per Irene) — plan name = "Premium Membership" -->
+        <div class="upg_hero_eyebrow">Premium Membership</div>
+        <h1>A deeper way to connect</h1>
+        <p>Open up the full Meet Greek Singles experience — and give yourself the time and space to find the right person.</p>
+    </section>
+
+    <!-- PRICING -->
+    <section class="upg_pricing_section">
+        <div class="upg_pricing">
+            <!-- 2026-06-09 (Q4 per Irene) — plan name = "Premium Membership" -->
+            <div class="upg_pricing_label">Premium Membership &mdash; 6 months</div>
+            <div class="upg_price_row">
+                <div class="upg_price"><sup>&euro;</sup>60</div>
+            </div>
+            <div class="upg_per">for 6 months</div>
+            <div class="upg_per_monthly">that&rsquo;s about &euro;10 a month</div>
+            <a onclick="upgrade.showPopupPaymentSystem(); return false;" href="#" class="upg_cta">Become a member</a>
+            <div class="upg_fine">Secure payment &middot; activated instantly &middot; cancel anytime</div>
+        </div>
+
+        <!-- INCLUDED -->
+        <div class="upg_included">
+            <h2>What&rsquo;s included</h2>
+            <ul>
+                <li><span class="upg_check">&check;</span><span>Send a message to anyone, anytime</span></li>
+                <li><span class="upg_check">&check;</span><span>Voice and video calls within the platform</span></li>
+                <li><span class="upg_check">&check;</span><span>See everyone who liked your profile</span></li>
+                <li><span class="upg_check">&check;</span><span>Browse profiles privately, on your own terms</span></li>
+                <li><span class="upg_check">&check;</span><span>Priority placement in match results</span></li>
+                <li><span class="upg_check">&check;</span><span>Early access to community gatherings</span></li>
+            </ul>
+        </div>
+
+        <!-- WARM NOTE -->
+        <div class="upg_note">
+            <h2>A community, not a marketplace</h2>
+            <p>Meet Greek Singles is a small, intentional space for people who take connection seriously &mdash; rooted in shared culture, values and identity.</p>
+        </div>
+
+        <!-- TRUST -->
+        <div class="upg_trust">
+            <span>Secure payments</span>
+            <span>Private by default</span>
+            <span>Cancel anytime</span>
+        </div>
+    </section>
+
+    <!-- LEGACY BACKEND BLOCKS (kept intact for the payment loop / admin plan list — hidden visually) -->
+    <div class="upgrade_package <!-- begin_no_features -->no_features<!-- end_no_features -->">
+        <div class="items">
+            <!-- begin_payment_item_old -->
+            <label class="item <!-- begin_payment_item_old_selected -->selected<!-- end_payment_item_old_selected -->" for="rb_{item_num}">
+                <div class="bl">
+                    <div class="rb"><input onchange="upgrade.selectedPaymentPlan('{item}', '{item_name_js}', '{item_total_price}');" class="niceRadio upgrade_radio_styled" id="rb_{item_num}" name="rb" <!-- begin_payment_item_old_checked -->checked<!-- end_payment_item_old_checked --> type="radio" /></div>
+                    <ul class="price">
+                        <li>{item_name}</li>
+                        <li class="old">{item_old_price}</li>
+                        <li class="new">{item_new_price}</li>
+                    </ul>
+                </div>
+            </label>
+            <!-- end_payment_item_old -->
+        </div>
+    </div>
+
+</div>
+
+<!-- Payment popup — unchanged, drives the actual checkout flow -->
+<div id="pp_payment" class="pp_upgraded">
+    <div class="cont">
+        <div class="tb">
+            <div id="switch_paymant" class="switch_paymant td">
+                <!-- begin_payment_system -->
+                <div id="payment_{system}" class="item pp_payment_item">
+                    <div data-payment="{system}" class="frame" style="background-image: url({url_tmpl_main}images/{system}_logo_s.png);" title="{system_name}"></div>
+                </div>
+                <!-- end_payment_system -->
+                <div id="switch_paymant_arrow" class="decor"></div>
+            </div>
+            <div class="cont_pp_profile_upgraded td">
+                <div id="profile_upgraded_system">
+                    <!-- begin_payment_system_block -->
+                    <div id="{system}" class="cont_pp_profile_upgraded_item">
+                        <img src="{url_tmpl_main}images/{system}_logo.png" alt="{system_name}" />
+                        <div class="cl"></div>
+                    </div>
+                    <!-- end_payment_system_block -->
+                    <button id="pp_payment_proceed" onclick="upgrade.profileUpgrade(); return false;" class="btn small lblue">{l_proceed}</button>
+                </div>
+                <div id="profile_upgraded_error">
+                    <span>{l_there_was_an_error}</span>
+                    <img src="{url_tmpl_main}images/profile_upgraded_error.png" width="104" height="104" alt="" />
+                    <div class="cl"></div>
+                    <button onclick="location.href='{url_page_contact}'" class="btn small lblue">{l_contact_us}</button>
+                </div>
+                <div id="profile_upgraded_sucess">
+                    <span>{l_profile_upgraded}</span>
+                    <img src="{url_tmpl_main}images/profile_upgraded_sucessful.png" width="104" height="104" alt="" />
+                    <div class="cl"></div>
+                    <button data-cl-loader="btn_redirect_after_raising" onclick="redirectWithLoader($(this),'{url_main}'); return false;" class="btn small pink">{l_go_to_the_site}</button>
+                </div>
+            </div>
+            <div class="info_profile_upgraded td">
+                <div class="bl">
+                    <div class="name">
+                        <strong>{l_premium_package}</strong>
+                        <span id="pp_payment_plan_name"></span>
+                    </div>
+                    <p>{l_after_the_paid_period_is_over_you_will_be_able_to_renew_the_membership}</p>
+                    <div class="price">
+                        <strong id="pp_payment_total_price"></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="cl"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    <!-- begin_pay_enabled_item -->
+    upgrade.setAvailablePaymentSystemToPlan('{plan_key}', [{pays_enabled}]);
+    <!-- end_pay_enabled_item -->
+</script>
+<!-- begin_payment_error -->
+<script>$(function(){alertCustom('{j_seems_there_problem_with_your_payment}', true, '{j_problem_with_the_payment}');})</script>
+<!-- end_payment_error -->
+{footer}

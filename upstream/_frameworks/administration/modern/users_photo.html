@@ -1,0 +1,161 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+function approvePhoto(pid){
+    var cmd=$('input[name="do['+pid+']"]:checked').val();
+    if(cmd=='del'){
+        cmd='add';
+    }
+    redirectUrl('{url_main}administration/users_photo.php?do%5B'+pid+'%5D='+cmd);
+}
+
+function declineOnePhoto(pid){
+	var params='do['+pid+']=del&comment['+pid+']=' + trim($('#comment_'+pid).val());
+	goLink('{url_main}administration/users_photo.php',params);
+}
+</script>
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!--begin_photos-->
+						<form action="{url_main}administration/users_photo.php" method="POST" name="Admin">
+							<div class="row user_photo_approve_bl">
+								<!-- begin_photo -->
+								<div class="col-sm-4 col-md-3 col-xl-2">
+									<div class="approve_photo" style="height: auto;">
+										<div class="mod_bl_user">
+											{l_user}: <b><a href="{url_main}administration/users_edit.php?id={user_id}">{user_name}</a></b>
+										</div>
+										<!-- begin_photo_status -->
+										<div>
+											{l_status}: <b>{private}</b>
+										</div>
+										<!-- end_photo_status -->
+										<div class="mod_bl_description" title="{description}">{description}&nbsp;</div>
+										<div class="approve_photo_bl">
+
+											<div id="gallery_photo_{photo_id}" class="approve_photo_img_bl">
+												<a id="gallery_photo_link_{photo_id}" target="_blank" href="{url_files}{photo_b}" data-size="480x360">
+													<img class="square" id="photo_{photo_id}" data-user-id="{user_id}" data-photo-size="m"  src="{url_files}{photo_m}"> <!-- height="{photo_height}" -->
+												</a>
+												<!-- begin_photo_rotate -->
+												<a id="photo_rotate_{photo_id}" data-photo-id="{photo_id}" data-user-id="{user_id}"  data-photo-size="m" class="icon_rotate no_gallery" title="{a_rotate}" href="" >
+													<i class="ft-rotate-cw"></i>
+												</a>
+												<!-- end_photo_rotate -->
+											</div>
+											<script>
+												setDataSizeGallery($('#gallery_photo_link_{photo_id}'), '{url_files}{photo_b}');
+												$(function(){
+													initPhotoSwipeFromDOM('#gallery_photo_{photo_id}');
+												})
+											</script>
+
+											<div class="mod_comment_approve photo_approve">
+												<textarea id="comment_{photo_id}" placeholder="{a_comment_approve}" name="comment[{photo_id}]" class="form-control h_100"></textarea>
+											</div>
+
+											<div class="mod_bl_decor skin skin-flat">
+												<label class="approve_list">
+													<input type="radio" class="i_radio" name="do[{photo_id}]" checked value="add"> {l_add}
+												</label>
+												<label class="approve_list">
+													<input type="radio" class="i_radio" name="do[{photo_id}]" value="del"> {l_delete}
+												</label>
+												<!-- begin_photo_access -->
+												<label class="approve_list">
+													<input class="i_radio" type="radio" name="do[{photo_id}]" value="access"> {photo_access}
+												</label>
+												<!-- end_photo_access -->
+
+												<!-- begin_photo_edit_image_1 -->
+												<div class="link">
+													<a href="#" onclick="openEditorImage('{photo_id}', '{user_id}', 'admin'); return false;">{l_edit_photo}</a>
+												</div>
+												<!-- end_photo_edit_image_1 -->
+
+												<div class="link">
+													<a href="#" onclick="approvePhoto('{photo_id}'); return false;">{l_photo_approve}</a>
+												</div>
+												<div class="link">
+													<a href="#" onclick="confirmCustom('{l_are_you_sure}', function(){declineOnePhoto('{photo_id}')})">{l_delete}</a>
+												</div>
+
+											</div>
+
+										</div>
+
+
+									</div>
+								</div>
+								<!-- end_photo -->
+							</div>
+							<fieldset class="form-group">
+								<div class="wrap_button mt-1">
+									<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+						<!--end_photos-->
+						<!--begin_msg-->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_photo}
+                        </div>
+						<!--end_msg-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    equalHeight($('.approve_photo'));
+	$win.resize(function(){
+		$('.approve_photo').css('height', '');
+		equalHeight($('.approve_photo'))
+	})
+})
+</script>
+
+{footer}

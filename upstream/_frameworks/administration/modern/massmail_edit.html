@@ -1,0 +1,257 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/massmail.php">{l_menu_mass_mail}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{message_massmail}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message_error}</div>
+
+	<!-- begin_mails -->
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_mails_list}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<ul class="alphabet a_c">
+							<!-- begin_like -->
+							<li><a href="{url_page}?like={like}{params}">{like_title}</a></li>
+							<!-- end_like -->
+						</ul>
+
+						<!-- begin_mails_pages -->
+						<div class="total_pages">
+							<p class="num_total">{num_total} {l_count_mails}</p>
+
+							<ul class="pagination justify-content-center">
+								<!-- begin_mails_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_mails_first_page -->
+								<!-- begin_mails_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mails_prev_page -->
+								<!-- begin_mails_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mails_prev_page_off -->
+								<!-- begin_mails_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_mails_prev_pages -->
+								<!-- begin_mails_page -->
+								<!-- begin_mails_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_mails_link_page -->
+								<!-- begin_mails_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_mails_this_page -->
+								<!-- end_mails_page -->
+								<!-- begin_mails_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_mails_next_pages -->
+								<!-- begin_mails_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mails_next_page -->
+								<!-- begin_mails_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mails_next_page_off -->
+								<!-- begin_mails_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_mails_last_page -->
+							</ul>
+						</div>
+						<!-- end_mails_pages -->
+
+						<!-- begin_mails_items -->
+						<div class="table-responsive">
+
+							<table class="table table-striped table-hover mb-0 skin skin-flat table_nw">
+								<thead class="bg-primary white">
+									<th class="w-15">{l_action}</th>
+									<th class="w-10">
+										<!-- begin_params_none_id --><a href="{url_page}?{params_current}">{l_id}</a><!-- end_params_none_id -->
+										<!-- begin_params_asc_id --><b>&darr;</b><a href="{url_page}?{params_current}">{l_id}</a><!-- end_params_asc_id -->
+										<!-- begin_params_desc_id --><b>&uarr;</b><a href="{url_page}?{params_current}">{l_id}</a><!-- end_params_desc_id -->
+									</th>
+									<th>
+										<!-- begin_params_none_mail --><a href="{url_page}?{params_current}">{l_email}</a><!-- end_params_none_mail -->
+										<!-- begin_params_asc_mail --><b>&darr;</b><a href="{url_page}?{params_current}">{l_email}</a><!-- end_params_asc_mail -->
+										<!-- begin_params_desc_mail --><b>&uarr;</b><a href="{url_page}?{params_current}">{l_email}</a><!-- end_params_desc_mail -->
+									</th>
+									<th>{l_user}</th>
+								</thead>
+								<tbody>
+								<!-- begin_mails_item -->
+								<tr class="{class}">
+									<td>
+										<a href="{url_page}?offset={offset}{params}&cmd=delete_id&id={id}" onclick="if (confirm('{l_are_you_sure}')) return true; else return false;">{l_delete}</a>
+									</td>
+									<td>{id}</td>
+									<td>
+										<a href="{url_main}administration/massmail.php?to={mail}">{mail}</a>
+									</td>
+									<td>
+										<!-- begin_user -->
+										<a href="{url_main}administration/users_edit.php?id={user_id}">{user_name}</a>
+										<!-- end_user -->
+										<!-- begin_nouser -->{l_nouser}<!-- end_nouser -->
+									</td>
+								</tr>
+								<!-- end_mails_item -->
+								</tbody>
+							</table>
+						</div>
+						<!-- end_mails_items -->
+
+						<!-- begin_mails_noitems -->
+						<div class="alert alert-light mb-2 mt-2 alert-info-1" role="alert">
+                            {l_no_mails}
+                        </div>
+						<!-- end_mails_noitems -->
+
+						<form action="{url_page}" method="GET" class="mt-3">
+							<fieldset class="form-group">
+								<label>{l_domain_or_zone}:</label>
+								<input class="form-control" type="text" name="d" maxlength="100">
+							</fieldset>
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_search}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end_mails -->
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}" method="GET">
+							<input type="hidden" name="cmd" value="add">
+							<fieldset class="form-group">
+								<label>{l_add_mail}:</label>
+								<input class="form-control" type="text" name="mail">
+							</fieldset>
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_add}</button>
+								</div>
+							</fieldset>
+						</form>
+
+						<form action="{url_page}" method="GET" class="mt-3">
+							<input type="hidden" name="cmd" value="delete">
+							<fieldset class="form-group">
+								<label>{l_delete_mail}:</label>
+								<input class="form-control" type="text" name="mail">
+							</fieldset>
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_delete}</button>
+								</div>
+							</fieldset>
+						</form>
+
+						<form action="{url_page}" method="POST" enctype="multipart/form-data" class="mt-3">
+							<input type="hidden" name="cmd" value="add_file">
+							<fieldset class="form-group">
+								<label>{l_add_file}:</label>
+							</fieldset>
+							<fieldset class="form-group">
+								<input class="upload" type="file" name="file"/>
+							</fieldset>
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_add}</button>
+								</div>
+							</fieldset>
+						</form>
+
+						<form action="{url_page}" method="POST" enctype="multipart/form-data" class="mt-3">
+							<input type="hidden" name="cmd" value="delete_file">
+							<fieldset class="form-group">
+								<label>{l_delete_file}:</label>
+							</fieldset>
+							<fieldset class="form-group">
+								<input class="upload" type="file" name="file"/>
+							</fieldset>
+ 							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit">{l_delete}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

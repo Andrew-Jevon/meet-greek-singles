@@ -1,0 +1,201 @@
+{header}
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{user_name}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>function showImageIm(){}</script>
+
+<div class="content-body">
+
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current} - {user_name}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<a class="link_back_title" href="{url_main}administration/users_edit.php?id={user_id}"><b>&#129044; {l_back}</b></a>
+
+						<!-- begin_mail_list_pages -->
+						<div class="total_pages">
+
+							<ul class="pagination justify-content-center">
+								<!-- begin_mail_list_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_mail_list_first_page -->
+								<!-- begin_mail_list_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mail_list_prev_page -->
+								<!-- begin_mail_list_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_mail_list_prev_page_off -->
+								<!-- begin_mail_list_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_mail_list_prev_pages -->
+								<!-- begin_mail_list_page -->
+								<!-- begin_mail_list_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_mail_list_link_page -->
+								<!-- begin_mail_list_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_mail_list_this_page -->
+								<!-- end_mail_list_page -->
+								<!-- begin_mail_list_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_mail_list_next_pages -->
+								<!-- begin_mail_list_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mail_list_next_page -->
+								<!-- begin_mail_list_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_mail_list_next_page_off -->
+								<!-- begin_mail_list_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_mail_list_last_page -->
+							</ul>
+						</div>
+						<!-- end_mail_list_pages -->
+
+
+						<!-- begin_mail_list -->
+						<!-- begin_mail_list_items -->
+						<div class="table-responsive mb-2 mt-0">
+							<table class="table table-striped table-hover mb-0 skin skin-flat table_f_sm  list_im_message">
+								<thead class="bg-primary white">
+									<th>{l_action}</th>
+									<th>
+										<!-- begin_params_none_born --><a href="{url_page}?{params_current}">{l_dt}</a><!-- end_params_none_born -->
+										<!-- begin_params_asc_born -->&uarr;<a href="{url_page}?{params_current}">{l_dt}</a><!-- end_params_asc_born -->
+										<!-- begin_params_desc_born -->&darr;<a href="{url_page}?{params_current}">{l_dt}</a><!-- end_params_desc_born -->
+									</th>
+									<th>
+										<!-- begin_params_none_u_from --><a href="{url_page}?{params_current}">{l_from}</a><!-- end_params_none_u_from -->
+										<!-- begin_params_asc_u_from -->&uarr;<a href="{url_page}?{params_current}">{l_from}</a><!-- end_params_asc_u_from -->
+										<!-- begin_params_desc_u_from -->&darr;<a href="{url_page}?{params_current}">{l_from}</a><!-- end_params_desc_u_from -->
+									</th>
+									<th>
+										<!-- begin_params_none_u_to --><a href="{url_page}?{params_current}">{l_to}</a><!-- end_params_none_u_to -->
+										<!-- begin_params_asc_u_to -->&uarr;<a href="{url_page}?{params_current}">{l_to}</a><!-- end_params_asc_u_to -->
+										<!-- begin_params_desc_u_to -->&darr;<a href="{url_page}?{params_current}">{l_to}</a><!-- end_params_desc_u_to -->
+									</th>
+									<th>
+										<!-- begin_params_none_msg --><a href="{url_page}?{params_current}">{l_message}</a><!-- end_params_none_msg -->
+										<!-- begin_params_asc_msg -->&uarr;<a href="{url_page}?{params_current}">{l_message}</a><!-- end_params_asc_msg -->
+										<!-- begin_params_desc_msg -->&darr;<a href="{url_page}?{params_current}">{l_message}</a><!-- end_params_desc_msg -->
+									</th>
+								</thead>
+								<tbody>
+									<!-- begin_mail_list_item -->
+									<tr class="{class2}">
+										<td>
+											<a onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_main}administration/look_message_im.php?user_id={user_id}&id={id}&action=delete')}); return false;" href="{url_main}administration/look_message_im.php?user_id={user_id}&id={id}&action=delete">{l_delete}</a>
+										</td>
+										<td>{data}</td>
+										<td>{u_from}</td>
+										<td>{u_to}</td>
+										<td>
+											<!-- begin_message_audio -->
+											<span class="im_audio_message">
+												<span id="pp_messages_audio_{message_id}" class="im_audio_message_loader" data-audio-message-file="{message_audio_message_file}" >
+													<i class="fa fa-play" aria-hidden="true"></i>
+												</span>
+												<span class="im_audio_message_process"></span>
+												<span class="im_audio_message_process_play"></span>
+											</span>
+											<!-- end_message_audio -->
+											<!-- begin_message_text -->
+											<p class="pp_message_node">
+
+												<span>{message}</span>
+												<!-- begin_message_block -->
+												<span style="color:red;">{l_you_are_in_block_list}</span>
+												<!-- end_message_block -->
+
+												<!-- begin_message_original_text -->
+												<div class="pp_message_original_title">{l_the_message_was_autotranslated} ({message_original})
+												</div>
+												<!-- end_message_original_text -->
+											</p>
+											<!-- end_message_text -->
+
+											<!-- begin_message_gift -->
+											<div class="frame_gift"><a style="cursor:default;" onclick="return false;" href="#"><img src="{gift_img_url}" alt="" /></a></div>
+											<!-- begin_message_gift_text -->
+											<div class="gift_msg_decor">
+												<div class="gift_msg_decor_txt"><span>{gift_text}</span></div>
+											</div>
+											<!-- end_message_gift_text -->
+											<!-- end_message_gift -->
+										</td>
+									</tr>
+									<!-- end_mail_list_item -->
+								</tbody>
+							</table>
+						</div>
+						<!-- end_mail_list_items -->
+						<!-- end_mail_list -->
+
+						<!-- begin_mail_list_noitems -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_messages}
+                        </div>
+						<!-- end_mail_list_noitems -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+    _initLightbox();
+</script>
+
+{footer}

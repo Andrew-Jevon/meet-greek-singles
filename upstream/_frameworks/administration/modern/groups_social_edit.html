@@ -1,0 +1,170 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+    var url_files='{url_files}';
+</script>
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{message}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current} - {group_title}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form method="POST" action="{url_main}administration/groups_social_edit.php?cmd=update&group_id={group_id}" name="EditProfileBasicForm">
+							<fieldset class="form-group">
+								<label>{l_group_title}:</label>
+								<input  class="form-control" type="text" name="title" value="{group_title}">
+							</fieldset>
+
+							<fieldset class="form-group">
+								<label>{l_group_description}:</label>
+								<textarea class="form-control inp_prepare h_120" name="description">{group_description}</textarea>
+							</fieldset>
+
+							<fieldset class="form-group mt-2">
+								<button class="btn btn-primary btn_submit" type="submit">{l_update}</button>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+		<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_edit_photos} ({num_photos})</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+        <!-- begin_photo_edit -->
+            <!-- begin_photo-->
+                <!-- begin_photo_item-->
+                <div class="profile_photo_item">
+                    <img id="photo_{photo_id}" data-user-id="{group_user_id}" data-photo-size="s" src="{url_files}{photo}">
+					<!-- begin_photo_rotate -->
+                    <a id="photo_rotate_{photo_id}" data-photo-id="{photo_id}" data-user-id="{group_user_id}" data-photo-size="s" class="icon_rotate" title="{a_rotate}" href="" >
+						<i class="ft-rotate-cw"></i>
+					</a>
+					<!-- end_photo_rotate -->
+
+                    <p class="mod_bl_pending">{visible}</p>
+                    <p class="mod_bl_description" title="{description}">{description}&nbsp;</p>
+                    <div class="mod_bl_action">
+						<!-- begin_photo_edit_image -->
+						<a class="mod_link_action" onclick="openEditorImage('{photo_id}', '{group_user_id}', 'admin'); return false;">{l_edit_photo}</a>
+						<!-- end_photo_edit_image -->
+
+                        <a class="mod_link_action" onclick="confirmCustom('{j_this_action}',function(){redirectUrl('{url_main}administration/groups_social_edit.php?cmd=delete_photo&photo_id={photo_id}&group_id={group_id}')}); return false;"">{l_delete}</a>
+                        <!-- begin_photo_access_1 -->
+                        <a class="mod_link_action" onclick="window.location.href='{url_main}administration/groups_social_edit.php?cmd=set_photo_access&photo_id={photo_id}&group_id={group_id}';">{photo_access}</a>
+                        <!-- end_photo_access_1 -->
+                    </div>
+                    <!-- begin_photo_approve -->
+                    <a class="mod_btn_submit_custom mod_link_profile" onclick="redirectUrl('{url_main}administration/groups_social_edit.php?cmd=approve_photo&photo_id={photo_id}&group_id={group_id}'); return false;">{l_photo_approve}</a>
+                    <!-- end_photo_approve -->
+
+                    <!-- begin_photo_odd-->
+                    <!-- end_photo_odd-->
+                    <!-- begin_photo_even-->
+                    <!-- end_photo_even-->
+                </div>
+                <!-- end_photo_item-->
+                <!-- begin_nophoto_item-->
+                <!-- begin_nophoto_odd-->
+                <!-- end_nophoto_odd-->
+                <!-- begin_nophoto_even-->
+                <!-- end_nophoto_even-->
+                <!-- end_nophoto_item-->
+
+            <!-- end_photo-->
+        <!-- end_photo_edit -->
+
+
+				<h2 class="mt-2">{l_add_photo}</h2>
+				<hr>
+
+					<form id="photo_insert" method="post" action="{url_page}" enctype="multipart/form-data">
+						<input type="hidden" name="cmd" value="insert_photo">
+						<input type="hidden" name="group_id" value="{group_id}">
+					</form>
+
+					<fieldset class="form-group">
+						<input class="form-control" form="photo_insert" type="text" name="description" placeholder="{l_description}">
+					</fieldset>
+
+					<fieldset class="form-group upload-single-file">
+						<div id="dpz-upload-single-icon" data-name="photo_file" class="dropzone dropzone-area dpz-upload-single-icon">
+							<input form="photo_insert" id="dpz-file-upload-file" class="image-data-url" type="hidden" name="photo_file" value="">
+						</div>
+					</fieldset>
+
+					<script>
+						$(function(){
+							_dzSetReaderOnLoad('photo_file', function(){
+								$('#upload_photo_file').html('<span>{j_drop_image_publish}</span>');
+							})
+							_dzSetReaderDelete('photo_file', function(){
+								$('#upload_photo_file').html('<span>{j_upload}</span>');
+							})
+						})
+					</script>
+					<fieldset class="form-group mt-2">
+						<button id="upload_photo_file" form="photo_insert" class="btn btn-primary" type="submit">{l_upload}</button>
+					</fieldset>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{footer}

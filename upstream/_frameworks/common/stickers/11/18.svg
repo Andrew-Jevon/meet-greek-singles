@@ -1,0 +1,102 @@
+
+<svg class="body" version="1.1" id="Calque_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="92px" height="106.75px" viewBox="0 0 92 106.75" enable-background="new 0 0 92 106.75" xml:space="preserve">
+	 
+	 <style>
+body {
+  background: #fff
+    ;
+}
+.ship {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 300px;
+  height: 300px;
+}
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.window {
+  -webkit-perspective: 1200;
+  -webkit-transform-style: preserve-3d;
+}
+.window svg {
+  animation: fly 4s linear infinite;
+  transform-origin: center;
+  transform: rotateY(0) translateX(0) translateZ(85px);
+  backface-visibility:hidden;
+}
+@keyframes fly {
+  0 {
+    transform: rotateY(0) translateX(0) translateZ(85px);
+  }
+  25% {
+    transform: rotateY(90deg) translateX(0) translateZ(85px);
+  }
+  50% {
+    transform: rotateY(180deg) translateX(0) translateZ(85px);
+  }
+  75% {
+    transform: rotateY(270deg) translateX(0) translateZ(85px);
+  }
+  100% {
+    transform: rotateY(360deg) translateX(0) translateZ(85px);
+  }
+}
+.wing1,
+.wing2 {
+  animation: wingLeft linear 1s infinite;
+}
+@keyframes wingLeft {
+  0 {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-42px);
+  }
+}
+.wing3,
+.wing4 {
+  animation: wingRight linear 1s infinite;
+}
+@keyframes wingRight {
+  0 {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(42px);
+  }
+}
+</style>
+	 
+	 
+<rect class="wing1" x="42" y="78.75" fill="#322232" width="8" height="28"/>
+<rect class="wing2" x="84" y="78.75" fill="#322232" width="8" height="28"/>
+<path fill="#D62722" d="M46,3.583c10.875,0,15.633,9.744,19.164,15.69c3.291,5.542,11.336,17.81,11.336,35.31
+	c0,8.333,0,37.667,0,37.667h-61c0,0,0-25.833,0-37.5s7.147-26.863,12.25-35.667C31.089,13.324,34.489,3.583,46,3.583z"/>
+<path fill="#C81518" d="M15,54.75c0,11.667,0,38,0,38h61c0,0,0-29.833,0-38.167c0-14.48-5.002-25.364-8.768-31.833H25.714
+	C20.938,31.713,15,44.573,15,54.75z"/>
+<path fill="#F7C64A" d="M15.5,54.75c0,11.667,0,37.5,0,37.5h61c0,0,0-29.333,0-37.667c0-8.604-1.948-15.936-4.316-21.833H20.957
+	C17.926,39.977,15.5,47.958,15.5,54.75z"/>
+<path fill="#EF9C22" d="M15,78.75c0,7.51,0,14,0,14h61c0,0,0-6.587,0-14H15z"/>
+<path fill="#FFFFFF" d="M36.75,19.083c3.022-5.213,6.095-13.685,15.185-15.247C51.008,3.672,50.032,3.583,49,3.583
+	c-11.511,0-14.911,9.74-18.25,15.5c-5.103,8.804-12.25,24-12.25,35.667c0,11.667,0,37.5,0,37.5h6c0,0,0-25.833,0-37.5
+	C24.5,43.083,31.647,27.887,36.75,19.083z"/>
+<path opacity="0.1" d="M76.5,92.25c0,0,0-29.333,0-37.667c0-17.5-8.045-29.768-11.336-35.31C61.633,13.328,56.875,3.583,46,3.583
+	V92.25H76.5z"/>
+<path opacity="0.2" d="M55.685,19.083C52.663,13.871,49.59,5.398,40.5,3.836c0.926-0.164,1.902-0.253,2.935-0.253
+	c11.511,0,14.911,9.74,18.25,15.5c5.103,8.804,12.25,24,12.25,35.667c0,11.667,0,37.5,0,37.5h-6c0,0,0-25.833,0-37.5
+	C67.935,43.083,60.788,27.887,55.685,19.083z"/>
+<path fill="none" stroke="#292131" stroke-width="7" stroke-miterlimit="10" d="M46,3.583c10.875,0,15.633,9.744,19.164,15.69
+	c3.291,5.542,11.336,17.81,11.336,35.31c0,8.333,0,37.667,0,37.667h-61c0,0,0-25.833,0-37.5s7.147-26.863,12.25-35.667
+	C31.089,13.324,34.489,3.583,46,3.583z"/>
+<rect class="wing3" y="78.75" fill="#322232" width="8" height="28"/>
+<rect class="wing4" x="42" y="78.75" fill="#322232" width="8" height="28"/>
+</svg>
+

@@ -1,0 +1,128 @@
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/template.php">{l_menu_templates}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header mb-n2">
+					<h4 class="card-title mb-1">
+						<a href="{url_main}administration/template.php?part={part}">{l_tmpls_list}</a>
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<ul class="lmenu_page">
+							<!-- begin_mtmpl -->
+							<li <!-- begin_mtmpl_on --> class="active"<!-- end_mtmpl_on -->>
+								<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_link}">{title}</a>
+								<span class="marker">&#8226;</span>
+							</li>
+							<!-- end_mtmpl -->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header mb-n2">
+					<h4 class="card-title mb-1">
+						<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area}">{title}</a>
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+					<ul class="lmenu_page lmenu_red">
+						<!-- begin_menu_settings -->
+						<li <!-- begin_menu_settings_on -->class="active"<!-- end_menu_settings_on -->>
+							<a href="{url_main}administration/template_settings.php?part={part}&tmpl={tmpl_this}">{l_tmpl_settings}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_menu_settings -->
+						<!-- begin_area -->
+						<!-- begin_area_off -->
+
+						<!-- end_area_off -->
+						<!-- begin_area_on -->
+
+						<!-- begin_pages_on -->
+						<li class="active">
+							<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}">{l_pages}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_pages_on -->
+						<!-- begin_pages_off -->
+						<li>
+							<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}">{l_pages}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_pages_off -->
+						<!-- begin_css_on -->
+						<li class="active">
+							<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=css">{l_css}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_css_on -->
+						<!-- begin_css_off -->
+						<li>
+							<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=css">{l_css}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_css_off -->
+						<!-- begin_js_on -->
+						<li class="active">
+							<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=js">{l_js}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_js_on -->
+						<!-- begin_js_off -->
+						<li>
+							<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=js">{l_js}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_js_off -->
+						<!-- end_area_on -->
+						<!-- end_area -->
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,186 @@
+{header}
+
+<!-- begin_no_live_stream -->
+<style>
+    .form-group-loc_{cur_location}_live{display: none;};
+</style>
+<!-- end_no_live_stream -->
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/city_options.php">{l_menu_city_options}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<!-- begin_video -->
+						<fieldset class="form-group">
+							<label>{l_room}:</label>
+							<select id="location" class="form-control" name="location">
+								{select_location}
+							</select>
+						</fieldset>
+
+						<form id="frm_city_video" action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="update">
+							<input type="hidden" name="location" value="{cur_location}">
+							{config_fields}
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit" type="submit"><span>{l_save}</span></button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+						<!-- end_video -->
+
+						<!-- begin_no_video -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_video}
+                        </div>
+						<!-- end_no_video -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+    var isSubmit=0,
+    $sbm=$('.btn_submit'),isAllowSubmit=0;
+    $('#frm_city_video').submit(function(){
+        if(isAllowSubmit){
+            isAllowSubmit=0;
+        }else{
+            chekVideo();
+            return false;
+        }
+    })
+
+    function chekVideo(){
+        $sbm.addChildrenLoader();
+        if(isSubmit)return false;
+        isSubmit=1;
+        removeErrorAll();
+        var $cinemaCodes=$('input[type="text"]'),l=$cinemaCodes.length,
+            i=0,j=0,isError=0,codes=[],pos={};
+        $('input[type="text"], select').prop('disabled',true);
+        $cinemaCodes.each(function(){
+            var $el=$(this),val=trim($el.val());
+            if(val){
+                var yCodeSite='', yCode='';
+				if (val.indexOf('city_livestream')===-1) {
+					yCode=(val.match(/(?:^|\/|v=)([\w\-]{11,11})(?:\?|&|#|$)/) || [])[1];
+					yCodeSite=(val.split('#site_video:')||[])[1];
+					if (yCodeSite) {
+						yCodeSite='site_video:'+yCodeSite;
+					}
+				} else {
+					yCode=val;
+				}
+
+                yCode=yCodeSite||yCode;
+                if (!yCode) {
+                    isError=1;
+                    $el.focus();
+                    showErrorToScroll($el,'{j_video_id_not_correct}');
+                }else{
+                    codes[j]=yCode;
+                    pos[j]=i;
+                    j++;
+                }
+            }
+            i++;
+            if(i==l){
+                if (!isError) {
+                    if(!codes.length){
+                        $('input[type="text"], select').prop('disabled',false);
+                        isAllowSubmit=1;
+                        $sbm.parents('form').submit();
+                        return ;
+                    }
+                    i=0;
+                    $.post('ajax.php',{cmd: 'check_code_youtube', codes: codes}, function(res){
+                        res=res.split('&');
+                        l=res.length;
+                        for (var key in res) {
+                            if (typeof res[key]!= 'function') {
+                                if (res[key]=='error') {
+                                    alert('{j_error_while_checking_video}');
+                                }else if (res[key]!='available') {
+                                    isError=1;
+                                    var error=res[key],$el=$cinemaCodes.eq(pos[key]);
+                                    if($el[0]){
+                                        if(error=='error_code')error='{j_error_upload_file_19}';
+                                        showErrorToScroll($el,error);
+                                    }
+                                }
+                            }
+                            i++;
+                            if (i==l) {
+                                $('input[type="text"], select').prop('disabled',false);
+                                if (!isError) {
+                                    isAllowSubmit=1;
+                                    $sbm.parents('form').submit();
+                                }
+                            }
+                        }
+                        resetFrm();
+                    })
+                } else {
+                    resetFrm();
+                }
+            }else if(isError){
+                resetFrm();
+            }
+        });
+    }
+
+    function resetFrm(){
+        isSubmit=0;
+        $sbm.removeChildrenLoader();;
+        $('input[type="text"], select').prop('disabled',false);
+    }
+
+    $('#location').change(function(){
+        window.location.href='?loc='+this.value;
+    })
+})
+</script>
+
+{footer}

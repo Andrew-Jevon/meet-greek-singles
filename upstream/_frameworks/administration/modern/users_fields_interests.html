@@ -1,0 +1,333 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_fields.php">{l_menu_profile_fields}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">
+						{l_lang}
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form class="frm_change_language">
+							<select  id="language" name="language"  class="select2 form-control">
+								{select_options_language_list}
+							</select>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_categories}</h4>
+					<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+					<ul class="lmenu_page">
+
+						<!-- begin_list_category -->
+						<!-- begin_list_category_on -->
+						<li class="active">
+							<a href="{url_page}?{params}&category={list_category_id}">{list_category_title}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_list_category_on -->
+						<!-- begin_list_category_off -->
+						<li>
+							<a href="{url_page}?{params}&category={list_category_id}">{list_category_title}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_list_category_off -->
+						<!-- end_list_category -->
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+						<!-- begin_main_pages -->
+						<div class="total_pages mb-2">
+							<p class="num_total">{num_total} {l_count_ineters}</p>
+
+							<ul class="pagination justify-content-center">
+
+								<!-- begin_main_first_page -->
+								<li class="page-item first">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_page_1}</a>
+								</li>
+								<!-- end_main_first_page -->
+								<!-- begin_main_prev_page -->
+								<li class="page-item prev">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page -->
+								<!-- begin_main_prev_page_off -->
+								<li class="page-item prev disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_prev}</a>
+								</li>
+								<!-- end_main_prev_page_off -->
+								<!-- begin_main_prev_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&lt;&lt;</a>
+								</li>
+								<!-- end_main_prev_pages -->
+								<!-- begin_main_page -->
+								<!-- begin_main_link_page -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_link_page -->
+								<!-- begin_main_this_page -->
+								<li class="page-item active">
+									<a href="" onclick="return false;" class="page-link">{page}</a>
+								</li>
+								<!-- end_main_this_page -->
+								<!-- end_main_page -->
+								<!-- begin_main_next_pages -->
+								<li class="page-item">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">&gt;&gt;</a>
+								</li>
+								<!-- end_main_next_pages -->
+								<!-- begin_main_next_page -->
+								<li class="page-item next">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page -->
+								<!-- begin_main_next_page_off -->
+								<li class="page-item next disabled">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{l_next}</a>
+								</li>
+								<!-- end_main_next_page_off -->
+								<!-- begin_main_last_page -->
+								<li class="page-item last">
+									<a href="{url_page}?offset={offset}{params}" class="page-link">{num_pages}</a>
+								</li>
+								<!-- end_main_last_page -->
+							</ul>
+						</div>
+						<!-- end_main_pages -->
+
+
+						<!-- begin_main_items -->
+						<div class="table-responsive mb-2 mt-0">
+							<table class="table table-striped table-hover mb-0 skin skin-flat table_nw table_f_sm">
+								<thead class="bg-primary white">
+								<tr>
+									<th class="status_menu">
+										<input class="status form-check-input i_checkbox" type="checkbox" id="all">
+									</th>
+									<th>
+										<!-- begin_params_none_id --><a href="{url_page}?{params_current}">{l_id}</a><!-- end_params_none_id -->
+										<!-- begin_params_asc_id -->&uarr;<a href="{url_page}?{params_current}">{l_id}</a><!-- end_params_asc_id -->
+										<!-- begin_params_desc_id -->&darr;<a href="{url_page}?{params_current}">{l_id}</a><!-- end_params_desc_id -->
+									</th>
+									<th>{l_action}</th>
+									<th>
+										<!-- begin_params_none_interest --><a href="{url_page}?{params_current}">{l_interests}</a><!-- end_params_none_interest -->
+										<!-- begin_params_asc_interest -->&uarr;<a href="{url_page}?{params_current}">{l_interests}</a><!-- end_params_asc_interest -->
+										<!-- begin_params_desc_interest -->&darr;<a href="{url_page}?{params_current}">{l_interests}</a><!-- end_params_desc_interest -->
+									</th>
+									<th>
+										<!-- begin_params_none_category --><a href="{url_page}?{params_current}">{l_category}</a><!-- end_params_none_category -->
+										<!-- begin_params_asc_category -->&uarr;<a href="{url_page}?{params_current}">{l_category}</a><!-- end_params_asc_category -->
+										<!-- begin_params_desc_category -->&darr;<a href="{url_page}?{params_current}">{l_category}</a><!-- end_params_desc_category -->
+									</th>
+									<th class="a_c">
+										<!-- begin_params_none_counter --><a href="{url_page}?{params_current}">{l_counter}</a><!-- end_params_none_counter -->
+										<!-- begin_params_asc_counter -->&uarr;<a href="{url_page}?{params_current}">{l_counter}</a><!-- end_params_asc_counter -->
+										<!-- begin_params_desc_counter -->&darr;<a href="{url_page}?{params_current}">{l_counter}</a><!-- end_params_desc_counter -->
+									</th>
+									<th>
+										<!-- begin_params_none_user_id --><a href="{url_page}?{params_current}">{l_username}</a><!-- end_params_none_user_id -->
+										<!-- begin_params_asc_user_id -->&uarr;<a href="{url_page}?{params_current}">{l_username}</a><!-- end_params_asc_user_id -->
+										<!-- begin_params_desc_user_id -->&darr;<a href="{url_page}?{params_current}">{l_username}</a><!-- end_params_desc_user_id -->
+									</th>
+									<th>
+										<!-- begin_params_none_lang --><a href="{url_page}?{params_current}">{l_lang}</a><!-- end_params_none_lang -->
+										<!-- begin_params_asc_lang -->&uarr;<a href="{url_page}?{params_current}">{l_lang}</a><!-- end_params_asc_lang -->
+										<!-- begin_params_desc_lang -->&darr;<a href="{url_page}?{params_current}">{l_lang}</a><!-- end_params_desc_lang -->
+									</th>
+								</tr>
+								</thead>
+								<!-- begin_main_item -->
+								<tr class="{class}">
+									<td class="status_menu a_c">
+										<input class="status form-check-input i_checkbox" type="checkbox" id="chk_{id}">
+									</td>
+								<td>{id}</td>
+								<td>
+									<a href="{url_main}administration/users_fields_interest_edit.php?id={id}{params}">{l_edit}</a>
+									|
+									<a href="{url_page}?cmd=delete&delete={id}{params}" onclick="confirmCustom('{j_are_you_sure}',function(){redirectUrl('{url_page}?cmd=delete&delete={id}{params}')}); return false;">{l_delete}</a>
+								</td>
+								<td>{interest}</td>
+								<td>{title_category}</td>
+								<td class="a_c">{counter}</td>
+								<td><a href="{url_main}administration/users_edit.php?id={user_id}{params}">{user_name}</a></td>
+								<td>{lang}</td>
+								</tr>
+								<!-- end_main_item -->
+							</table>
+						</div>
+						<!-- end_main_items -->
+
+						<!-- begin_main_noitems -->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+                            {l_no_interest}
+                        </div>
+						<!-- end_main_noitems -->
+						<!-- begin_no_delete -->
+						<div class="wrap_button">
+							<button class="btn btn-secondary mt-1 mb-1" onclick="confirmCustom('{j_are_you_sure}',function(){delete_interests();}); return false;">{l_delete}</button>
+						</div>
+						<!-- end_no_delete -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_add_interest}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+						<form name="add_interest" action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="add">
+							<fieldset class="form-group">
+								<label>{l_lang}:</label>
+								<select class="form-control" name="lang">
+									{select_options_language_add_interest}
+								</select>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_category}:</label>
+								<select name="category" class="form-control">
+									{select_options_category_add_interest}
+								</select>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_interests}:</label>
+								<input type="text" name="interests" value="" class="form-control">
+							</fieldset>
+
+							<fieldset class="form-group">
+								<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#all').change(function(){
+            CBoxNoteAdmin($(this), $('[id ^= chk_]'))
+        });
+
+        $('#language').change(function(){
+            if(this.value){
+                window.location.href='?lang='+this.value;
+            }else{
+                window.location.href='{url_page}';
+            }
+        })
+
+    });
+    function delete_interests() {
+        var StrID = '';
+        $('[id ^= chk_]:checked').each(function(){
+            StrID += ($(this).attr("id").replace(/chk_/g, '')+',')
+        })
+        var int = StrID.slice(0, -1);
+        window.location.href='{url_page}?cmd=delete&delete='+int+'{params}';
+    }
+</script>
+
+{footer}

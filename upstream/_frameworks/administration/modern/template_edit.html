@@ -1,0 +1,255 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/template.php">{l_menu_templates}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header mb-n2">
+					<h4 class="card-title mb-1">
+						<a href="{url_main}administration/template.php?part={part}">{l_tmpls_list}</a>
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<ul class="lmenu_page">
+							<!-- begin_mtmpl -->
+							<li <!-- begin_mtmpl_on --> class="active"<!-- end_mtmpl_on -->>
+								<a href="{url_main}administration/template_edit.php?part={part}&tmpl={tmpl_link}">{title}</a>
+								<span class="marker">&#8226;</span>
+							</li>
+							<!-- end_mtmpl -->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header mb-n2">
+					<h4 class="card-title mb-1">
+						<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area}">{title}</a>
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+					<ul class="lmenu_page lmenu_red">
+						<!-- begin_menu_settings -->
+						<li>
+							<a href="{url_main}administration/template_settings.php?part={part}&tmpl={tmpl_this}">{l_tmpl_settings}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_menu_settings -->
+						<!-- begin_area -->
+						<!-- begin_area_off -->
+
+						<!-- end_area_off -->
+						<!-- begin_area_on -->
+
+						<!-- begin_pages_on -->
+						<li class="active">
+							<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}">{l_pages}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_pages_on -->
+						<!-- begin_pages_off -->
+						<li>
+							<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}">{l_pages}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_pages_off -->
+						<!-- begin_css_on -->
+						<li class="active">
+							<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=css">{l_css}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_css_on -->
+						<!-- begin_css_off -->
+						<li>
+							<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=css">{l_css}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_css_off -->
+						<!-- begin_js_on -->
+						<li class="active">
+							<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=js">{l_js}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_js_on -->
+						<!-- begin_js_off -->
+						<li>
+							<a href="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=js">{l_js}</a>
+							<span class="marker">&#8226;</span>
+						</li>
+						<!-- end_js_off -->
+						<!-- end_area_on -->
+						<!-- end_area -->
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header mb-n2">
+					<h4 class="card-title mb-1">
+						{l_areas}
+					</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<ul class="lmenu_page  lmenu_blue">
+						<!-- begin_tmpl_edit -->
+						<select class="select2 form-control select_change_language">
+							<!-- begin_tmpl -->
+							<option <!-- begin_tmpl_on -->selected<!-- end_tmpl_on --> value="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_page={tmpl_page}">{title}</option>
+							<!-- end_tmpl -->
+						</select>
+						<!-- end_tmpl_edit -->
+
+
+						<!-- begin_css_edit -->
+						<select class="select2 form-control select_change_language">
+							<!-- begin_css_page -->
+							<option <!-- begin_css_page_on -->selected<!-- end_css_page_on --> value="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=css&tmpl_page={tmpl_page}">{title}</option>
+							<!-- end_css_page -->
+						</select>
+						<!-- end_css_edit -->
+
+						<!-- begin_js_edit -->
+						<select class="select2 form-control select_change_language">
+							<!-- begin_js_page -->
+							<option <!-- begin_js_page_on -->selected<!-- end_js_page_on --> value="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=js&tmpl_page={tmpl_page}">{title}</option>
+							<!-- end_js_page -->
+						</select>
+						<!-- end_js_edit -->
+
+						<!-- begin_popup_edit -->
+						<select class="select2 form-control select_change_language">
+							<!-- begin_popup_page -->
+							<option <!-- begin_popup_page_on -->selected<!-- end_popup_page_on --> value="{url_page}?part={part}&tmpl={tmpl_this}&tmpl_area={tmpl_area_this}&tmpl_type=popup&tmpl_page={tmpl_page}">{title}</option>
+							<!-- end_popup_page -->
+						</select>
+						<!-- end_popup_edit -->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current} - {part_title} - {tmpl_title_this} - {tmpl_page_title}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body frm_template_edit">
+						<div class="alert alert-danger alert-dismissible  mb-2-1" role="alert">{message_template}</div>
+
+						<!-- begin_html -->
+						<form name="template_edit" action="{url_page}" method="POST">
+						<input type="hidden" name="cmd" value="edit_template">
+						<input type="hidden" name="part" value="{part}">
+						<input type="hidden" name="tmpl" value="{tmpl_this}">
+						<input type="hidden" name="tmpl_area" value="{tmpl_area_this}">
+						<input type="hidden" name="tmpl_type" value="{tmpl_type_this}">
+						<input type="hidden" name="tmpl_page" value="{tmpl_page_this}">
+						<fieldset class="form-group">
+							<textarea class="form-control config_textarea" name="html">{html}</textarea>
+						</fieldset>
+
+						<fieldset class="form-group btn_group">
+							<!-- begin_button_restore -->
+							<div class="wrap_button">
+								<button onclick="restoreTmpl(); return false;" class="btn bg-blue white mr-1">{l_restore}</button>
+							</div>
+							<!-- end_button_restore -->
+							<div class="wrap_button">
+								<button onclick="{url_page}" class="btn btn-secondary mr-1">{l_cancel}</button>
+							</div>
+							<div class="wrap_button">
+								<button class="btn btn-primary btn_submit mr-1" type="submit">{l_save}</button>
+								<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+							</div>
+						</fieldset>
+
+						<script>
+							function restoreTmpl(){
+								confirmCustom('{j_are_you_sure}', function(){
+									document.forms.template_edit.cmd.value = 'restore';
+									document.forms.template_edit.submit();
+								})
+							}
+						</script>
+						</form>
+						<!-- end_html -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{footer}

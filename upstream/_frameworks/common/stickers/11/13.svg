@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+  <svg version="1.1"
+	   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	   x="0px" y="0px" width="280px" height="280px" viewBox="-2.53 -11.77 280 280"
+	   overflow="visible" enable-background="new -2.53 -11.77 280 280" xml:space="preserve">
+	   
+	   <style>
+@import url(https://fonts.googleapis.com/css?family=Lato);
+*, *:before, *:after {
+  margin:0;
+  padding:0;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+}
+body {
+  background:#DCCCBA;
+  -webkit-transform:translateZ(0);
+}
+html, body {
+  width:100%;
+  height:100%;
+}
+#coffeetable {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+h1 {
+  padding-top:3rem;
+  color:#1D1716;
+  font-weight:400;
+  font-family:'Lato', sans-serif;
+  font-size:1rem;
+}
+h1 a {
+  text-decoration:none;
+  color:#1D1716;
+  opacity:.7;
+}
+h1 a:hover {opacity:1;}
+.steam-one {
+  -webkit-animation:steam 2s infinite;
+  animation:steam 2s infinite;
+}
+.steam-two {
+  opacity:0;
+  -webkit-animation:steam 2s 1s infinite;
+  animation:steam 2s 1s infinite;
+}
+@keyframes steam {
+  0%, 49% {opacity:1;}
+  50%, 100% {opacity:0;}
+}
+</style>
+	   
+  <defs>
+  </defs>
+    <g class="steam-one">
+      <path fill="none" stroke="#8D857C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M160.242,4.5L149.58,16.163c-2.97,3.248-2.741,8.333,0.506,11.302l25.173,23.013c3.247,2.969,3.476,8.055,0.506,11.302
+	L164.06,74.583"/>
+      <path fill="none" stroke="#8D857C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M115.151,4.5l-10.662,11.663c-2.97,3.248-2.741,8.333,0.506,11.302l25.173,23.013c3.247,2.969,3.476,8.055,0.506,11.302
+	l-11.705,12.803"/>
+    </g>
+    <g class="steam-two">
+      <path fill="none" stroke="#8D857C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M120.012,4.5l10.662,11.663c2.97,3.248,2.741,8.333-0.506,11.302l-25.173,23.013c-3.247,2.969-3.476,8.055-0.506,11.302
+	l11.705,12.803"/>
+      <path fill="none" stroke="#8D857C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M165.103,4.5l10.662,11.663c2.97,3.248,2.741,8.333-0.506,11.302l-25.173,23.013c-3.247,2.969-3.476,8.055-0.506,11.302
+	l11.705,12.803"/>
+    </g>
+    <g class="cupofcoffee">
+      <path class="plate" fill="none" stroke="#1D1716" stroke-width="14" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M267.939,229.73c-17.391,17.167-58.413,28.799-130.47,28.799S23.164,246.897,7,229.73H267.939z"/>
+      <path class="cup" fill="none" stroke="#1D1716" stroke-width="14" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M71.876,100.765h129v64.295c0,35.622-28.878,64.5-64.5,64.5c-35.623,0-64.5-28.878-64.5-64.5V100.765z"/>
+      <circle class="hold" fill="none" stroke="#1D1716" stroke-width="14" stroke-linejoin="round" stroke-miterlimit="10" cx="225.559" cy="141.676" r="24"/>
+      <path class="lefteye" fill="none" stroke="#1D1716" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M126.834,136.067c0,5.809-4.709,10.518-10.518,10.518c-5.808,0-10.518-4.709-10.518-10.518"/>
+      <path class="righteye" fill="none" stroke="#1D1716" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M166.953,136.067c0,5.809-4.71,10.518-10.518,10.518s-10.518-4.709-10.518-10.518"/>
+      <path class="mouth" fill="none" stroke="#1D1716" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M167.219,162.397c0,17.033-13.812,30.843-30.843,30.843s-30.843-13.81-30.843-30.843"/>
+    </g>
+  </svg>

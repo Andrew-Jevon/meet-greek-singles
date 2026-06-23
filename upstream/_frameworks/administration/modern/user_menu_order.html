@@ -1,0 +1,202 @@
+{header}
+
+<script type="text/javascript" src="{url_main}_server/jquery/jquery-ui-1.11.4.min.js{cache_version_param}"></script>
+
+<style>
+    #additional_menu_profile_view,
+    #additional_menu_verify_account{
+        display: none;
+    }
+</style>
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/options.php">{l_menu_options}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form action="{url_page}" method="POST">
+						<input type="hidden" name="cmd" value="update">
+						<div class="table-responsive tab_order skin skin-flat">
+							<table id="sortable" class="table table-striped table-hover mb-0 w-75">
+								<thead class="bg-primary white">
+									<tr id="no_sortable">
+										<th class="w-20">{l_action}</th>
+                                        <th>{l_table_name}</th>
+										<th class="w-25-c">{l_table_status}</th>
+										<!-- begin_additional_menu -->
+										<th class="a_c">{l_profile_page_menu}</th>
+										<!-- end_additional_menu -->
+										<th class="a_c">{l_mobile_home_page}</th>
+									</tr>
+								</thead>
+								<tbody>
+								<!-- begin_order_profile -->
+								<tr class="cursor_pointer" id="no_sortable">
+                                <td></td>
+                                <td>
+									<input type="hidden" name="order[]" value="profile">{l_profile}
+								</td>
+								<td>
+								</td>
+								<td class="status_menu">
+									<input class="i_radio" type="radio" name="set_home_page_mobile" value="profile">
+								</td>
+								</tr>
+								<!-- end_order_profile -->
+								<!-- begin_order_item -->
+								<tr class="cursor_move">
+                                    <td class="nw">
+                                        <a href="{url_main}administration/user_menu_order_edit.php?lang=default&page={id}&table=col_order">{l_edit}</a>
+                                        <!-- begin_delete -->
+                                        |
+                                        <a href="{url_main}administration/{url_page}?cmd=delete&page={id}&table=col_order" onclick="confirmCustom('{j_are_you_sure}', function(){redirectUrl('{url_main}administration/{url_page}?cmd=delete&page={id}&table=col_order')}); return false;">{l_delete}</a>
+                                        <!-- end_delete -->
+                                    </td>
+									<td>
+										<input type="hidden" name="order[]" value="{name_block_field}">{name_block}
+									</td>
+									<td class="status_menu">
+										<input class="order_check i_checkbox" data-name="{name_block_field}" type="checkbox" name="order_status[{name_block_field}]" {checked}>
+									</td>
+									<!-- begin_additional_menu_item -->
+									<td class="status_menu">
+										<input id="additional_menu_{name_block_field}" class="additional_check i_checkbox" data-name="{name_block_field}" type="checkbox" name="additional[{name_block_field}]" {additional_checked} >
+									</td>
+									<!-- end_additional_menu_item -->
+									<td class="status_menu">
+										<!-- begin_order_item_set_home_page -->
+										<input class="i_radio" type="radio" name="set_home_page_mobile" value="{name_block_field}">
+										<!-- end_order_item_set_home_page -->
+									</td>
+								</tr>
+								<!-- end_order_item -->
+								</tbody>
+							</table>
+							<script>
+							if ($('#additional_menu_profile_view').is(':hidden')) {
+								$('#additional_menu_profile_view, #additional_menu_verify_account').addClass('to_hide');
+							}
+							</script>
+						</div>
+						<fieldset class="form-group mt-2">
+							<div class="wrap_button" style="float:left;">
+								<button class="btn btn-primary btn_submit" type="submit">{l_save}</button>
+								<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+							</div>
+
+                            <a class="nav-link" style="float:left;" href="user_menu_order_add.php">
+                                <i class="ft-file-plus"></i>
+                                <span>{l_menu_pages_add}</span>
+                            </a>
+
+                            <!-- <div class="wrap_button">
+                                <button class="btn btn-primary" onclick="location.href='user_menu_order_add.php'" type="button">{l_menu_pages_add}</button>
+                            </div> -->
+						</fieldset>
+						</form>
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var radio = '';
+$(function() {
+    $('.order_check').change(function(){
+        var $el=$(this),$ad=$('.additional_check[data-name="'+$el.data('name')+'"]');
+        if(!$el.prop('checked')&&$ad[0]){
+            $ad.prop('checked', false).iCheck('update');
+        }
+    })
+
+    $('.additional_check').change(function(){
+        var $el=$(this),$or=$('.order_check[data-name="'+$el.data('name')+'"]');
+        if(!$or.prop('checked')){
+            setTimeout(function(){
+				$el.prop('checked', false).iCheck('update');
+			},10)
+            return false;
+        }
+        if($('.additional_check:checked').length>9){
+			console.log(1111111, $el[0]);
+			setTimeout(function(){
+				$el.prop('checked', false).iCheck('update');
+			},10)
+			alertCustom('{j_there_can_be_no_more_than_items_in_this_menu}');
+        }
+    })
+
+    $('input:radio[name=set_home_page_mobile]').filter('[value="{current_checked}"]').prop('checked',true).iCheck('update');
+    $('input:radio[name=set_home_page_mobile]').filter('[value="{current_checked}"]').addClass('active');
+
+    $('input[name=set_home_page_mobile]').on('click',function(){
+        if($(this).hasClass('active')){
+            $(this).prop('checked',false).iCheck('update');
+            $(this).removeClass('active');
+        } else {
+            $('input[name=set_home_page_mobile]').removeClass('active');
+            $(this).addClass('active');
+        }
+    });
+
+
+    $('#sortable tbody').sortable({
+        containment: 'parent',
+	    tolerance: 'pointer',
+	    opacity: 0.5,
+        axis: 'y',
+        cancel: '#no_sortable',
+        cursor: 'move',
+        items: 'tr[id != no_sortable]',
+        helper: fixHelperModified,
+        update: function(e, ui){
+            ui.item.attr('class', 'color_set');
+            ui.item.children('.decor_l').attr('class', 'decor_set_l');
+            ui.item.children('.decor_r').attr('class', 'decor_set_r');
+            var myradio = $('input:radio[name=set_home_page_mobile]');
+            myradio.filter('[value="'+radio+'"]').prop('checked', true).iCheck('update');
+        }
+    })
+})
+</script>
+
+{footer}

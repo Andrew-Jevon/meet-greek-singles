@@ -1,0 +1,284 @@
+{header}
+<style>
+    /* 2026-05-29 — Login page styled to match the /join Welcome modal.
+       Soft sky/water background, clean white rounded card, prominent
+       heart-icon brand mark, bold serif heading, italic identity statement. */
+    .login_page {
+        background:
+            linear-gradient(180deg, rgba(247,243,236,0.10) 0%, rgba(15,58,106,0.18) 100%),
+            radial-gradient(60% 70% at 50% 30%, #cfe0ee 0%, #97b8d4 60%, #5a8db5 100%);
+        min-height: calc(100vh - 80px);
+        padding: 64px 16px 80px;
+        position: relative;
+    }
+    .login_page::before {
+        /* faint horizon line evoking the sea/sky background */
+        content: '';
+        position: absolute;
+        left: 0; right: 0; top: 55%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+        pointer-events: none;
+    }
+    .login_wrap {
+        position: relative;
+        max-width: 520px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid rgba(232,225,210,0.6);
+        border-radius: 22px;
+        padding: 44px 44px 36px;
+        box-shadow: 0 18px 48px rgba(15,58,106,0.16), 0 2px 8px rgba(28,40,64,0.04);
+    }
+    .login_brand { text-align: center; margin-bottom: 30px; }
+    .login_brand img {
+        max-width: 150px;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto 18px;
+        filter: drop-shadow(0 6px 14px rgba(15,58,106,0.12));
+    }
+    .login_brand h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 700;
+        font-size: clamp(26px, 4vw, 32px);
+        color: #1f2937;
+        margin: 0 0 10px;
+        line-height: 1.2;
+    }
+    .login_brand p {
+        color: #1f2937;
+        font-size: 15.5px;
+        margin: 0 0 4px;
+        line-height: 1.45;
+    }
+    .login_identity {
+        margin: 16px auto 22px;
+        padding: 14px 18px;
+        background: rgba(207, 224, 238, 0.45);
+        border-radius: 12px;
+        text-align: center;
+        font-style: italic;
+        font-size: 14px;
+        color: #2c4a76;
+        line-height: 1.5;
+        max-width: 420px;
+    }
+
+    /* Social login buttons row, if present */
+    .login_wrap .part.br { margin-bottom: 22px; }
+    .login_wrap .part.br > p {
+        text-align: center;
+        color: #5b6471;
+        font-size: 13.5px;
+        margin: 0 0 12px;
+    }
+    .login_wrap .bl_social_buttons_register {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .login_wrap .line_or {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 18px 0 6px;
+        color: #8a8f99;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+    }
+    .login_wrap .line_or .line_top,
+    .login_wrap .line_or .line_bottom { flex: 1; height: 1px; background: #e8e1d2; }
+    .login_wrap .line_or .or { padding: 0 6px; }
+
+    /* Form */
+    .login_wrap .form_login .bl { margin-bottom: 14px; }
+    .login_wrap .form_login label {
+        display: block;
+        margin: 0 0 6px;
+        color: #1f2937;
+        font-size: 13.5px;
+        font-weight: 600;
+    }
+    .login_wrap .form_login input[type="text"],
+    .login_wrap .form_login input[type="email"],
+    .login_wrap .form_login input[type="password"] {
+        width: 100%;
+        padding: 13px 14px;
+        background: #ffffff;
+        border: 1px solid #e1d8c2;
+        border-radius: 10px;
+        font-size: 15px;
+        color: #1f2937;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        box-sizing: border-box;
+    }
+    .login_wrap .form_login input:focus {
+        outline: none;
+        border-color: #2c4a76;
+        box-shadow: 0 0 0 3px rgba(44,74,118,0.10);
+    }
+    .login_wrap .form_login .error { color: #b03a2e; font-size: 13px; margin-top: 4px; }
+
+    button#form_login_submit {
+        display: block;
+        width: 100%;
+        padding: 13px 0;
+        background: #2c4a76;
+        color: #fff;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+    button#form_login_submit:hover { background: #1f3a60; transform: translateY(-1px); }
+
+    /* 2026-05-05 per Irene — Remember me checkbox was invisible because the
+       global `.custom_checkbox input { opacity: 0 }` rule from the site CSS
+       hid the native input and there was no replacement visual. Style the
+       label's <span> as the custom-checkbox visual + show the input as an
+       actual checkbox at full opacity. */
+    .login_wrap .sign.custom_checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+        color: #5b6471;
+        font-size: 13.5px;
+    }
+    .login_wrap .sign.custom_checkbox input[type="checkbox"] {
+        opacity: 1 !important;
+        position: static !important;
+        width: 16px;
+        height: 16px;
+        accent-color: #2c4a76;
+        cursor: pointer;
+        margin: 0;
+    }
+    .login_wrap .sign.custom_checkbox label {
+        cursor: pointer;
+        margin: 0;
+        color: #5b6471;
+        font-weight: 500;
+    }
+    /* Hide the legacy <span> placeholder used by the older .custom_checkbox
+       pattern (we use the native checkbox now). */
+    .login_wrap .sign.custom_checkbox label > span:empty { display: none; }
+
+    .login_wrap .login_alt {
+        margin-top: 22px;
+        text-align: center;
+        font-size: 13.5px;
+        color: #5b6471;
+    }
+    .login_wrap .login_alt a {
+        color: #2c4a76;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .login_wrap .login_alt a:hover { text-decoration: underline; }
+
+    /* The page background was being painted by the old inline rules — keep
+       calm cream rather than the brand-irrelevant header video for login. */
+    .header, .video-wrapper, .bg_shadow { display: none !important; }
+    .main.above .wrapper { background: #f7f3ec !important; }
+    .footer { background: transparent !important; }
+    .footer_w .nav li, .footer_w .nav li a, .title_orig { color: #5b6471 !important; }
+
+    @media (max-width: 480px) {
+        .login_page { padding: 36px 12px 60px; }
+        .login_wrap { padding: 30px 22px 26px; border-radius: 14px; }
+    }
+</style>
+
+<div class="col_center login_page">
+    <div class="login_wrap">
+
+        <div class="login_brand">
+            <!-- 2026-05-07 per Irene: heart-icon-only mark on login -->
+            <img src="/_files/logo/heart_icon.png?v=2026-05-07" alt="Meet Greek Singles" />
+            <h1>Welcome back to Meet Greek Singles!</h1>
+            <p>We're glad to see you again.</p>
+            <p>Sign in to continue your journey toward meaningful Greek connections.</p>
+        </div>
+        <p class="login_identity">
+            Identity is personal. Whether you have one Greek parent or are from the diaspora, you are welcome here.
+        </p>
+
+        <!-- begin_social_login -->
+        <div class="part br">
+            <p>{l_social_btn_info}</p>
+            <ul class="bl_social_buttons bl_social_buttons_register">
+                <!-- begin_social_login_item -->
+                <li class="login_{social_login_item_type}"><a href="{social_login_item_url}">&nbsp;</a></li>
+                <!-- end_social_login_item -->
+            </ul>
+            <div class="line_or">
+                <div class="line_top"></div>
+                <div class="or">{l_or}</div>
+                <div class="line_bottom"></div>
+            </div>
+        </div>
+        <!-- end_social_login -->
+
+        <div class="part">
+            <form id="form_login" class="form_login" method="post" autocomplete="on" action="{url_main}ajax.php">
+                <input id="form_login_cmd" type="hidden" name="cmd" value="login" />
+                <input type="hidden" name="ajax" class="ajax" value="1" />
+
+                <div class="bl">
+                    <label>{l_email_name}</label>
+                    <div class="bl_inp_pos">
+                        <input id="form_login_user" type="text" name="user" class="inp placeholder email" placeholder="{a_your_email_or_username}" />
+                        <div class="error"></div>
+                    </div>
+                </div>
+
+                <div class="bl">
+                    <label>{l_password}</label>
+                    <div class="bl_inp_pos">
+                        <input id="form_login_pass" type="password" name="password" class="inp placeholder email" placeholder="{a_password}" />
+                    </div>
+                </div>
+
+                <button id="form_login_submit" type="submit" class="btn pink">{l_log_in}</button>
+
+                <span class="sign custom_checkbox">
+                    <input id="Remember" name="remember" value="1" type="checkbox" checked="checked" />
+                    <label for="Remember"><span></span>{l_remember_me}</label>
+                </span>
+            </form>
+        </div>
+
+        <div class="login_alt">
+            <a id="pp_forgot_pass_open" href="">Forgot your password?</a>
+            &nbsp;&middot;&nbsp;
+            <a href="{url_main}{url_page_join}">Create an account</a>
+        </div>
+    </div>
+</div>
+
+<!-- begin_demo -->
+<script>
+$(document).ready(function() {
+    $('#form_login_user').val('{login_user}');
+    $('#form_login_pass').val('{login_password}');
+});
+</script>
+<!-- end_demo -->
+<!-- begin_alert_msg -->
+<script>
+alertCustom('{alert_msg}', true, l('alert_html_alert'));
+</script>
+<!-- end_alert_msg -->
+{footer}

@@ -1,0 +1,55 @@
+<div id="ls_comment_{comment_id}" data-cid="{comment_id}" data-send="{comment_send}" class="ls_comment_item item {comment_custom_class}">
+    <div class="comment_item_wrapper">
+        <div class="photo">
+            <a data-photo="{comment_user_photo}" data-uid="{comment_user_id}" title="{comment_user_name}" href="{comment_user_url}" class="pic profile_photo_r_{comment_user_id} to_hide <!-- begin_data_my_photo --><!-- end_data_my_photo -->" style="background-image:url({url_files}{comment_user_photo});"></a>
+            <script>onLoadImgFromList($('.profile_photo_r_{comment_user_id}.to_hide'), '{url_files}{comment_user_photo}');</script>
+        </div>
+        <div class="comment_container">
+            <div class="comment_text">
+                <div class="comment_text_cont">
+					<!-- begin_comment_audio -->
+					<span class="im_audio_message">
+						<span id="ls_comment_audio_{comment_id}" class="im_audio_message_loader" data-audio-message-file="{comment_audio_file}" >
+							<i class="fa fa-play" aria-hidden="true"></i>
+						</span>
+						<span class="im_audio_message_process"></span>
+						<span class="im_audio_message_process_play"></span>
+					</span>
+					<div class="cl"></div>
+					<!-- end_comment_audio -->
+					{comment_text}
+				</div><!-- comment_text_one -->
+                <ul class="list comment_action_list">
+                    <li>
+                        <span id="ls_comment_like_link_{comment_id}" class="comment_item" data-cid="{comment_id}" data-like="{comment_like}" data-no-fade-in="true" data-cl-loader="loader_like_comments" onclick="clStream.like($(this));">
+                            <span title="{comment_like_title_alt}" class="comment_item_title">{comment_like_title}</span>
+                        </span>
+                    </li>
+                    <li id="ls_comment_likes_bl_{comment_id}" class="comment_likes_bl <!-- begin_comment_likes_hide -->to_hide<!-- end_comment_likes_hide -->">
+                        <span class="comment_item" data-cid="{comment_id}"  onclick="redirectUrl('{comment_url_page_liked}')" title="{comment_count_like_users}" >
+                            <span class="glyphicon glyphicon-thumbs-up"></span><span id="ls_comment_likes_count_{comment_id}" class="comment_likes_count">{comment_count_like}</span>
+                        </span>
+                    </li>
+                    <li class="comment_data hidden-xs hide_mobile" data-photo-date="{comment_time_full}">{comment_date}</li>
+                    <!-- begin_comment_delete -->
+					<li class="comm_to_comm_delete">
+                        <a onclick="clStream.confirmDeleteComment($(this),'{comment_id}'); return false;" href="">
+                            <span class="icon_fa"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                            <span>{l_delete}</span>
+                        </a>
+                    </li>
+					<!-- end_comment_delete -->
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <script type="text/javascript">
+                clStream.commentsCacheAdd('{comment_ls_id}', '{comment_id}');
+                clStream.itemInfoSet('{comment_ls_id}', '{comment_ls_last_action_like}', '{comment_ls_last_action_comment}', '{comment_ls_comments_count}');
+            </script>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

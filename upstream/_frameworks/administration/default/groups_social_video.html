@@ -1,0 +1,48 @@
+{header}
+<div class="block_narrow">
+    {menu_page}
+</div>
+<style>
+    .video_native, .mod_bl_description, .mod_bl_name{
+        width: 270px;
+    }
+</style>
+<div class="block_main">
+    <h2>{l_title_current}</h2>
+<!--begin_videos-->
+    <div class="bl_form">
+    <form action="{url_main}administration/groups_social_video.php" method="POST" name="Admin">
+      <div style="padding: 0px; overflow: hidden; width: 100%;">
+        <!-- begin_video -->
+        <div class="approve_photo" style="float:left; padding: 0 0px 10px 0; width: 280px;">
+        <div class="mod_bl_name">
+            {group_type}: <b><a target="_blank" href="{url_main}{group_url}">{group_name}</a></b>
+        </div>
+        <!-- begin_photo_status -->
+        <div class="mod_bl_name">
+            {l_status}: <b>{private}</b>
+        </div>
+        <!-- end_photo_status -->
+		<div class="mod_bl_description" title="{subject}">{subject}&nbsp;</div>
+        {video_html_code}
+        <div style = "padding: 10px 0px">
+            <label class="approve_list"><input type="radio" class="check" name="do[{video_id}]" checked value="add"> {l_add}</label>
+            <label class="approve_list"><input type="radio" class="check" name="do[{video_id}]" value="del"> {l_delete}</label>
+        </div>
+        </div>
+        <!-- end_video -->
+        </div>
+        <div style="height: 20px;"></div>
+        <div class="wrap_button fl_right">
+            <button class="button submit" type="submit">{l_save}</button>
+            <div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+        </div>
+	</form>
+    </div>
+<!--end_videos-->
+<!--begin_msg-->
+<div class = "msg">{l_no_video}</div>
+<!--end_msg-->
+    <div class="empty"></div>
+</div>
+{footer}

@@ -1,0 +1,293 @@
+{header}
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/pay.php">{l_menu_payment}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<script>
+    $(function(){
+        $('.frm_pay').submit(function(){
+            var isEmpty=true;
+            $(this).find('input[type="text"]:not(".2co")').each(function(){
+                var inp=$(this),val=$.trim(inp.val());
+                if(val==''){
+                    alertCustomm('{j_field_is_required}');
+                    inp.focus();
+                    isEmpty=false;
+                    return false;
+                }else{inp.val(val)}
+            });
+            return isEmpty;
+        });
+
+		$('input[type="radio"').change(function(){
+            var type=$(this).data('type');
+			if (!type) {
+				return;
+			}
+            $('[data-type='+type+']').prop('checked',false).iCheck('update');
+            $(this).prop('checked',true).iCheck('update');
+            $('.default_plan_'+type).val($(this).val());
+        })
+    })
+</script>
+
+<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+<div class="alert alert-danger alert-dismissible mb-2-1" role="alert">{l_changes_delete}</div>
+
+<!-- begin_items  -->
+
+<div class="content-body">
+	<div class="row">
+		<div class="col-12">
+			<div class="card bg-blue bg-lighten-2">
+				<div class="card-header">
+					<h4 class="card-title text-white">{title_plans}</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- begin_item  -->
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{item_name_title}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-plus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse">
+					<div class="card-body">
+						<form class="frm_pay" action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="update">
+							<input type="hidden" name="item" value="{item}">
+							<input class="default_plan_{type}" type="hidden" name="default_plan" value="{default_item}">
+
+							<fieldset class="form-group">
+								<label>{l_item_name}:</label>
+								<input class="form-control" type="text" name="item_name" value="{item_name}"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_amount}:</label>
+								<input class="form-control" type="text" name="amount" value="{amount}"/>
+							</fieldset>
+							<!-- begin_item_amount_old -->
+							<fieldset class="form-group">
+								<label>{l_amount_old}:</label>
+								<input class="form-control" type="text" name="amount_old" value="{amount_old}"/>
+							</fieldset>
+							<!-- end_item_amount_old -->
+							<fieldset class="form-group">
+								<label>{gold_days_label}:</label>
+								<input class="form-control" maxlength="{paid_days_length}" type="text" name="gold_days" value="{gold_days}"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_payment_2co_id}:</label>
+								<input class="form-control 2co" type="text" name="co_id" value="{co_id}"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_fortumo_service_id}:</label>
+								<input class="form-control 2co" type="text" name="fortumo_service_id" value="{fortumo_service_id}"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label>{l_fortumo_secret}:</label>
+								<input class="form-control 2co" type="text" name="fortumo_secret" value="{fortumo_secret}"/>
+							</fieldset>
+							<fieldset class="form-group">
+							<label>{l_iapgoogle_product_id}:</label>
+								<input  class="form-control 2co" type="text" name="iapgoogle_product_id" value="{iapgoogle_product_id}"/>
+							</fieldset>
+							<fieldset class="form-group">
+							<label>{l_iapapple_product_id}:</label>
+								<input  class="form-control 2co" type="text" name="iapapple_product_id" value="{iapapple_product_id}"/>
+							</fieldset>
+							<!-- begin_item_default -->
+							<fieldset class="form-group skin skin-flat">
+								<label for="radio_{item}">{l_default_payment_plan}:</label>
+								<input class="i_radio" data-type="{type}" type="radio" id="radio_{item}" value="{item}" name="default" {checked} >
+        					</fieldset>
+							<!-- end_item_default -->
+
+							<fieldset class="form-group">
+								<ul class="checkbox_pay_list">
+									<!-- begin_pay_item -->
+									<li>
+										<div class="custom-control custom-switch">
+											<input id="pay_list_{pay_key}_{item}" class="custom-control-input" type="checkbox" value="{pay_key}" name="pay[{pay_key}]" {pay_checked}>
+											<label for="pay_list_{pay_key}_{item}" class="custom-control-label">{pay_title}</label>
+										</div>
+									</li>
+									<!-- end_pay_item -->
+								</ul>
+							</fieldset>
+
+							<!-- begin_item_type -->
+							<fieldset class="form-group">
+								<label>{l_type}:</label>
+								<select class="form-control" name="type">{select_type}</select>
+							</fieldset>
+							<!-- end_item_type -->
+
+							<!-- begin_item_type_const -->
+							<input type="hidden" name="type" value="{type}">
+							<!-- end_item_type_const -->
+
+
+							<fieldset class="form-group btn_group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit mr-1" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+								<div class="wrap_button">
+									<button onclick="confirmCustom('{j_are_you_sure}', function(){redirectUrl('{url_page}?cmd=delete&item={item}')}); return false;" class="btn btn-secondary mr-1">{l_delete}</button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end_item -->
+
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{new_plan}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+						<form class="frm_pay" action="{url_page}" method="POST">
+							<input type="hidden" name="cmd" value="add">
+							<input class="default_plan_{type}" type="hidden" name="default_plan" value="{default_item}">
+							<fieldset class="form-group">
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_item_name}:</label>
+							<input class="form-control" type="text" name="item_name" value=""/>
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_amount}:</label>
+							<input class="form-control" type="text" name="amount" value=""/>
+							</fieldset>
+
+							<!-- begin_item_amount_old_add -->
+							<fieldset class="form-group">
+							<label>{l_amount_old}:</label>
+							<input class="form-control" type="text" name="amount_old" value=""/>
+							</fieldset>
+							<!-- end_item_amount_old_add -->
+
+							<fieldset class="form-group">
+							<label>{gold_days_label}:</label>
+							<input class="form-control" maxlength="{paid_days_length}" type="text" name="gold_days" value=""/>
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_payment_2co_id}:</label>
+							<input class="form-control 2co" type="text" name="co_id" value=""/>
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_fortumo_service_id}:</label>
+							<input  class="form-control 2co" type="text" name="fortumo_service_id" value=""/>
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_fortumo_secret}:</label>
+							<input  class="form-control 2co" type="text" name="fortumo_secret" value=""/>
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_iapgoogle_product_id}:</label>
+							<input  class="form-control 2co" type="text" name="iapgoogle_product_id" value=""/>
+							</fieldset>
+
+							<fieldset class="form-group">
+							<label>{l_iapapple_product_id}:</label>
+							<input  class="form-control 2co" type="text" name="iapapple_product_id" value=""/>
+							</fieldset>
+
+							<!-- begin_item_default_add -->
+							<fieldset class="form-group skin skin-flat">
+								<label for="radio_{item}">{l_default_payment_plan}:</label>
+								<input class="i_radio" data-type="{type}" type="radio" id="radio_{item}" value="add" name="default">
+        					</fieldset>
+							<!-- end_item_default_add -->
+
+							<fieldset class="form-group">
+								<ul class="checkbox_pay_list">
+									<!-- begin_pay_item_add -->
+									<li>
+										<div class="custom-control custom-switch">
+											<input id="pay_list_default_{pay_key}_{item}" class="custom-control-input" type="checkbox" value="{pay_key}" name="pay[{pay_key}]" {pay_checked}>
+											<label for="pay_list_default_{pay_key}_{item}" class="custom-control-label">{pay_title}</label>
+										</div>
+									</li>
+									<!-- end_pay_item_add -->
+								</ul>
+							</fieldset>
+
+							<!-- begin_item_type_add -->
+							<fieldset class="form-group">
+								<label>{l_type}:</label>
+								<select class="form-control"  name="type">{add_select_type}</select>
+							</fieldset>
+							<!-- end_item_type_add -->
+
+							<!-- begin_item_type_add_const -->
+							<input type="hidden" name="type" value="{type}">
+							<!-- end_item_type_add_const -->
+
+							<fieldset class="form-group btn_group">
+								<div class="wrap_button">
+									<button class="btn btn-primary btn_submit mr-1" type="submit">{l_save}</button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- end_items  -->
+
+{footer}

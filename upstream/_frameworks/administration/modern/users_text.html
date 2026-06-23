@@ -1,0 +1,110 @@
+{header}
+
+<script type="text/javascript" src="../_server/jquery/jquery.form.js{cache_version_param}"></script>
+
+<div class="content-header row">
+	<div class="content-header-left col-md-4 col-12 mb-2">
+		<h3 class="content-header-title">{l_title_current}</h3>
+	</div>
+	<div class="content-header-right col-md-8 col-12">
+		<div class="breadcrumbs-top float-md-right">
+			<div class="breadcrumb-wrapper mr-1">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{url_main}administration/users_results.php">{l_mmenu_users}</a>
+					</li>
+					<li class="breadcrumb-item active">
+						{l_title_current}
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+{menu_page}
+
+<div class="content-body">
+
+	<div class="alert alert-success border-0 alert-dismissible mb-2-1" role="alert">{l_changes_save}</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">{l_title_current}</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        </ul>
+                    </div>
+				</div>
+				<div class="card-content collapse show">
+					<div class="card-body">
+
+						<!-- begin_texts_yes -->
+						<form id="frm_users_text" action="{url_main}administration/users_text.php" method="POST">
+							<!-- begin_texts -->
+							<h4><a href="{url_main}administration/users_edit.php?id={user_id}">{user_name}</a></h4>
+
+							<!-- begin_text -->
+							<fieldset class="form-group">
+								<label>{field_title}:</label>
+								<input class="form-control" type="text" name="{name_input}[{id}]" value="{value}">
+							</fieldset>
+							<!-- end_text -->
+
+							<!-- begin_textarea -->
+							<fieldset class="form-group">
+								<label>{field_title}:</label>
+								<textarea class="form-control h_120" name="{name_input}[{id}]">{value}</textarea>
+							</fieldset>
+							<!-- end_textarea -->
+
+							<input type="hidden" name="user_id[{id}]" value="{user_id}">
+							<div class="mod_bl_action skin skin-flat mb-2">
+								<label>
+									<input type="radio" name="do[{id}]" value="add" class="check" checked="checked"> {l_add}
+								</label>
+								<label>
+									<input type="radio" name="do[{id}]" value="del" class="check"> {l_delete}
+								</label>
+							</div>
+							<!-- end_texts -->
+							<fieldset class="form-group mt-2">
+								<div class="wrap_button">
+									<button id="frm_users_text_btn" class="btn btn-primary btn_submit" type="submit"><span>{l_save}</span></button>
+									<div class="button_submit_instruction">{l_or_use_ctrl_s}</div>
+								</div>
+							</fieldset>
+						</form>
+						<!-- end_texts_yes -->
+						<!--begin_msg-->
+						<div class="alert alert-light mb-2 alert-info-1" role="alert">
+							{l_no_text}
+						</div>
+						<!--end_msg-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+    var $frmText=$('#frm_users_text').submit(function(){
+        $('#frm_users_text_btn').prop('disabled', true).addChildrenLoader();
+
+        var $f=$frmText.clone().hide().appendTo('body');
+        $('input[type="text"], textarea', $f).each(function(){
+            this.value=emojiToHtml(this.value);
+        })
+        $f.submit();
+
+        return false;
+    });
+</script>
+
+{footer}

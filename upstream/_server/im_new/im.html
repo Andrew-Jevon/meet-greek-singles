@@ -1,0 +1,50 @@
+<table cellspacing="0" cellpadding="0" class="chat" id="xajax_im_open_{user_id}" style="left: {x}px; top: {y}px; z-index: {z};">
+<tbody>
+<tr><td colspan="3" class="sh-t"></td></tr>
+<tr>
+	<td class="sh-l"></td>
+	<td class="chatcont" onclick="xajax_im_save_position_input({user_id});">
+		<table class="chathead" id="xajax_im_head_{user_id}"><tr>
+			<td class="chattitle" title="{l_chat_with} {name}"></td>
+			<td class="chaticons">
+				<UL><LI class="chatclose" onclick="xajax_im_close({user_id});"></LI></UL>
+			</td>
+		</tr></table>
+		<table class="chatmain"><tr>
+			<td class="chatmain-in">
+				<DIV class="chatbody" id="xajax_im_msgs_{user_id}" onclick="xajax_im_save_position_input({user_id});"/></DIV>
+				<FORM class="cinput nostyle" name="im_form_{user_id}" id="sent_msg_{user_id}" onsubmit="im_sent(this.msg); return false">
+					<input type="hidden" name="to_user" value="{user_id}" />
+					<textarea id="msg_field_{user_id}" type="text" class="cinput" name="msg" onclick="xajax_im_save_position_input({user_id});"/></textarea>
+					<button class="csubmit"></button>
+
+				<a href="#" onclick="im_sound({sound}); return false;" class="sound_link status_{sound}"></a>
+				</FORM>
+
+			</td>
+			<td class="chatside" >
+				<DIV class="cname"><H3>{name_short}</H3></DIV>
+				<DIV class="cphoto">
+					<a href="{url_main}search_results.php?display=profile&name={name}"><IMG width="90" height="100" src="{url_files}{photo}" alt="{l_view_profile}" /></a>
+					<!-- begin_contact_blocking -->
+                        <a class="im_block_user" href="{url_main}user_block_edit.php?uid={user_id}" title="{l_block} {name}">&nbsp;</a>
+                    <!-- end_contact_blocking -->
+                </DIV>
+				<UL class="cdesc">
+					<LI><SPAN>{l_country}:</SPAN> {country}</LI>
+					<LI class="odd"><SPAN>{l_state}:</SPAN> {state}</LI>
+					<LI><SPAN>{l_city}:</SPAN> {city}</LI>
+					<LI class="odd"><SPAN>{l_age}:</SPAN> {age}</LI>
+				</UL>
+			</td>
+		</tr></table>
+	</td>
+	<td class="sh-r"></td>
+</tr>
+<tr><td colspan="3" class="sh-b"></td></tr>
+</tbody></table>
+<script>
+$("#msg_field_{user_id}").keydown(doOnEnter(im_sent)).autosize({callback:function(el, h){
+	$('#xajax_im_msgs_{user_id}').height(277+20-h)
+}}).on('input propertychange', function(){status_writing[{user_id}]=parseInt((new Date())/1000)});
+</script>

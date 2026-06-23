@@ -1,0 +1,116 @@
+{header}
+<div class="col_center cstm_page">
+    <div class="head">Events & Greek Life<br>
+        <small>Find and share Greek nights, dining meetups, dancing, Bouzouki nights, concerts, and festivals near you.</small>
+    </div>
+     <a class="cstnm" href="#">Share a Local Greek Event</a>
+     <h3>Events</h3>
+     <table>
+        <thead>
+            <tr>
+                <th>Event Title</th>
+                <th>City, Country</th>
+                <th>Date, Time</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Event Link</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+     </table>
+     <h3>Submit Event</h3>
+     <div class="bl_form">
+         <form action="{url_page}" method="post" enctype="multipart/form-data">
+
+        <!-- Event Title -->
+        <label for="title">Event title</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <!-- City -->
+        <label for="city">City</label><br>
+        <input type="text" id="city" name="city" required><br><br>
+
+        <!-- Country -->
+        <label for="country">Country</label><br>
+        <input type="text" id="country" name="country" required><br><br>
+
+        <!-- Date -->
+        <label for="date">Date</label><br>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <!-- Time -->
+        <label for="time">Time</label><br>
+        <input type="time" id="time" name="time" required><br><br>
+
+        <!-- Category -->
+        <label for="category">Category</label><br>
+        <select id="category" name="category" required>
+        <option value="">Select a category</option>
+        <option value="Meetup">Dining & Meetups</option>
+        <option value="Cultural">Greek Nights & Dancing</option>
+        <option value="Networking">Bouzouki Nights</option>
+        <option value="Food & Drink">Concerts</option>
+        <option value="Travel">Festivals & Cultural Events</option>
+        <option value="Other">Community Gatherings</option>
+        <option value="Other">Picnics & Cookouts</option>
+        </select><br><br>
+
+        <!-- Short Description -->
+        <label for="description">Short description (max 500 characters)</label><br>
+        <textarea
+        id="description"
+        name="description"
+        maxlength="500"
+        rows="4"
+        required></textarea><br><br>
+
+        <!-- Event Cost -->
+        <p><strong>Event cost</strong></p>
+        <input type="radio" id="free" name="cost" value="Free" required>
+        <label for="free">Free</label><br>
+
+        <input type="radio" id="paid" name="cost" value="Paid">
+        <label for="paid">Paid</label><br><br>
+
+        <!-- Price -->
+        <label for="price">Price (optional)</label><br>
+        <input
+        type="text"
+        id="price"
+        name="price"
+        placeholder="e.g. €20 / $25"><br><br>
+
+        <!-- External Link -->
+        <label for="link">Optional external link</label><br>
+        <input type="url" id="link" name="link"><br><br>
+
+        <!-- Flyer Upload -->
+        <label for="flyer">Flyer image upload (optional)</label><br>
+        <input
+        type="file"
+        id="flyer"
+        name="flyer"
+        accept=".jpg,.jpeg,.png"><br>
+        <small>
+        1 image only (JPG or PNG, max 3 MB)
+        </small><br><br>
+
+        <!-- Required Checkbox -->
+        <input type="checkbox" id="greekEvent" name="greekEvent" required>
+        <label for="greekEvent">
+        This is a Greek-related or Greek community event
+        </label><br><br>
+
+        <!-- Submit -->
+        <button type="submit">Submit for Review</button>
+
+    </form>
+    </div>
+
+</div>
+<!-- begin_payment_error -->
+<script>$(function(){alertCustom('{j_seems_there_problem_with_your_payment}', true, '{j_problem_with_the_payment}');})</script>
+<!-- end_payment_error -->
+{footer}
