@@ -20,7 +20,8 @@
 }
 
 .mgs_msg_one {
-    padding-bottom: 40px !important;
+    padding-bottom: 96px !important;
+    margin-bottom: 32px !important;
     position: relative !important;
     z-index: 1 !important;
     box-sizing: border-box !important;
@@ -296,11 +297,14 @@
 .mgs_msg_one .chat_cont .item .msg_read { margin: 3px 0 0 auto !important; }
 .mgs_msg_one .chat_cont .item .upgrade_msg { font-size: 10.5px !important; color: #b88a3e !important; max-width: 120px !important; }
 
-/* ---------- Composer ---------- */
+/* ---------- Composer ----------
+   Chameleon’s default .pp_message_upload_img uses position:absolute and a
+   700px-wide invisible file input that spans the textarea — fix by keeping
+   upload as a normal flex item (circle between input and Send). */
 .mgs_msg_one .message_field_chat {
     background: #ffffff !important;
     margin: 0 !important;
-    padding: 14px 20px 16px !important;
+    padding: 14px 20px 20px !important;
     border-top: 1px solid #e8e1d2 !important;
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -311,7 +315,6 @@
 }
 .mgs_msg_one .message_field_chat #msg_text,
 .mgs_msg_one .message_field_chat textarea {
-    order: 1 !important;
     flex: 1 1 auto !important;
     width: auto !important;
     min-height: 44px !important;
@@ -337,9 +340,8 @@
 }
 .mgs_msg_one .message_field_chat #msg_text::placeholder { color: #94a3b8 !important; }
 
-/* Camera sits between the textarea and Send, vertically centered. */
+/* Image upload — dedicated circle button (NOT inside textarea, NOT on Send) */
 .mgs_msg_one .pp_message_upload_img {
-    order: 2 !important;
     width: 44px !important;
     height: 44px !important;
     min-width: 44px !important;
@@ -353,13 +355,17 @@
     cursor: pointer !important;
     transition: background 0.15s, border-color 0.15s !important;
     flex-shrink: 0 !important;
-    position: static !important;
-    top: auto !important; right: auto !important; bottom: auto !important; left: auto !important;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
     align-self: center !important;
     margin: 0 !important;
     padding: 0 !important;
     float: none !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 .mgs_msg_one .pp_message_upload_img:hover {
     background: #fdf9f1 !important;
@@ -367,18 +373,63 @@
     color: #1e3a8a !important;
 }
 .mgs_msg_one .pp_message_upload_img i.fa-camera {
-    font-size: 16px !important;
+    position: static !important;
+    font-size: 17px !important;
     line-height: 1 !important;
     color: inherit !important;
     display: block !important;
+    width: auto !important;
+    height: auto !important;
+    top: auto !important;
+    right: auto !important;
 }
-.mgs_msg_one .pp_message_upload_img.disabled { opacity: 0.55 !important; }
+.mgs_msg_one .pp_message_upload_img.disabled { opacity: 0.85 !important; }
+.mgs_msg_one .pp_message_upload_img.disabled i.fa-camera { color: #0f3a6a !important; }
 
-/* Send — brand pill (navy + gold, matching the site's button system) */
+/* Confine invisible file input to the circle only (override Chameleon’s 700px overlay) */
+.mgs_msg_one .pp_message_upload_img input[type="file"] {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+    font-size: 0 !important;
+    display: block !important;
+    z-index: 2 !important;
+}
+.mgs_msg_one .pp_message_upload_img.no_available input[type="file"] {
+    display: none !important;
+}
+.mgs_msg_one .pp_message_upload_img .count_upload_image {
+    position: absolute !important;
+    bottom: 2px !important;
+    right: 2px !important;
+    left: auto !important;
+    top: auto !important;
+    width: 14px !important;
+    height: 14px !important;
+    font-size: 9px !important;
+    line-height: 14px !important;
+}
+.mgs_msg_one .pp_message_upload_img .pp_message_upload_img_loader {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 22px !important;
+    height: 22px !important;
+}
+.mgs_msg_one .pp_message_upload_img.to_hide i.fa-camera,
+.mgs_msg_one .pp_message_upload_img.to_hide form { display: none !important; }
+
+/* Send — brand pill (no upload overlap) */
 .mgs_msg_one .message_field_chat .send_btn,
 .mgs_msg_one .message_field_chat button[type="submit"],
 .mgs_msg_one .message_field_chat .btn.btn-primary {
-    order: 3 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -399,6 +450,8 @@
     box-shadow: 0 6px 16px rgba(30, 58, 138, 0.22) !important;
     transition: background 0.2s, border-color 0.2s, transform 0.15s !important;
     flex-shrink: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 .mgs_msg_one .message_field_chat .send_btn:hover,
 .mgs_msg_one .message_field_chat button[type="submit"]:hover {
@@ -411,6 +464,10 @@
     font-size: 14px;
     line-height: 1;
     margin-left: 2px;
+}
+/* messages.js sometimes sets marginBottom:-12 on the composer — undo it */
+.mgs_msg_one .message_field_chat[style*="margin"] {
+    margin-bottom: 0 !important;
 }
 
 /* ---------- Scrollbar ---------- */
@@ -480,11 +537,9 @@
         </div>
         <div class="message_field_chat">
             <textarea id="msg_text" class="placeholder" placeholder="Write a thoughtful message..."></textarea>
-            <button type="submit" class="send_btn btn btn-primary">Send</button>
             <div id="pp_message_upload_img" title="{a_upload_image}" class="pp_message_upload_img disabled" onclick="messages.clearUploadImage(true, true);">
                 <div id="pp_message_upload_img_loader" class="pp_message_upload_img_loader"></div>
                 <i class="fa fa-camera" aria-hidden="true"></i>
-                <!-- <span class="count_upload_image">1</span> -->
                 <span class="count_upload_image">
                     <i class="fa fa-check"></i>
                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -496,6 +551,7 @@
                 </form>
                 <script>messages.initAddImage();</script>
             </div>
+            <button type="submit" class="send_btn btn btn-primary">Send</button>
         </div>
         <div class="cl"></div>
 	</div>
