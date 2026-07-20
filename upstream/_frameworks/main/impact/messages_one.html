@@ -5,53 +5,90 @@
     messages.usersCacheAdd('{user_to_id}');
 </script>
 <style>
-/* 2026-06-11 (per Irene's review) — Modernized direct-message UI.
-   IMPORTANT: every rule is scoped to .mgs_msg_one wrapper so nothing leaks
-   into other pages. No `body` or unscoped `.col_center` rules. */
+/* 2026-07-17 — Direct-message redesign v2.
+   Every rule is scoped to the .mgs_msg_one wrapper (except the page-width
+   .column_main override) so nothing leaks into other pages.
 
-/* Card header — wide but capped so the right edge never overruns the
-   right sidebar (which sits at column_main right: -193px). */
+   Key change vs v1: NO forced 900/1000px min-heights. messages.js
+   (prepareViewOneChat) already sizes #bl_viewport to fill the window, so the
+   card now always fits the screen and never spills over the navy footer. */
+
+.column_main {
+    width: 1080px !important;
+    max-width: calc(100vw - 60px) !important;
+    min-width: 780px !important;
+}
+
+.mgs_msg_one {
+    padding-bottom: 40px !important;
+    position: relative !important;
+    z-index: 1 !important;
+    box-sizing: border-box !important;
+}
+.mgs_msg_one::after { content: ''; display: block; clear: both; height: 0; }
+
+/* ---------- Card header ---------- */
 .mgs_msg_one .head.icon_head_messages {
     width: auto !important;
     max-width: 1000px !important;
-    margin: 24px auto 0 !important;
+    margin: 22px auto 0 !important;
     background: #ffffff !important;
-    border-radius: 22px 22px 0 0 !important;
-    padding: 22px 28px !important;
-    border-bottom: 1px solid #e8e1d2 !important;
     background-image: none !important;
+    border: 1px solid #e8e1d2 !important;
+    border-bottom: 1px solid #efe9dc !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 14px 20px !important;
     position: relative !important;
-    text-align: left !important;
     height: auto !important;
     line-height: 1.3 !important;
-    box-shadow: 0 -8px 32px rgba(15, 58, 106, 0.06) !important;
+    box-shadow: 0 -6px 24px rgba(15, 58, 106, 0.05) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+}
+.mgs_msg_one .chat_head_avatar {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    border-radius: 50% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-color: #f7f3ec !important;
+    border: 2px solid #e6c069 !important;
+    box-shadow: 0 2px 8px rgba(15, 58, 106, 0.12) !important;
+    cursor: pointer !important;
+    display: block !important;
 }
 .mgs_msg_one .head.icon_head_messages > a {
     font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 22px !important;
+    font-size: 21px !important;
     font-weight: 600 !important;
     color: #0f3a6a !important;
     text-decoration: none !important;
     line-height: 1.2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+.mgs_msg_one .head.icon_head_messages > a::after {
+    content: 'View profile';
+    font-family: 'Source Sans 3', system-ui, sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.8px !important;
+    text-transform: uppercase !important;
+    color: #b88a3e !important;
 }
 .mgs_msg_one .head.icon_head_messages > a:hover { color: #1e3a8a !important; text-decoration: none !important; }
-.mgs_msg_one .head.icon_head_messages > a::before {
-    content: '';
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #22c55e;
-    margin-right: 10px;
-    vertical-align: middle;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
-}
+.mgs_msg_one .head.icon_head_messages > a:hover::after { color: #e6c069 !important; }
+
 .mgs_msg_one .icon_message_back {
-    position: absolute !important;
-    right: 22px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: 36px !important;
-    height: 36px !important;
+    position: static !important;
+    margin-left: auto !important;
+    width: 38px !important;
+    height: 38px !important;
     border-radius: 999px !important;
     background: #f4f7fa !important;
     cursor: pointer !important;
@@ -59,185 +96,175 @@
     align-items: center !important;
     justify-content: center !important;
     transition: background 0.15s !important;
+    flex-shrink: 0 !important;
 }
 .mgs_msg_one .icon_message_back:hover { background: #e8eef4 !important; }
 .mgs_msg_one .icon_message_back .back,
 .mgs_msg_one .icon_message_back .back_hover {
-    width: 12px !important; height: 12px !important;
+    position: static !important;
+    width: 11px !important; height: 11px !important;
     background: none !important;
     border: solid #0f3a6a;
     border-width: 2px 0 0 2px !important;
     transform: rotate(-45deg);
     margin-left: 3px;
+    display: inline-block !important;
 }
 .mgs_msg_one .icon_message_back .back_hover { display: none !important; }
 
-/* Conversation + composer container — centered, capped at 1000px so it
-   doesn't overlap the right sidebar that sits at column_main right: -193px */
+/* ---------- Conversation card ---------- */
 .mgs_msg_one #bl_cont.cont {
     width: auto !important;
     max-width: 1000px !important;
     margin: 0 auto !important;
     background: #ffffff !important;
-    border-radius: 0 0 22px 22px !important;
     border: 1px solid #e8e1d2 !important;
     border-top: none !important;
-    box-shadow: 0 8px 24px rgba(15, 58, 106, 0.06) !important;
+    border-radius: 0 0 20px 20px !important;
+    box-shadow: 0 10px 28px rgba(15, 58, 106, 0.07) !important;
     padding: 0 !important;
     overflow: hidden !important;
     position: relative !important;
     z-index: 1 !important;
-    min-height: 900px !important;
     display: flex !important;
     flex-direction: column !important;
-}
-
-/* Clear separation between the conversation card and the footer below.
-   Adds an explicit gap so the navy footer band cannot visually overlap
-   the message composer, plus a min-height so short conversations still
-   give the page a comfortable vertical presence. */
-.mgs_msg_one {
-    padding-bottom: 56px !important;
-    min-height: 1000px !important;
-    position: relative !important;
-    z-index: 1 !important;
-    box-sizing: border-box !important;
-}
-.mgs_msg_one::after {
-    content: '';
-    display: block;
-    clear: both;
-    height: 0;
-}
-
-/* Expand the page container so the message card has room to breathe
-   without overlapping the sidebars that sit at left: -193px / right: -193px.
-   Default Chameleon column_main is 780px (way too narrow for a wide
-   conversation view). Page-scoped to messages_one.html only. */
-.column_main {
-    width: 1080px !important;
-    max-width: calc(100vw - 60px) !important;
-    min-width: 780px !important;
-}
-
-/* Right column must visually cover the full height of the middle message card. */
-#colfix_r_bl.col.right,
-#colfix_r_bl .colfix_r_bg,
-#colfix_r_bl #colfix_r.cont.col_fix {
-    min-height: 1000px !important;
-    box-sizing: border-box !important;
-}
-/* Left sidebar — match the height too, so the layout reads as 3 balanced
-   columns instead of a stranded middle card. */
-#colfix_l_bl.col.left,
-#colfix_l_bl #colfix_l.cont.col_fix {
-    min-height: 1000px !important;
     box-sizing: border-box !important;
 }
 
-/* Conversation area */
-.mgs_msg_one .message_chat_scroll {
-    background: linear-gradient(180deg, #fbf8f2 0%, #ffffff 100%) !important;
-    border-radius: 0 !important;
-}
-.mgs_msg_one #bl_viewport {
-    max-height: 760px !important;
-    min-height: 720px !important;
-    flex: 1 1 auto !important;
-}
+/* messages.js sets the exact #bl_viewport height to fill the window; we only
+   guarantee it never collapses below a usable minimum. */
+.mgs_msg_one #bl_viewport { min-height: 300px !important; }
 .mgs_msg_one .scrollbarY.message_chat_scroll {
     flex: 1 1 auto !important;
-    min-height: 720px !important;
+    background: linear-gradient(180deg, #fbf8f2 0%, #fefdfa 100%) !important;
+    border-radius: 0 !important;
 }
-.mgs_msg_one .message_chat { padding: 22px 22px 6px !important; }
+
+/* Anchor short conversations to the bottom, like a real messenger. */
+.mgs_msg_one #bl_overview {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    min-height: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Chameleon hardcodes .message_chat_scroll at 750px and .message_chat at
+   721px — release them so the conversation fills the card. */
+.mgs_msg_one .message_chat_scroll { width: auto !important; }
+.mgs_msg_one .message_chat { width: auto !important; padding: 20px 22px 8px !important; box-sizing: border-box !important; }
 .mgs_msg_one .chat_cont { padding: 0 !important; }
 .mgs_msg_one #msg_profile_pic.msg_profile_pic { display: none !important; }
+.mgs_msg_one .more_load_cont_im { padding: 10px 0 !important; }
 
-/* Message bubbles */
-.mgs_msg_one .im_msg_one,
+/* Friendly empty state when the conversation has no messages yet. */
+.mgs_msg_one .chat_cont:not(:has(.im_msg_one))::after {
+    content: 'No messages yet — say "Γεια σου!" and start the conversation.';
+    display: block;
+    text-align: center;
+    padding: 46px 30px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #8a93a3;
+}
+
+/* ---------- Message bubbles ----------
+   Markup per row (from _messages_user_msg.html):
+     received:  .item        > .msg [ .pic, .info ]  + .data
+     sent:      .item.answer > .data + .msg [ .info, .pic ]
+   Chameleon styles these as display:table full-width cards; reset to a
+   modern flex bubble row: avatar beside the bubble, timestamp beside it. */
+.mgs_msg_one .im_msg_one { display: block !important; }
 .mgs_msg_one .chat_cont .item {
-    margin-bottom: 14px !important;
+    width: auto !important;
+    margin-bottom: 12px !important;
     display: flex !important;
     align-items: flex-end !important;
-    gap: 10px !important;
+    gap: 8px !important;
 }
-.mgs_msg_one .chat_cont .item.answer,
-.mgs_msg_one .chat_cont .item.your { flex-direction: row-reverse !important; }
-.mgs_msg_one .chat_cont .item.alien,
-.mgs_msg_one .chat_cont .item.opponent { flex-direction: row !important; }
+/* Sent rows: push everything right ([data, msg] order keeps time on the left) */
+.mgs_msg_one .chat_cont .item.answer { justify-content: flex-end !important; }
+
+/* .msg = avatar + bubble, side by side, bottom aligned */
+.mgs_msg_one .chat_cont .item .msg {
+    max-width: 72% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    flex: 0 1 auto !important;
+    background: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+.mgs_msg_one .chat_cont .item.answer .msg { border: none !important; }
 
 .mgs_msg_one .chat_cont .item .pic {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
+    display: block !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 auto !important;
 }
 .mgs_msg_one .chat_cont .item .pic button {
+    display: block !important;
     width: 100% !important;
     height: 100% !important;
     border-radius: 50% !important;
     background-size: cover !important;
     background-position: center !important;
     border: none !important;
+    margin: 0 !important;
     padding: 0 !important;
     cursor: pointer !important;
     background-color: #f7f3ec !important;
 }
 
-.mgs_msg_one .chat_cont .item .msg {
-    max-width: 70% !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-.mgs_msg_one .chat_cont .item .msg .info,
-.mgs_msg_one .chat_cont .item .info {
-    background: #ffffff !important;
-    padding: 12px 16px !important;
-    border-radius: 18px !important;
-    font-family: 'Source Sans 3', system-ui, sans-serif !important;
-    font-size: 15px !important;
-    line-height: 1.45 !important;
-    color: #1f2937 !important;
-    border: 1px solid #e8e1d2 !important;
-    box-shadow: 0 2px 6px rgba(15, 58, 106, 0.04) !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-}
-.mgs_msg_one .chat_cont .item.answer .msg .info,
-.mgs_msg_one .chat_cont .item.your .msg .info {
-    background: #1e3a8a !important;
-    color: #e6c069 !important;
-    border-color: #b88a3e !important;
-    border-radius: 18px 18px 4px 18px !important;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.18) !important;
-}
-.mgs_msg_one .chat_cont .item.alien .msg .info,
-.mgs_msg_one .chat_cont .item.opponent .msg .info {
-    background: #f7f3ec !important;
-    color: #1f2937 !important;
-    border-radius: 18px 18px 18px 4px !important;
-}
-
-/* Keep long messages inside the bubble — override Chameleon's fixed 518px
-   .message_text width and table-cell layout that causes text to spill out. */
-.mgs_msg_one .chat_cont .item .msg {
-    min-width: 0 !important;
-    flex: 0 1 auto !important;
-}
+/* The bubble */
 .mgs_msg_one .chat_cont .item .msg .info,
 .mgs_msg_one .chat_cont .item .info {
     display: block !important;
     width: auto !important;
     max-width: 100% !important;
     min-width: 0 !important;
+    flex: 0 1 auto !important;
+    background: #f7f3ec !important;
+    padding: 11px 15px !important;
+    border-radius: 16px 16px 16px 4px !important;
+    font-family: 'Source Sans 3', system-ui, sans-serif !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+    color: #1f2937 !important;
+    border: 1px solid #eee5d4 !important;
+    box-shadow: 0 2px 6px rgba(15, 58, 106, 0.04) !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
     word-wrap: break-word !important;
     overflow-wrap: anywhere !important;
     word-break: break-word !important;
 }
+/* Sent (you) */
+.mgs_msg_one .chat_cont .item.answer .msg .info,
+.mgs_msg_one .chat_cont .item.your .msg .info {
+    background: linear-gradient(160deg, #1e3a8a 0%, #16307a 100%) !important;
+    color: #f6f1e4 !important;
+    border: none !important;
+    border-radius: 16px 16px 4px 16px !important;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.20) !important;
+}
+.mgs_msg_one .chat_cont .item.answer .msg .info a { color: #e6c069 !important; }
+.mgs_msg_one .chat_cont .item .info a { color: #1e3a8a; }
+
+/* Keep long messages inside the bubble — override Chameleon's fixed-width
+   .message_text and table-cell layout. */
 .mgs_msg_one .chat_cont .item .info .message_text,
 .mgs_msg_one .chat_cont .item .msg .info .message_text {
     display: block !important;
@@ -248,35 +275,43 @@
     word-break: break-word !important;
     white-space: pre-wrap !important;
 }
+
+/* Timestamp / read receipt — small caption beside the bubble */
 .mgs_msg_one .chat_cont .item .data {
     display: block !important;
     width: auto !important;
     flex: 0 0 auto !important;
+    padding: 0 0 6px !important;
+    margin: 0 !important;
 }
-
+.mgs_msg_one .chat_cont .item.answer .data { text-align: right !important; }
 .mgs_msg_one .chat_cont .item .data,
 .mgs_msg_one .chat_cont .item .date_msg {
     font-family: 'Source Sans 3', system-ui, sans-serif !important;
     font-size: 11px !important;
-    color: #5b6471 !important;
-    margin: 4px 12px 0 !important;
+    line-height: 1.4 !important;
+    color: #8a93a3 !important;
     opacity: 1 !important;
 }
+.mgs_msg_one .chat_cont .item .msg_read { margin: 3px 0 0 auto !important; }
+.mgs_msg_one .chat_cont .item .upgrade_msg { font-size: 10.5px !important; color: #b88a3e !important; max-width: 120px !important; }
 
-/* Composer — give the textarea proper left breathing room and keep the row
-   on a single line so the camera button stays inline with Send. */
+/* ---------- Composer ---------- */
 .mgs_msg_one .message_field_chat {
     background: #ffffff !important;
-    padding: 14px 28px 18px 36px !important;
+    margin: 0 !important;
+    padding: 14px 20px 16px !important;
     border-top: 1px solid #e8e1d2 !important;
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 12px !important;
+    gap: 10px !important;
     position: relative !important;
+    box-sizing: border-box !important;
 }
 .mgs_msg_one .message_field_chat #msg_text,
 .mgs_msg_one .message_field_chat textarea {
+    order: 1 !important;
     flex: 1 1 auto !important;
     width: auto !important;
     min-height: 44px !important;
@@ -302,10 +337,12 @@
 }
 .mgs_msg_one .message_field_chat #msg_text::placeholder { color: #94a3b8 !important; }
 
+/* Camera sits between the textarea and Send, vertically centered. */
 .mgs_msg_one .pp_message_upload_img {
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
+    order: 2 !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
     border-radius: 50% !important;
     background: #f7f3ec !important;
     border: 1.5px solid #e8e1d2 !important;
@@ -316,41 +353,38 @@
     cursor: pointer !important;
     transition: background 0.15s, border-color 0.15s !important;
     flex-shrink: 0 !important;
-    /* Force the camera button onto the same row as Send, vertically centered.
-       Override any Chameleon `position: absolute; bottom/right` so it does
-       not float off the bottom edge of the card. */
     position: static !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    left: auto !important;
+    top: auto !important; right: auto !important; bottom: auto !important; left: auto !important;
     align-self: center !important;
-    order: 3 !important;
     margin: 0 !important;
     padding: 0 !important;
     float: none !important;
+    overflow: visible !important;
 }
 .mgs_msg_one .pp_message_upload_img:hover {
-    background: #f7f3ec !important;
+    background: #fdf9f1 !important;
     border-color: #b88a3e !important;
     color: #1e3a8a !important;
 }
 .mgs_msg_one .pp_message_upload_img i.fa-camera {
     font-size: 16px !important;
+    line-height: 1 !important;
     color: inherit !important;
+    display: block !important;
 }
-.mgs_msg_one .pp_message_upload_img.disabled { opacity: 0.5 !important; cursor: not-allowed !important; }
+.mgs_msg_one .pp_message_upload_img.disabled { opacity: 0.55 !important; }
 
-/* Send button — brand pill */
+/* Send — brand pill (navy + gold, matching the site's button system) */
 .mgs_msg_one .message_field_chat .send_btn,
 .mgs_msg_one .message_field_chat button[type="submit"],
 .mgs_msg_one .message_field_chat .btn.btn-primary {
+    order: 3 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 8px !important;
     height: 44px !important;
-    min-width: 120px !important;
+    min-width: 110px !important;
     padding: 0 22px !important;
     background: #1e3a8a !important;
     color: #e6c069 !important;
@@ -379,7 +413,7 @@
     margin-left: 2px;
 }
 
-/* Scrollbar */
+/* ---------- Scrollbar ---------- */
 .mgs_msg_one .scrollbarY.message_chat_scroll .scrollbar { right: 8px !important; }
 .mgs_msg_one .scrollbarY.message_chat_scroll .scrollbar .thumb {
     background: rgba(15, 58, 106, 0.20) !important;
@@ -387,22 +421,22 @@
     width: 5px !important;
 }
 
-.mgs_msg_one .more_load_cont_im { padding: 12px 0 !important; }
-
 @media (max-width: 720px) {
     .mgs_msg_one .head.icon_head_messages,
     .mgs_msg_one #bl_cont.cont { margin-left: 8px !important; margin-right: 8px !important; }
-    .mgs_msg_one .head.icon_head_messages { padding: 18px 20px !important; }
-    .mgs_msg_one .head.icon_head_messages > a { font-size: 19px !important; }
-    .mgs_msg_one .message_chat { padding: 18px 16px 6px !important; }
+    .mgs_msg_one .head.icon_head_messages { padding: 12px 14px !important; gap: 10px !important; }
+    .mgs_msg_one .chat_head_avatar { width: 40px !important; height: 40px !important; min-width: 40px !important; }
+    .mgs_msg_one .head.icon_head_messages > a { font-size: 18px !important; }
+    .mgs_msg_one .message_chat { padding: 16px 14px 6px !important; }
     .mgs_msg_one .chat_cont .item .msg { max-width: 82% !important; }
-    .mgs_msg_one .message_field_chat { padding: 12px 18px 14px 22px !important; flex-wrap: nowrap !important; }
-    .mgs_msg_one .message_field_chat .send_btn { min-width: 96px !important; padding: 0 14px !important; }
+    .mgs_msg_one .message_field_chat { padding: 10px 12px 12px !important; gap: 8px !important; }
+    .mgs_msg_one .message_field_chat .send_btn { min-width: 88px !important; padding: 0 14px !important; }
 }
 </style>
 
 <div class="col_center mgs_msg_one">
 	<div class="head icon_head_messages head_line">
+        <span class="chat_head_avatar" onclick="goLink('{url_main}{url_profile}', 'ref=one_chat'); return false;" style="background-image: url({url_files}{user_to_photo});" title="{user_to_name}"></span>
         <a href="" onclick="goLink('{url_main}{url_profile}', 'ref=one_chat'); return false;">{user_to_name}</a>
         <span class="icon_message_back" onclick="redirectUrl('{url_main}{url_page_messages}')">
             <span class="back"></span>
