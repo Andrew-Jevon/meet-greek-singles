@@ -1,17 +1,55 @@
 {header}
 <script>
 	messages.setLastId('{last_id}');
-    messages.initOneChat('{user_to}', '{limit_start}', '{is_one_chat}', '{user_to_photo}', '{first_msg_id}');
     messages.usersCacheAdd('{user_to_id}');
+
+    /* Keep the empty white-card layout (pre-load look). Only reveal the
+       composer after init. Also leave room above the navy footer — stock
+       prepareViewOneChat stretches the card to the viewport edge. */
+    messages.prepareViewOneChat = function(transH){
+        if (!$jq('.message_field_chat')[0]) return;
+        var footerReserve = 150;
+        var composerH = $jq('.message_field_chat').is(':visible')
+            ? $jq('.message_field_chat')[0].offsetHeight
+            : 0;
+        var d = composerH + 16 + $jq('#bl_cont').offset().top + $jq('.main').scrollTop() + footerReserve;
+        var hw = $jq('.main').innerHeight();
+        var h = hw - d;
+        if (h < 280) h = 280;
+        $jq('.column_main').css({minHeight: '', maxHeight: ''});
+        $jq('.message_field_chat').css({marginBottom: 0});
+        var fnEnd = function(){
+            if ($jq('#scrollbarY_thumb')[0]) {
+                $jq('#scrollbarY_thumb').removeClass('animate');
+            }
+            if (messages.scrollBoxPl) {
+                messages.reInitToScrollPanelChat();
+                messages.scrollBoxThumbAnimate();
+            }
+        };
+        if (transH === true) {
+            $jq('#bl_viewport').stop().animate({height: h},
+                {duration: 350, step: fnEnd, complete: fnEnd});
+        } else {
+            $jq('#bl_viewport').stop().height(h);
+            fnEnd();
+        }
+    };
+
+    messages.initOneChat('{user_to}', '{limit_start}', '{is_one_chat}', '{user_to_photo}', '{first_msg_id}');
+
+    $(function(){
+        /* Card shell is already visible; only fade in the composer row. */
+        $jq('#bl_cont').css('opacity', 1);
+        $jq('.message_field_chat').addClass('is_ready');
+        messages.prepareViewOneChat();
+    });
 </script>
 <style>
-/* 2026-07-17 — Direct-message redesign v2.
-   Every rule is scoped to the .mgs_msg_one wrapper (except the page-width
-   .column_main override) so nothing leaks into other pages.
-
-   Key change vs v1: NO forced 900/1000px min-heights. messages.js
-   (prepareViewOneChat) already sizes #bl_viewport to fill the window, so the
-   card now always fits the screen and never spills over the navy footer. */
+/* 2026-07-20 — Direct-message redesign v3.
+   Pre-load = empty white card (same shell as screenshot 1).
+   Loaded   = same shell + only [textarea] [upload circle] [SEND].
+   Scoped to .mgs_msg_one so nothing leaks into other pages. */
 
 .column_main {
     width: 1080px !important;
@@ -20,8 +58,8 @@
 }
 
 .mgs_msg_one {
-    padding-bottom: 96px !important;
-    margin-bottom: 32px !important;
+    padding-bottom: 120px !important;
+    margin-bottom: 48px !important;
     position: relative !important;
     z-index: 1 !important;
     box-sizing: border-box !important;
@@ -117,7 +155,7 @@
 .mgs_msg_one #bl_cont.cont {
     width: auto !important;
     max-width: 1000px !important;
-    margin: 0 auto !important;
+    margin: 0 auto 0 !important;
     background: #ffffff !important;
     border: 1px solid #e8e1d2 !important;
     border-top: none !important;
@@ -130,18 +168,18 @@
     display: flex !important;
     flex-direction: column !important;
     box-sizing: border-box !important;
+    /* Visible immediately so pre-load matches the empty white-card design */
+    opacity: 1 !important;
 }
 
-/* messages.js sets the exact #bl_viewport height to fill the window; we only
-   guarantee it never collapses below a usable minimum. */
-.mgs_msg_one #bl_viewport { min-height: 300px !important; }
+/* messages.js sizes #bl_viewport; we leave footer room via prepareViewOneChat override */
+.mgs_msg_one #bl_viewport { min-height: 280px !important; }
 .mgs_msg_one .scrollbarY.message_chat_scroll {
     flex: 1 1 auto !important;
-    background: linear-gradient(180deg, #fbf8f2 0%, #fefdfa 100%) !important;
+    background: #ffffff !important;
     border-radius: 0 !important;
 }
 
-/* Anchor short conversations to the bottom, like a real messenger. */
 .mgs_msg_one #bl_overview {
     display: flex !important;
     flex-direction: column !important;
@@ -150,15 +188,12 @@
     box-sizing: border-box !important;
 }
 
-/* Chameleon hardcodes .message_chat_scroll at 750px and .message_chat at
-   721px — release them so the conversation fills the card. */
 .mgs_msg_one .message_chat_scroll { width: auto !important; }
 .mgs_msg_one .message_chat { width: auto !important; padding: 20px 22px 8px !important; box-sizing: border-box !important; }
 .mgs_msg_one .chat_cont { padding: 0 !important; }
 .mgs_msg_one #msg_profile_pic.msg_profile_pic { display: none !important; }
 .mgs_msg_one .more_load_cont_im { padding: 10px 0 !important; }
 
-/* Friendly empty state when the conversation has no messages yet. */
 .mgs_msg_one .chat_cont:not(:has(.im_msg_one))::after {
     content: 'No messages yet — say "Γεια σου!" and start the conversation.';
     display: block;
@@ -298,9 +333,9 @@
 .mgs_msg_one .chat_cont .item .upgrade_msg { font-size: 10.5px !important; color: #b88a3e !important; max-width: 120px !important; }
 
 /* ---------- Composer ----------
-   Chameleon’s default .pp_message_upload_img uses position:absolute and a
-   700px-wide invisible file input that spans the textarea — fix by keeping
-   upload as a normal flex item (circle between input and Send). */
+   Hidden until .is_ready (loaded). Order: [textarea] [upload circle] [SEND].
+   Chameleon’s .pp_message_upload_img uses a 700px absolute file input that
+   overlays the textarea — confine it to the circle only. */
 .mgs_msg_one .message_field_chat {
     background: #ffffff !important;
     margin: 0 !important;
@@ -312,11 +347,27 @@
     gap: 10px !important;
     position: relative !important;
     box-sizing: border-box !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    border-top-color: transparent !important;
+    transition: opacity 0.2s ease !important;
+}
+.mgs_msg_one .message_field_chat.is_ready {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    max-height: 200px !important;
+    overflow: visible !important;
+    border-top-color: #e8e1d2 !important;
 }
 .mgs_msg_one .message_field_chat #msg_text,
 .mgs_msg_one .message_field_chat textarea {
     flex: 1 1 auto !important;
     width: auto !important;
+    min-width: 0 !important;
     min-height: 44px !important;
     max-height: 120px !important;
     padding: 12px 16px !important;
@@ -330,6 +381,8 @@
     resize: none !important;
     transition: border-color 0.15s, background 0.15s, box-shadow 0.15s !important;
     box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 .mgs_msg_one .message_field_chat #msg_text:focus,
 .mgs_msg_one .message_field_chat textarea:focus {
@@ -340,7 +393,7 @@
 }
 .mgs_msg_one .message_field_chat #msg_text::placeholder { color: #94a3b8 !important; }
 
-/* Image upload — dedicated circle button (NOT inside textarea, NOT on Send) */
+/* Upload = the circle between textarea and Send (only upload control) */
 .mgs_msg_one .pp_message_upload_img {
     width: 44px !important;
     height: 44px !important;
@@ -366,11 +419,21 @@
     float: none !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
+    z-index: 2 !important;
 }
 .mgs_msg_one .pp_message_upload_img:hover {
     background: #fdf9f1 !important;
     border-color: #b88a3e !important;
     color: #1e3a8a !important;
+}
+.mgs_msg_one .pp_message_upload_img form {
+    position: absolute !important;
+    inset: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 .mgs_msg_one .pp_message_upload_img i.fa-camera {
     position: static !important;
@@ -382,24 +445,28 @@
     height: auto !important;
     top: auto !important;
     right: auto !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
 }
 .mgs_msg_one .pp_message_upload_img.disabled { opacity: 0.85 !important; }
 .mgs_msg_one .pp_message_upload_img.disabled i.fa-camera { color: #0f3a6a !important; }
 
-/* Confine invisible file input to the circle only (override Chameleon’s 700px overlay) */
 .mgs_msg_one .pp_message_upload_img input[type="file"] {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
+    max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     opacity: 0 !important;
     cursor: pointer !important;
     font-size: 0 !important;
     display: block !important;
-    z-index: 2 !important;
+    z-index: 3 !important;
 }
 .mgs_msg_one .pp_message_upload_img.no_available input[type="file"] {
     display: none !important;
@@ -414,6 +481,8 @@
     height: 14px !important;
     font-size: 9px !important;
     line-height: 14px !important;
+    z-index: 4 !important;
+    pointer-events: none !important;
 }
 .mgs_msg_one .pp_message_upload_img .pp_message_upload_img_loader {
     position: absolute !important;
@@ -426,7 +495,7 @@
 .mgs_msg_one .pp_message_upload_img.to_hide i.fa-camera,
 .mgs_msg_one .pp_message_upload_img.to_hide form { display: none !important; }
 
-/* Send — brand pill (no upload overlap) */
+/* Send — brand pill only (no camera / no upload overlay) */
 .mgs_msg_one .message_field_chat .send_btn,
 .mgs_msg_one .message_field_chat button[type="submit"],
 .mgs_msg_one .message_field_chat .btn.btn-primary {
@@ -465,7 +534,6 @@
     line-height: 1;
     margin-left: 2px;
 }
-/* messages.js sometimes sets marginBottom:-12 on the composer — undo it */
 .mgs_msg_one .message_field_chat[style*="margin"] {
     margin-bottom: 0 !important;
 }
@@ -500,7 +568,7 @@
             <span class="back_hover"></span>
         </span>
     </div>
-    <div id="bl_cont" class="cont" style="opacity:0;">
+    <div id="bl_cont" class="cont">
         <div class="scrollbarY message_chat_scroll">
             <div class="scrollbar"><div class="track"><div id="scrollbarY_thumb" class="thumb animate"></div></div></div>
             <div id="bl_viewport" class="viewport">
